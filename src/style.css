@@ -1,0 +1,771 @@
+/* Reset CSS */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* Color Themes */
+/* :root {
+  --fontColor: #fff;
+  --oppositeFont: #000;
+  --colorBG: #000;
+  --oppositeBG: #fff;
+  --secondFontColor: #888484;
+  --offsetColorBG: #141414;
+  --tileBorderColor: 2px solid rgba(60, 60 ,60, 0.6);
+  --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75);
+  --invisibleBG: rgba(0, 0 ,0, 0.0);
+  --greenBG: #588c4c;
+  --yellowBG: #b89c3c;
+  --darkGreyBG: #403c3c;
+  --lightGreyBG: #888484;
+  --uncheckedKey: #fff;
+  --checkedKey: #fff;
+} */
+
+.lightroot {
+  --fontColor: #000;
+  --oppositeFont: #fff;
+  --colorBG: #fff;
+  --oppositeBG: #000;
+  --secondFontColor: #888484;
+  --offsetColorBG: #fff;
+  --tileBorderColor: 2px solid rgba(83, 83, 91, 0.3);
+  --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75);
+  --invisibleBG: rgba(0, 0 ,0, 0.0);
+  --greenBG: #588c4c;
+  --yellowBG: #b89c3c;
+  --darkGreyBG: #403c3c;
+  --lightGreyBG: #d8d4dc;
+  --uncheckedKey: #000;
+  --checkedKey: #fff;
+}
+
+/* General body styling */
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: var(--colorBG);
+  color: var(--fontColor);
+}
+
+button {
+  cursor: pointer;
+}
+
+
+/* Containers styling for flexbox and sizing */
+#container {
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+#header-container {
+  width: 100vw;
+  height: 7vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid rgba(60, 60 ,60, 0.5);
+}
+
+#tile-container {
+  position: relative;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 0px;
+}
+
+/* Styling for header (mainly flexbox) */
+#scoreboard-button {
+  margin-left: auto;
+  stroke-width: 4;
+  stroke-linejoin: miter;
+  stroke-linecap: butt;
+}
+
+#help-button {
+  margin-right: auto;
+}
+
+/* SVG Icon Styling */
+svg {
+  fill: none;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke: var(--oppositeBG);
+  stroke-width: 2;
+  width: 40px;
+  height: 40px;
+  margin: 0px 20px;
+}
+
+#score-icon,
+#settings-icon {
+  stroke-width: 4;
+}
+
+#help-icon {
+  stroke-width: 10;
+  stroke-linejoin: miter;
+  stroke-linecap: butt;
+}
+
+#settings-icon {
+  stroke-width: 10;
+  stroke-linejoin: miter;
+  stroke-linecap: butt;
+}
+
+#settings-icon polyline {
+  fill: var(--oppositeBG);
+}
+
+/* Styling for each row of tiles (mainly flexbox) */
+#tile-container div {
+  display: flex;
+  flex-direction: row;
+  border: 0px;
+}
+
+/* Styling for each tile */
+#tile-container div div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  border: var(--tileBorderColor);
+  margin: 2px;
+  min-width: 62.5px;
+  min-height: 62.5px;
+}
+
+/* Styling to change tile border colour when selected */
+#tile-container .on-row {
+  border: var(--tileOnRowBorderColor);
+}
+
+/* Styling to shake current row of divs when answer is not valid */
+@keyframes shake {
+  0% { transform: translate(-6px) }
+  10% { transform: translate(1px) }
+  20% { transform: translate(8px) }
+  30% { transform: translate(-2px) }
+  40% { transform: translate(8px) }
+  50% { transform: translate(0px) }
+  60% { transform: translate(8px) }
+  70% { transform: translate(-1px) }
+  80% { transform: translate(-8px) }
+  90% { transform: translate(0px) }
+  100% { transform: translate(6px) }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+/* Styling to make individual tiles jump when correct */
+@keyframes jump {
+  0% { transform: translate(0px, -5px) }
+  5% { transform: translate(0px, -8px) }
+  10% { transform: translate(0px, -12px) }
+  15% { transform: translate(0px, -18px) }
+  20% { transform: translate(0px, -24px) }
+  25% { transform: translate(0px, -30px) }
+  30% { transform: translate(0px, -24px) }
+  35% { transform: translate(0px, -18px) }
+  40% { transform: translate(0px, -12px) }
+  45% { transform: translate(0px, -7px) }
+  50% { transform: translate(0px, -2px) }
+  55% { transform: translate(0px, -0px) }
+  60% { transform: translate(0px, -0px) }
+  65% { transform: translate(0px, -0px) }
+  70% { transform: translate(0px, -3px) }
+  75% { transform: translate(0px, -6px) }
+  80% { transform: translate(0px, -7px) }
+  85% { transform: translate(0px, -6px) }
+  90% { transform: translate(0px, -3px) }
+  95% { transform: translate(0px, -0px) }
+  100% { transform: translate(0px, -0px) }
+}
+
+.jump {
+  animation: jump 0.6s;
+}
+
+
+/* Keyboard Styling */
+#keyboard-container {
+  height: 170px;
+  width: 450px;
+}
+
+#keyboard-container div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  text-align: center;
+  margin: 5px 0px;
+  height: 33%;
+}
+
+#keyboard-container div button {
+  flex: 1;
+  border-radius: 5px;
+  border: 0px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+/* Adding margin to second row of keyboard to account for space on each side */
+#A {
+  margin-left: 22px !important;
+}
+
+#L {
+  margin-right: 22px !important;
+}
+
+/* Increasing size of 'Enter' and 'Back' keys on keyboard */
+#ENTER,
+#BACK {
+  flex: 1.5 !important;
+}
+
+/* Colouring tiles*/
+.green-color {
+  background-color: var(--greenBG);
+  color: var(--white);
+  border: 0px !important;
+}
+
+.yellow-color {
+  background-color: var(--yellowBG);
+  color: var(--white);
+  border: 0px !important;
+}
+
+.darkgrey-color {
+  background-color: var(--darkGreyBG);
+  color: var(--white);
+  border: 0px !important;
+}
+
+.lightgrey-color {
+  background-color: var(--lightGreyBG)
+}
+
+/* Colouring keys */
+.green-color-key {
+  background-color: var(--greenBG);
+  color: var(--checkedKey);
+  border: 0px !important;
+}
+
+.yellow-color-key {
+  background-color: var(--yellowBG);
+  color: var(--checkedKey);
+  border: 0px !important;
+}
+
+.darkgrey-color-key {
+  background-color: var(--darkGreyBG);
+  color: var(--checkedKey);
+  border: 0px !important;
+}
+
+.lightgrey-color-key {
+  background-color: var(--lightGreyBG);
+  color: var(--uncheckedKey);
+}
+
+
+/* Make tiles flip */
+.flip {
+    animation: 0.8s linear flipping;
+}
+
+@keyframes flipping {
+    0% {
+        transform: rotateX(0deg);
+    }
+    50% {
+        transform: rotateX(90deg);
+    }
+    100% {
+        transform: rotateX(0deg);
+    }
+}
+
+
+
+
+/* Style for pop-up message */
+#popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: var(--oppositeBG);
+  opacity: 0.0;
+  position: absolute;
+  top: 15px;
+  z-index: 3;
+}
+
+.popup-hide {
+  opacity: 1.0 !important;
+}
+
+#popup p {
+  color: var(--oppositeFont);
+}
+
+
+/* Dropdown Menu Positioning and General Sizing Styling */
+#dropdown-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 300px;
+  height: 93vh;
+  position: absolute;
+  top: 7vh;
+  left: 0px;
+  z-index: 1;
+  border-right: 1px solid rgba(60, 60 ,60, 0.5);
+  background-color: var(--colorBG);
+}
+
+.dropdown-hide {
+  display: none !important;
+}
+
+#dropdown-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#dropdown-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#dropdown-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-top: auto;
+  border-top: 2px white solid;
+}
+
+
+/* Dropdown Menu Specific Styling */
+#dropdown-header button {
+  border: 0px;
+  margin: 10px;
+  cursor: pointer;
+  background-color: var(--invisibleBG);
+  color: var(--fontColor);
+}
+
+#dropdown-header h1 {
+  margin: 10px;
+}
+
+#dropdown-list p {
+  margin: 10px;
+}
+
+#dropdown-list a {
+  margin: 5px 0px 5px 10px;
+}
+
+#dropdown-footer h3 {
+  margin: 10px;
+}
+
+/* Scoreboard Container */
+#scoreboard {
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  padding: 15px;
+}
+
+#scoreboard-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  left: -50%;
+  top: -50%;
+  align-items: center;
+  background-color: var(--offsetColorBG);
+  border: 0.5px solid rgba(60, 60 , 60, 0.5);
+  border-radius: 5px;
+}
+
+#scores-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#scores-container div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5px;
+  padding: 3px;
+}
+
+#scoreboard-container button {
+  align-self: flex-end;
+  border: 0px;
+  cursor: pointer;
+  margin-right: 5px;
+  margin-top: 5px;
+  background-color: var(--invisibleBG);
+  color: var(--fontColor);
+}
+
+#scoreboard-container h3 {
+  font-size: 15px;
+  margin-top: -5px;
+}
+
+#scoreboard-container h4 {
+  font-size: 15px;
+}
+
+#scores-container .value {
+  font-size: 32px;
+  font-weight: 500;
+}
+
+#scores-container span {
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.scoreboard-hide {
+  display: none !important;
+}
+
+/* Scoreboard Chart Styling */
+
+#chart-score-container {
+  width: 80%;
+  margin: 5px;
+}
+
+#chart-score-container span {
+  margin-right: 10px;
+}
+
+#chart-one,
+#chart-two,
+#chart-three,
+#chart-four,
+#chart-five,
+#chart-six {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin: 4px;
+  align-items: center;
+}
+
+#bar-chart-one,
+#bar-chart-two,
+#bar-chart-three,
+#bar-chart-four,
+#bar-chart-five,
+#bar-chart-six {
+  min-width: 12%;
+  background-color: rgba(71, 71, 71, 1.0);
+  padding: 2px;
+}
+
+#bar-chart-four {
+  background-color: var(--greenBG);
+}
+
+#chart-score-container p {
+  float: right;
+  margin-right: 3px;
+  margin-left: 3px;
+}
+
+
+/* Styling for clock & share container */
+#clock-share-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.hide-clock-share {
+  display: none !important;
+}
+
+/* Styling for countdown clock */
+#countdown-container {
+  width: 170px;
+  margin: 10px 25px;
+}
+
+#countdown-container h5 {
+  text-align: center;
+  font-size: 15px;
+}
+
+#countdown-container span {
+  font-size: 32px;
+}
+
+/* Share Button Styling */
+#share-container {
+  padding: 10px 25px;
+  border-left: 1px white solid;
+}
+
+#share-container button {
+  background-color: var(--greenBG);
+  border: 0px;
+  border-radius: 5px;
+  width: 170px;
+  padding: 5px 10px;
+  font-size: 25px;
+}
+
+.copypaste-hide {
+  display: none !important;
+}
+
+
+/* Settings Styling */
+#settings-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  background-color: var(--colorBG);
+}
+
+.settings-hide {
+  display: none !important;
+}
+
+#settings-inner-container {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 100%;
+}
+
+#settings-header,
+#settings-hard-mode,
+#settings-dark-theme,
+#settings-high-contrast,
+#settings-feedback,
+#settings-community,
+#settings-questions,
+#settings-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px 0px;
+  border-bottom: 1.5px solid rgba(60, 60 ,60, 0.5);
+}
+
+.settings-extra-text {
+  display: flex;
+  flex-direction: column;
+}
+
+#settings-footer,
+#settings-header {
+  border: 0px;
+}
+
+#settings-footer {
+  margin-top: auto;
+}
+
+#settings-header {
+  justify-content: space-between;
+  padding: 10px 0px;
+}
+
+#settings-header #hidden-button {
+  visibility: hidden;
+}
+
+
+
+/* Settings text styling */
+#settings-container h3 {
+  font-size: 19px;
+}
+
+#settings-container span {
+  font-size: 16px;
+}
+
+#settings-container p {
+  color: var(--secondFontColor);
+  font-size: 10px;
+}
+
+#settings-container a {
+  color: var(--secondFontColor);
+  font-size: 14px;
+}
+
+#settings-header button {
+  border: 0px;
+  cursor: pointer;
+  background-color: var(--invisibleBG);
+  color: var(--fontColor);
+}
+
+
+/* Help Styling */
+#help-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  background-color: var(--colorBG);
+}
+
+.help-hide {
+  display: none !important;
+}
+
+#help-inner-container {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 100%;
+}
+
+#help-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px 0px;
+}
+
+.hidden-help-button {
+  visibility: hidden;
+}
+
+#help-instructions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 15px 0px;
+  border-bottom: 1.5px solid rgba(60, 60 ,60, 0.5);
+}
+
+#help-examples {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 15px 0px;
+  border-bottom: 1.5px solid rgba(60, 60 ,60, 0.5);
+}
+
+#help-footer {
+  padding: 10px 0px;
+}
+
+#help-container h3 {
+  font-size: 19px;
+}
+
+#help-container h6 {
+  font-size: 14px;
+}
+
+#help-container p {
+  font-size: 14px;
+  margin: 7px 0px;
+}
+
+#help-container img {
+  margin: 20px 0px 10px 0px;
+}
+
+#help-header button {
+  border: 0px;
+  cursor: pointer;
+  background-color: var(--invisibleBG);
+  color: var(--fontColor);
+}
