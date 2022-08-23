@@ -71,6 +71,7 @@ export default class Game {
   }
 
   makeKeyboardKeys() {
+    let that = this;
     keysArray.forEach((array, index) => {
       let keyboardRow = document.getElementById('keyboard-row' + index);
       array.forEach((key) => {
@@ -79,7 +80,7 @@ export default class Game {
         addKey.setAttribute('data-key', key);
         addKey.setAttribute('id', key);
         addKey.classList.add('lightgrey-color-key');
-        addKey.addEventListener('click', () => this.click(key).bind(this));
+        addKey.addEventListener('click', () => that.click(key));
         keyboardRow.appendChild(addKey);
       });
     });
@@ -99,7 +100,7 @@ export default class Game {
   }
 
   // Function to add a letter to the current tile & row
-  addletter(letter) {
+  addLetter(letter) {
     let currentTile = this.currentTile;
     let currentRow = this.currentRow;
     if (currentRow < 6 && currentTile < 5) {
@@ -120,19 +121,33 @@ export default class Game {
     }
   }
 
-  // Function to add 1 to currentTile value in localStorage
+  // Function to add 1 to currentTile and save it to localStorage
   addToCurrentTile() {
     this.currentTile++;
     localStorage.setItem('CurrentTile', this.currentTile);
   }
 
-  removeToCurrentTile() {
+  // Function to remove 1 from currentTile and save it to localStorage
+  removeFromCurrentTile() {
     this.currentTile--;
     localStorage.setItem('CurrentTile', this.currentTile);
   }
 
+  // Function to set currentTile to 0 and save it to localStorage
+  resetCurrentTile() {
+    this.currentTile = 0;
+    localStorage.setItem('CurrentTile', this.currentTile);
+  }
+
+  // Function to add 1 to currentRow value and save it to localStorage
   addToCurrentRow() {
     this.currentRow++;
+    localStorage.setItem('CurrentRow', this.currentRow);
+  }
+
+  // Function to set currentRow to 0 and save it to localStorage
+  resetCurrentRow() {
+    this.currentRow = 0;
     localStorage.setItem('CurrentRow', this.currentRow);
   }
 
@@ -166,8 +181,8 @@ export default class Game {
     let currentTile = this.currentTile;
     let currentGuess = guesses[currentRow].join('').toLowerCase();
     if (currentTile < 5) {
+      this.setPopUpMessage('Not enough letters');
       this.invalidAnswerErrorDisplay();
-      this.setPopUpMessage('Not enough letters')
     } else if (validWords.includes(currentGuess) || validAnswers.includes(currentGuess) || currentGuess === wordle) {
       if (currentTile === 5 && currentRow < 6) {
         if (currentGuess === wordle) {
@@ -178,14 +193,14 @@ export default class Game {
           this.updateStatsOnWin();
           this.setPopUpMessage('GIMME DAT');
           this.colorTiles();
-          jump();
-          saveGuess();
-          copyResults();
+          this.jump();
+          this.saveGuess();
+          this.copyResults();
           setTimeout( () => {
-            togglePopUp()
+            this.togglePopUp()
           }, 3500)
           setTimeout(() => {
-            toggleLoadScoreboard();
+            this.toggleLoadScoreboard();
           }, 4600)
         } else if (currentTile === 5 && currentRow > 4) {
           this.setGameOver(true);
@@ -194,26 +209,26 @@ export default class Game {
           this.updateStatsOnLoss();
           this.setPopUpMessage(wordle.toUpperCase());
           this.colorTiles();
-          saveGuess();
-          copyResults();
+          this.saveGuess();
+          this.copyResults();
           setTimeout( () => {
-            togglePopUpLong()
+            this.togglePopUpLong()
           }, 2000)
           setTimeout(() => {
-            toggleLoadScoreboard();
+            this.toggleLoadScoreboard();
           }, 4200)
         } else {
           this.setGameOngoing(true);
           this.disableHardmodeCheckbox();
           this.colorTiles();
-          saveGuess();
-          changeCurrentRow();
-          resetCurrentTile();
+          this.saveGuess();
+          this.addToCurrentRow();
+          this.resetCurrentTile();
         }
       }
     } else {
+      this.setPopUpMessage('Not in word list');
       this.invalidAnswerErrorDisplay();
-      this.setPopUpMessage('Not in word list')
     }
   }
 
@@ -330,6 +345,26 @@ export default class Game {
     }
   }
 
+  // Code to populate previous guesses of that day upon page reload
+  saveGuess() {
+    for (let tile = 0; tile < this.guesses[this.currentRow].length; tile++) {
+      let guess = this.guesses[this.currentRow][tile];
+      let key = 'row' + currentRow + 'tile' + tile;
+      let color = document.getElementById(key).dataset.color;
+      this.setGuessWithExpiry(key, guess, color);
+    }
+  }
+
+  // Save each letter of a entered guess alongside the time(day) and color
+  setGuessWithExpiry(key, value, color) {
+  	let valueWithExpiry = {
+  		value: value,
+      color: color,
+      expiry: getNowZeroTime()
+  	}
+  	localStorage.setItem(key, JSON.stringify(valueWithExpiry))
+  }
+
 
   // Function to call necessary functions when answer is not valid
   invalidAnswerDisplay() {
@@ -342,6 +377,22 @@ export default class Game {
     popUpMessage.innerHTML = `<p>${message}</p>`;
   }
 
+  // Function to make pop up message to appear temporarily
+  togglePopUp() {
+    popUpMessage.classList.toggle('popup-hide');
+    setTimeout(() => {
+      popUpMessage.classList.toggle('popup-hide');
+    }, 1000 );
+  }
+
+  // Function to make pop up message to appear temporarily but for longer
+  togglePopUpLong() {
+    popUpMessage.classList.toggle('popup-hide');
+    setTimeout(() => {
+      popUpMessage.classList.toggle('popup-hide');
+    }, 2000 );
+  }
+
   // Function to shake current row of tiles when guess is invalid
   shake() {
     let shakeRow = document.getElementById('row' + this.currentRow);
@@ -349,6 +400,35 @@ export default class Game {
     setTimeout(() => {
       shakeRow.classList.toggle('shake');
     }, 500 );
+  }
+
+  // Function to jump current row of tiles when guess is correct
+  jump() {
+
+    function jumpArg(tile) {
+      let tileElement = document.getElementById('row' + this.currentRow + 'tile' + tile);
+      tileElement.classList.toggle('jump');
+    }
+
+    setTimeout(() => {
+      jumpArg(0);
+    }, 2000)
+
+    setTimeout(() => {
+      jumpArg(1);
+    }, 2300)
+
+    setTimeout(() => {
+      jumpArg(2);
+    }, 2600)
+
+    setTimeout(() => {
+      jumpArg(3);
+    }, 2900)
+
+    setTimeout(() => {
+      jumpArg(4);
+    }, 3200)
   }
 
   // Function to make pop up message to appear temporarily
@@ -442,9 +522,71 @@ export default class Game {
     this.trackWinRowStats();
   }
 
+  // Function to update stats upon loss
   updateStatsOnLoss() {
     this.addToWordlesCount();
     this.endStreak();
+  }
+
+  // Code to copy the results of the users daily wordle to the clipboard upon them clicking on the Share button in thr scoreboard
+  copyResults() {
+    if (this.gameWon === true) {
+      if (this.isHardModeOn()) {
+        this.emojiCopyPaste += `Wordle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n`
+      } else {
+        this.emojiCopyPaste += `Wordle ${this.wordleNumber()} ${this.currentRow + 1}/6\n`
+      }
+    } else {
+      if (this.isHardModeOn()) {
+        this.emojiCopyPaste += `Wordle ${this.wordleNumber()} X/6*\n`
+      } else {
+        this.emojiCopyPaste += `Wordle ${this.wordleNumber()} X/6\n`
+      }
+    }
+
+    for (let i = 0; i <= this.currentRow; i++) {
+      let thisGuessRow = guesses[i];
+      let checkWordle = wordle;
+      let guess = [];
+      let guessOuter = [];
+      let guessEmojiColors = [];
+
+      thisGuessRow.forEach(guessLetter => {
+          guess.push({letter: guessLetter, color: 'darkgrey'})
+          guessOuter.push({letter: guessLetter, color: 'darkgrey'})
+      })
+
+      guess.forEach((guessLetter, index) => {
+          thisLetter = guessLetter.letter.toLowerCase();
+          if (thisLetter === wordle[index]) {
+              guessLetter.color = 'green';
+              checkWordle = checkWordle.replace(thisLetter, '');
+              guessOuter[index] = ' ';
+          }
+      })
+
+      guessOuter.forEach((outer, index) => {
+        if (!(guess[index].color === 'green')) {
+          thisLetter = outer.letter.toLowerCase();
+          if (checkWordle.includes(thisLetter)) {
+            guess[index].color = 'yellow';
+            checkWordle = checkWordle.replace(thisLetter, '');
+          }
+        }
+      })
+
+      for (x = 0; x < guess.length; x++) {
+        if (guess[x].color === 'green') {
+          this.emojiCopyPaste += String.fromCodePoint(0x1F7E9);
+        } else if (guess[x].color === 'yellow') {
+          this.emojiCopyPaste += String.fromCodePoint(0x1F7E8);
+        } else if (guess[x].color === 'darkgrey') {
+          this.emojiCopyPaste += String.fromCodePoint(0x2B1B);
+        }
+      }
+
+      this.emojiCopyPaste += '\n';
+    }
   }
 
 
