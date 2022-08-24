@@ -109,24 +109,24 @@ export default class Game {
 
   // Function to handle key onscreen keyboard being clicked
   click(letter) {
-    if (!this.isGameOver.value) {
-      if (letter === 'ENTER') {
-        this.isHardModeOn === 'On' ? this.checkGuessHard() : this.checkGuess();
-      } else if (letter === 'BACK') {
-        this.removeLetter();
-      } else {
-        this.addLetter(letter)
-      }
+    if (this.isGameOver) return;
+    if (letter === 'ENTER') {
+      this.isHardModeOn ? this.checkGuessHard() : this.checkGuess();
+    } else if (letter === 'BACK') {
+      this.removeLetter();
+    } else {
+      this.addLetter(letter)
     }
   }
 
   // Function to handle keyboard being clicked
   keyPressed(event, that) {
+    if (this.isGameOver) return;
     let letter = event.key.toUpperCase();
     if (validLetters.includes(letter)) {
       that.click(letter);
     } else if (letter == 'ENTER') {
-      this.isHardModeOn === 'On' ? this.checkGuessHard() : this.checkGuess();
+      this.isHardModeOn ? this.checkGuessHard() : this.checkGuess();
     } else if (letter == 'BACKSPACE') {
       this.removeLetter();
     }
@@ -162,106 +162,63 @@ export default class Game {
     }
   }
 
-  // Function to add 1 to currentTile and save it to localStorage
-  addToCurrentTile() {
-    this.currentTile++;
-    localStorage.setItem('CurrentTile', this.currentTile);
-  }
-
-  // Function to remove 1 from currentTile and save it to localStorage
-  removeFromCurrentTile() {
-    this.currentTile--;
-    localStorage.setItem('CurrentTile', this.currentTile);
-  }
-
-  // Function to set currentTile to 0 and save it to localStorage
-  resetCurrentTile() {
-    this.currentTile = 0;
-    localStorage.setItem('CurrentTile', this.currentTile);
-  }
-
-  // Function to add 1 to currentRow value and save it to localStorage
-  addToCurrentRow() {
-    this.currentRow++;
-    localStorage.setItem('CurrentRow', this.currentRow);
-  }
-
-  // Function to set currentRow to 0 and save it to localStorage
-  resetCurrentRow() {
-    this.currentRow = 0;
-    localStorage.setItem('CurrentRow', this.currentRow);
-  }
-
-  // Function to render value into a tile element
-  renderTile(letter, row, tile) {
-    let tileElement = document.getElementById('row' + row + 'tile' + tile);
-    tileElement.textContent = letter;
-    tileElement.setAttribute('data', letter);
-    tileElement.classList.add('on-row');
-  }
-
-  // Function to tile element empty
-  renderEmptyTile(row, tile) {
-    let tileElement = document.getElementById('row' + row + 'tile' + tile);
-    tileElement.textContent = '';
-    tileElement.removeAttribute('data');
-    tileElement.classList.remove('on-row');
-  }
-
   // Function to check guess
   checkGuess() {
     let currentRow = this.currentRow;
     let currentTile = this.currentTile;
     let currentGuess = this.guesses[currentRow].join('').toUpperCase();
+
     if (currentTile < 3) {
       this.setPopUpMessage('Not enough letters');
       this.invalidAnswerDisplay();
-    } else if (validTickers.includes(currentGuess) || validAnswers.includes(currentGuess) || currentGuess === this.wordle) {
-      if (currentTile === 3 && currentRow < 6) {
-        if (currentGuess === this.wordle) {
-          this.setGameOver(true);
-          this.setGameOngoing(false);
-          this.disableHardmodeCheckbox();
-          this.gameWon = true;
-          this.updateStatsOnWin();
-          this.setPopUpMessage('HUZZAH');
-          this.colorTiles();
-          this.jump();
-          this.saveGuess();
-          this.copyResults();
-          setTimeout( () => {
-            this.togglePopUp()
-          }, 3500)
-          setTimeout(() => {
-            this.toggleAndLoadScoreboard();
-          }, 4600)
-        } else if (currentTile === 3 && currentRow > 4) {
-          this.setGameOver(true);
-          this.setGameOngoing(false);
-          this.disableHardmodeCheckbox();
-          this.updateStatsOnLoss();
-          this.setPopUpMessage(this.wordle.toUpperCase());
-          this.colorTiles();
-          this.saveGuess();
-          this.copyResults();
-          setTimeout( () => {
-            this.togglePopUpLong()
-          }, 2000)
-          setTimeout(() => {
-            this.toggleAndLoadScoreboard();
-          }, 4200)
-        } else {
-          this.setGameOngoing(true);
-          this.disableHardmodeCheckbox();
-          this.colorTiles();
-          this.saveGuess();
-          this.addToCurrentRow();
-          this.resetCurrentTile();
-        }
-      }
-    } else {
+      return;
+    }
+
+    if (!(validTickers.includes(currentGuess)) && currentGuess !== this.wordle) {
       this.setPopUpMessage('Not a ticker ');
       this.invalidAnswerDisplay();
+      return;
+    }
+
+    if (currentGuess === this.wordle) {
+      this.setGameWon(true);
+      this.setGameOver(true);
+      this.disableHardmodeCheckbox();
+      this.updateStatsOnWin();
+      this.setPopUpMessage('HUZZAH');
+      this.colorTiles();
+      this.jump();
+      this.saveGuess();
+      this.copyResults();
+      setTimeout(() => {
+        this.togglePopUp()
+      }, 3500)
+      setTimeout(() => {
+        this.toggleAndLoadScoreboard();
+      }, 4600)
+      return;
+    }
+
+    if (currentTile === 3 && currentRow > 4) {
+      this.setGameOver(true);
+      this.disableHardmodeCheckbox();
+      this.updateStatsOnLoss();
+      this.setPopUpMessage(this.wordle.toUpperCase());
+      this.colorTiles();
+      this.saveGuess();
+      this.copyResults();
+      setTimeout( () => {
+        this.togglePopUpLong()
+      }, 2000)
+      setTimeout(() => {
+        this.toggleAndLoadScoreboard();
+      }, 4200)
+    } else {
+      this.disableHardmodeCheckbox();
+      this.colorTiles();
+      this.saveGuess();
+      this.addToCurrentRow();
+      this.resetCurrentTile();
     }
   }
 
@@ -381,13 +338,58 @@ export default class Game {
     }
   }
 
+  // Function to add 1 to currentTile and save it to localStorage
+  addToCurrentTile() {
+    this.currentTile++;
+    localStorage.setItem('CurrentTile', this.currentTile);
+  }
+
+  // Function to remove 1 from currentTile and save it to localStorage
+  removeFromCurrentTile() {
+    this.currentTile--;
+    localStorage.setItem('CurrentTile', this.currentTile);
+  }
+
+  // Function to set currentTile to 0 and save it to localStorage
+  resetCurrentTile() {
+    this.currentTile = 0;
+    localStorage.setItem('CurrentTile', this.currentTile);
+  }
+
+  // Function to add 1 to currentRow value and save it to localStorage
+  addToCurrentRow() {
+    this.currentRow++;
+    localStorage.setItem('CurrentRow', this.currentRow);
+  }
+
+  // Function to set currentRow to 0 and save it to localStorage
+  resetCurrentRow() {
+    this.currentRow = 0;
+    localStorage.setItem('CurrentRow', this.currentRow);
+  }
+
+  // Function to render value into a tile element
+  renderTile(letter, row, tile) {
+    let tileElement = document.getElementById('row' + row + 'tile' + tile);
+    tileElement.textContent = letter;
+    tileElement.setAttribute('data', letter);
+    tileElement.classList.add('on-row');
+  }
+
+  // Function to tile element empty
+  renderEmptyTile(row, tile) {
+    let tileElement = document.getElementById('row' + row + 'tile' + tile);
+    tileElement.textContent = '';
+    tileElement.removeAttribute('data');
+    tileElement.classList.remove('on-row');
+  }
+
   // Code to populate previous guesses of that day upon page reload
   saveGuess() {
     let currentRow = this.currentRow;
     for (let tile = 0; tile < this.guesses[currentRow].length; tile++) {
       let guess = this.guesses[currentRow][tile];
       let key = 'row' + currentRow + 'tile' + tile;
-      console.log(key);
       let color = document.getElementById(key).dataset.color;
       this.setGuessWithExpiry(key, guess, color);
     }
@@ -493,6 +495,16 @@ export default class Game {
     }, 2000 );
   }
 
+  // Function to set gameWon along with date
+  setGameWon(value) {
+    this.gameWon = value;
+    let storedGameWon = {
+      value: value,
+      expiry: this.getNowZeroTime()
+    }
+    localStorage.setItem('GameWon', JSON.stringify(storedGameWon))
+  }
+
   // Function to set isGameOver along with date
   setGameOver(value) {
     this.isGameOver = value;
@@ -503,20 +515,14 @@ export default class Game {
     localStorage.setItem('GameOver', JSON.stringify(storedIsGameOver))
   }
 
-  // Function to set isGameOngoing along with date
-  setGameOngoing(value) {
-    this.isGameOngoing = value;
-    let storedIsGameOngoing = {
-      value: value,
-      expiry: this.getNowZeroTime()
-    }
-    localStorage.setItem('GameOngoing', JSON.stringify(storedIsGameOngoing))
-  }
-
-  // Function to diable Hard Mode checkbox if IsGameOngoing is true and the expiry is today
+  // Function to disable Hard Mode checkbox
   disableHardmodeCheckbox() {
     let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
-    this.isGameOngoing ? hardModeCheckbox.disabled = true : hardModeCheckbox.disabled = false;
+    if (this.isGameOver || this.currentRow === 0) {
+      hardModeCheckbox.disabled = false;
+    } else {
+      hardModeCheckbox.disabled = true;
+    }
   }
 
   // Function to add to number of games completed
@@ -707,7 +713,6 @@ export default class Game {
     let milliPerDay = 86400000;
     let daysSince1970 = Math.floor(milliSince1970/milliPerDay);
     let dailyDate = daysSince1970 - 19227 + 0;
-    console.log(dailyDate);
     return dailyDate;
   }
 
@@ -779,9 +784,11 @@ export default class Game {
 
 
 
-  // Make function to get isGameOngoing from localStorage upon page load. If it exists and the date is todays date set it as that stored value. If it doesnt exist or is not from today, set it as true.
+  // Make function to get isGameOver from localStorage upon page load. If it exists and the date is todays date set it as that stored value. If it doesnt exist or is not from today, set it as true.
 
   // Work on showing the clock in scoreboard
+
+  // Add ETFs to validTickers
 
 
 
