@@ -40,6 +40,9 @@ export default class Game {
   addListeners() {
     this.keyPressListener();
     this.scoreboardButtonListener();
+    this.scoreboardCloseListener();
+    this.shareButtonListener();
+    this.settingsButtonListener();
   }
 
   // On page load, do the following to set variables as those stored locally:
@@ -47,6 +50,7 @@ export default class Game {
 
   }
 
+  // Function to create tile row divs
   makeRows() {
     let tileContainer = document.getElementById('tile-container');
     for (let i = 0; i < 6; i++) {
@@ -56,6 +60,7 @@ export default class Game {
     }
   }
 
+  // Function to create tile divs
   makeTiles() {
     for (let i = 0; i < 6; i++) {
       let rowContainer = document.getElementById('row' + i);
@@ -67,6 +72,7 @@ export default class Game {
     }
   }
 
+  // Function to create keyboard rows
   makeKeyboardRows() {
     let keyboardContainer = document.getElementById('keyboard-container');
     for (let i = 0; i < 3; i++) {
@@ -76,6 +82,7 @@ export default class Game {
     }
   }
 
+  // Function to create keyboard keys
   makeKeyboardKeys() {
     let that = this;
     keysArray.forEach((array, index) => {
@@ -185,6 +192,7 @@ export default class Game {
     localStorage.setItem('CurrentRow', this.currentRow);
   }
 
+  // Function to render value into a tile element
   renderTile(letter, row, tile) {
     let tileElement = document.getElementById('row' + row + 'tile' + tile);
     tileElement.textContent = letter;
@@ -192,6 +200,7 @@ export default class Game {
     tileElement.classList.add('on-row');
   }
 
+  // Function to tile element empty
   renderEmptyTile(row, tile) {
     let tileElement = document.getElementById('row' + row + 'tile' + tile);
     tileElement.textContent = '';
@@ -199,6 +208,7 @@ export default class Game {
     tileElement.classList.remove('on-row');
   }
 
+  // Function to check guess
   checkGuess() {
     let currentRow = this.currentRow;
     let currentTile = this.currentTile;
@@ -223,14 +233,14 @@ export default class Game {
             this.togglePopUp()
           }, 3500)
           setTimeout(() => {
-            this.toggleLoadScoreboard();
+            this.toggleAndLoadScoreboard();
           }, 4600)
-        } else if (currentTile === 5 && currentRow > 4) {
+        } else if (currentTile === 3 && currentRow > 4) {
           this.setGameOver(true);
           this.setGameOngoing(false);
           this.disableHardmodeCheckbox();
           this.updateStatsOnLoss();
-          this.setPopUpMessage(wordle.toUpperCase());
+          this.setPopUpMessage(this.wordle.toUpperCase());
           this.colorTiles();
           this.saveGuess();
           this.copyResults();
@@ -238,7 +248,7 @@ export default class Game {
             this.togglePopUpLong()
           }, 2000)
           setTimeout(() => {
-            this.toggleLoadScoreboard();
+            this.toggleAndLoadScoreboard();
           }, 4200)
         } else {
           this.setGameOngoing(true);
@@ -566,13 +576,13 @@ export default class Game {
   }
 
   // Function to toggle scoreboard
-  toggleLoadScoreboard() {
+  toggleAndLoadScoreboard() {
     this.addScoreValues();
     this.barChartLength();
     let scoreboardContainer = document.getElementById('scoreboard-container');
     let clockShareContainer = document.getElementById('clock-share-container');
     scoreboardContainer.classList.toggle('scoreboard-hide');
-    if (this.isGameOver.value) {
+    if (this.isGameOver) {
       clockShareContainer.classList.remove('hide-clock-share')
     } else {
       clockShareContainer.classList.add('hide-clock-share')
@@ -581,10 +591,52 @@ export default class Game {
 
   // Function to add event listener to scoreboard button
   scoreboardButtonListener() {
+    let that = this;
     let scoreboardButton = document.getElementById('scoreboard-button');
     scoreboardButton.addEventListener('click', function() {
-      this.toggleLoadScoreboard();
+      that.toggleAndLoadScoreboard();
     });
+  }
+
+  scoreboardCloseListener() {
+    let scoreboardButton = document.getElementById('scoreboard-button');
+    let scoreboardContainer = document.getElementById('scoreboard-container');
+    let scoreboardCloseButton = document.getElementById('scoreboard-close');
+    document.addEventListener('click', function(e) {
+      if (!scoreboardButton.contains(e.target) && !scoreboardContainer.contains(e.target)) {
+        scoreboardContainer.classList.add('scoreboard-hide');
+      }
+    });
+    document.addEventListener('click', function(e) {
+      if (scoreboardCloseButton.contains(e.target)) scoreboardContainer.classList.add('scoreboard-hide');
+    })
+  }
+
+  shareButtonListener() {
+    let that = this;
+    let popUpMessage = document.getElementById('popup');
+    let shareButton = document.getElementById('scoreboard-share-button');
+    shareButton.addEventListener('click', () => {
+      navigator.clipboard.writeText(this.emojiCopyPaste);
+      popUpMessage.innerHTML = `<p>Copied results to clipboard</p>`;
+      this.togglePopUp();
+      console.log(this.emojiCopyPaste);
+    })
+  }
+
+  // Code to toggle settings when clicked etc
+  settingsButtonListener() {
+    let settingsButton = document.getElementById('settings-button');
+    let settingsContainer = document.getElementById('settings-container');
+    let settingsClose = document.getElementById('close-settings-button');
+
+    settingsButton.addEventListener('click', () => {
+      settingsContainer.classList.toggle('settings-hide');
+    })
+
+    settingsClose.addEventListener('click', () => {
+      settingsContainer.classList.toggle('settings-hide');
+    })
   }
 
   // Code to populate scoreboard with current scores
@@ -688,7 +740,7 @@ export default class Game {
       })
 
       guess.forEach((guessLetter, index) => {
-          let thisLetter = guessLetter.letter.toLowerCase();
+          let thisLetter = guessLetter.letter.toUpperCase();
           if (thisLetter === this.wordle[index]) {
               guessLetter.color = 'green';
               checkWordle = checkWordle.replace(thisLetter, '');
@@ -698,7 +750,7 @@ export default class Game {
 
       guessOuter.forEach((outer, index) => {
         if (!(guess[index].color === 'green')) {
-          let thisLetter = outer.letter.toLowerCase();
+          let thisLetter = outer.letter.toUpperCase();
           if (checkWordle.includes(thisLetter)) {
             guess[index].color = 'yellow';
             checkWordle = checkWordle.replace(thisLetter, '');
@@ -728,6 +780,8 @@ export default class Game {
 
 
   // Make function to get isGameOngoing from localStorage upon page load. If it exists and the date is todays date set it as that stored value. If it doesnt exist or is not from today, set it as true.
+
+  // Work on showing the clock in scoreboard
 
 
 
