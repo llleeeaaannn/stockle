@@ -9,15 +9,14 @@ export default class Game {
   constructor() {
     this.wordle = 'AMD';
     this.gameWon = false;
-    this.isGameOver = false;
-    this.isHardModeOn = false;
+    this.gameOver = false;
+    this.hardMode = true;
     this.currentRow = 0;
     this.currentTile = 0;
     this.greenLetters = [];
     this.yellowLetters = [];
     this.missingGreenLetter = [];
     this.missingYellowLetter = [];
-    this.hardModeOn = true;
     this.emojiCopyPaste = "";
     this.guesses = [
       ['', '', ''],
@@ -109,9 +108,9 @@ export default class Game {
 
   // Function to handle key onscreen keyboard being clicked
   click(letter) {
-    if (this.isGameOver) return;
+    if (this.gameOver) return;
     if (letter === 'ENTER') {
-      this.isHardModeOn ? this.checkGuessHard() : this.checkGuess();
+      this.hardMode ? this.checkGuessHard() : this.checkGuess();
     } else if (letter === 'BACK') {
       this.removeLetter();
     } else {
@@ -121,12 +120,12 @@ export default class Game {
 
   // Function to handle keyboard being clicked
   keyPressed(event, that) {
-    if (this.isGameOver) return;
+    if (this.gameOver) return;
     let letter = event.key.toUpperCase();
     if (validLetters.includes(letter)) {
       that.click(letter);
     } else if (letter == 'ENTER') {
-      this.isHardModeOn ? this.checkGuessHard() : this.checkGuess();
+      this.hardMode ? this.checkGuessHard() : this.checkGuess();
     } else if (letter == 'BACKSPACE') {
       this.removeLetter();
     }
@@ -222,6 +221,73 @@ export default class Game {
     }
   }
 
+  // CheckGuess for Hard Mode
+  checkGuessHard() {
+    let currentRow = this.currentRow;
+    let currentTile = this.currentTile;
+    let currentGuess = this.guesses[currentRow].join('').toUpperCase();
+
+    if (currentTile < 3) {
+      this.setPopUpMessage('Not enough letters');
+      this.invalidAnswerDisplay();
+      return;
+    }
+
+    if (!(validTickers.includes(currentGuess)) && currentGuess !== this.wordle) {
+      this.setPopUpMessage('Not a ticker ');
+      this.invalidAnswerDisplay();
+      return;
+    }
+
+    if (!this.hardModeColor()) {
+      this.missingGreenLetter.length > 0 ? this.setPopUpMessage(`${this.greenMissingPosition()} letter must be ${this.missingGreenLetter[0].letter}`) : this.setPopUpMessage(`<p>Guess must contain ${this.missingYellowLetter[0]}<p>`);
+      this.shake();
+      this.togglePopUp();
+      return;
+    }
+
+    if (currentGuess === this.wordle) {
+      this.setGameWon(true);
+      this.setGameOver(true);
+      this.disableHardmodeCheckbox();
+      this.updateStatsOnWin();
+      this.setPopUpMessage('HUZZAH');
+      this.colorTiles();
+      this.jump();
+      this.saveGuess();
+      this.copyResults();
+      setTimeout( () => {
+        this.togglePopUp()
+      }, 3500)
+      setTimeout(() => {
+        this.toggleLoadScoreboard();
+      }, 4600)
+      return;
+    }
+
+    if (currentTile === 3 && currentRow > 4) {
+      this.setGameOver(true);
+      this.disableHardmodeCheckbox();
+      this.updateStatsOnLoss();
+      this.setPopUpMessage(this.wordle.toUpperCase());
+      this.colorTiles();
+      this.saveGuess();
+      this.copyResults();
+      setTimeout( () => {
+        this.togglePopUpLong()
+      }, 2000)
+      setTimeout(() => {
+        this.toggleLoadScoreboard();
+      }, 4200)
+    } else {
+      this.disableHardmodeCheckbox();
+      this.colorTiles();
+      this.saveGuess();
+      this.addToCurrentRow();
+      this.resetCurrentTile();
+    }
+  }
+
   // Function to color tiles and run function to color keys once answer is checked and then flip the row of tiles
   colorTiles() {
     let tiles = document.querySelector('#row' + this.currentRow).childNodes;
@@ -298,7 +364,7 @@ export default class Game {
 
   // Function for Hard Mode to check that yellow and green letters from previous guesses are used in ths guess and returns true or false
   hardModeColor() {
-    let tiles = document.querySelector('#row' + currentRow).childNodes;
+    let tiles = document.querySelector('#row' + this.currentRow).childNodes;
     let greenTotal = 0;
     let yellowTotal = 0;
     let guess = [];
@@ -314,7 +380,7 @@ export default class Game {
     this.greenLetters.forEach((letter) => {
       let letterPosition = letter.position;
       let enteredLetter = guess[letterPosition].letter
-      if (greenLetters.length === 0) {
+      if (this.greenLetters.length === 0) {
         return;
       } else if (letter.letter === enteredLetter) {
         greenTotal += 1;
@@ -323,7 +389,7 @@ export default class Game {
       }
     });
 
-    yellowLetters.forEach((yellowletter) => {
+    this.yellowLetters.forEach((yellowletter) => {
       if (yellowGuess.includes(yellowletter)) {
         yellowTotal += 1;
       } else {
@@ -505,24 +571,38 @@ export default class Game {
     localStorage.setItem('GameWon', JSON.stringify(storedGameWon))
   }
 
-  // Function to set isGameOver along with date
+  // Function to set gameOver along with date
   setGameOver(value) {
-    this.isGameOver = value;
-    let storedIsGameOver = {
+    this.gameOver = value;
+    let storedGameOver = {
       value: value,
       expiry: this.getNowZeroTime()
     }
-    localStorage.setItem('GameOver', JSON.stringify(storedIsGameOver))
+    localStorage.setItem('GameOver', JSON.stringify(storedGameOver))
   }
 
   // Function to disable Hard Mode checkbox
   disableHardmodeCheckbox() {
     let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
-    if (this.isGameOver || this.currentRow === 0) {
+    if (this.gameOver || this.currentRow === 0) {
       hardModeCheckbox.disabled = false;
     } else {
       hardModeCheckbox.disabled = true;
     }
+  }
+
+  // Code to change to and from Hard Mode when switch is clicked
+  switchHardMode() {
+    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
+    hardModeCheckbox.addEventListener('click', () => {
+      hardModeCheckbox.checked === true ? this.hardMode = true : this.hardMode = false;
+    });
+    this.storeHardMode();
+  }
+
+  // Code to store hardMode value in localStorage
+  storeHardMode() {
+    this.hardMode ? localStorage.setItem('HardMode', true) : localStorage.setItem('HardMode', false);
   }
 
   // Function to add to number of games completed
@@ -588,7 +668,7 @@ export default class Game {
     let scoreboardContainer = document.getElementById('scoreboard-container');
     let clockShareContainer = document.getElementById('clock-share-container');
     scoreboardContainer.classList.toggle('scoreboard-hide');
-    if (this.isGameOver) {
+    if (this.gameOver) {
       clockShareContainer.classList.remove('hide-clock-share')
     } else {
       clockShareContainer.classList.add('hide-clock-share')
@@ -706,6 +786,27 @@ export default class Game {
     barSix.innerHTML = `<p>${barChartSix}</p>`
   }
 
+  // Function to return the position of earliest missing green letter for hard mode in necessary vocab (1st, 2nd...)
+  greenMissingPosition() {
+    switch(this.missingGreenLetter[0].position) {
+      case 1:
+        return '1st';
+        break;
+      case 2:
+        return '2nd';
+        break;
+      case 3:
+        return '3rd';
+        break;
+      case 4:
+        return '4th';
+        break;
+      case 5:
+        return '5th';
+        break;
+    }
+  }
+
   // Code to define which day it is
   wordleNumber() {
     let today = new Date();
@@ -719,13 +820,13 @@ export default class Game {
   // Code to copy the results of the users daily wordle to the clipboard upon them clicking on the Share button in thr scoreboard
   copyResults() {
     if (this.gameWon === true) {
-      if (this.isHardModeOn) {
+      if (this.hardMode) {
         this.emojiCopyPaste += `Wordle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n`
       } else {
         this.emojiCopyPaste += `Wordle ${this.wordleNumber()} ${this.currentRow + 1}/6\n`
       }
     } else {
-      if (this.isHardModeOn) {
+      if (this.hardMode) {
         this.emojiCopyPaste += `Wordle ${this.wordleNumber()} X/6*\n`
       } else {
         this.emojiCopyPaste += `Wordle ${this.wordleNumber()} X/6\n`
@@ -784,7 +885,7 @@ export default class Game {
 
 
 
-  // Make function to get isGameOver from localStorage upon page load. If it exists and the date is todays date set it as that stored value. If it doesnt exist or is not from today, set it as true.
+  // Make function to get gameOver from localStorage upon page load. If it exists and the date is todays date set it as that stored value. If it doesnt exist or is not from today, set it as true.
 
   // Work on showing the clock in scoreboard
 
