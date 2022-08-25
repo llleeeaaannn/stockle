@@ -8,3 +8,4 @@ import { keysArray } from './variables.mjs';
 let game = new Game();
 game.createUI();
 game.addListeners();
+game.loadLocalStorage();

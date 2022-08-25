@@ -10,7 +10,8 @@ export default class Game {
     this.wordle = 'AMD';
     this.gameWon = false;
     this.gameOver = false;
-    this.hardMode = true;
+    this.hardMode = false;
+    this.darkTheme = true;
     this.currentRow = 0;
     this.currentTile = 0;
     this.greenLetters = [];
@@ -34,6 +35,7 @@ export default class Game {
     this.makeKeyboardRows();
     this.makeKeyboardKeys();
     this.makePopUp();
+    this.displayCountdown();
   }
 
   addListeners() {
@@ -42,11 +44,16 @@ export default class Game {
     this.scoreboardCloseListener();
     this.shareButtonListener();
     this.settingsButtonListener();
+    this.switchHardModeListener();
+    this.lightDarkThemeListener();
   }
 
   // On page load, do the following to set variables as those stored locally:
   loadLocalStorage() {
-
+    this.getStoredGameWon();
+    this.getStoredGameOver();
+    this.getStoredHardMode();
+    this.getStoredDarkTheme();
   }
 
   // Function to create tile row divs
@@ -213,11 +220,11 @@ export default class Game {
         this.toggleAndLoadScoreboard();
       }, 4200)
     } else {
-      this.disableHardmodeCheckbox();
       this.colorTiles();
       this.saveGuess();
       this.addToCurrentRow();
       this.resetCurrentTile();
+      this.disableHardmodeCheckbox();
     }
   }
 
@@ -280,11 +287,11 @@ export default class Game {
         this.toggleLoadScoreboard();
       }, 4200)
     } else {
-      this.disableHardmodeCheckbox();
       this.colorTiles();
       this.saveGuess();
       this.addToCurrentRow();
       this.resetCurrentTile();
+      this.disableHardmodeCheckbox();
     }
   }
 
@@ -592,12 +599,12 @@ export default class Game {
   }
 
   // Code to change to and from Hard Mode when switch is clicked
-  switchHardMode() {
+  switchHardModeListener() {
     let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
     hardModeCheckbox.addEventListener('click', () => {
       hardModeCheckbox.checked === true ? this.hardMode = true : this.hardMode = false;
+      this.storeHardMode();
     });
-    this.storeHardMode();
   }
 
   // Code to store hardMode value in localStorage
@@ -821,15 +828,15 @@ export default class Game {
   copyResults() {
     if (this.gameWon === true) {
       if (this.hardMode) {
-        this.emojiCopyPaste += `Wordle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n`
       } else {
-        this.emojiCopyPaste += `Wordle ${this.wordleNumber()} ${this.currentRow + 1}/6\n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6\n`
       }
     } else {
       if (this.hardMode) {
-        this.emojiCopyPaste += `Wordle ${this.wordleNumber()} X/6*\n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6*\n`
       } else {
-        this.emojiCopyPaste += `Wordle ${this.wordleNumber()} X/6\n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6\n`
       }
     }
 
@@ -878,16 +885,112 @@ export default class Game {
     }
   }
 
+  makeCountdown() {
+    let date = new Date();
+    date.setDate(date.getDate() + 1)
+    date.setHours(0, 0, 0);
+    let total = Date.parse(date) - Date.parse(new Date());
+    let seconds = Math.floor( (total/1000) % 60 );
+    let minutes = Math.floor( (total/1000/60) % 60 );
+    let hours = Math.floor( (total/(1000*60*60)) % 24 );
+
+    hours = '0' + hours;
+    minutes = '0' + minutes
+    seconds = '0' + seconds;
+
+    if (this.gameOver) {
+      let countdown = document.getElementById('countdown-container');
+      countdown.innerHTML = `<h5>NEXT WORDLE</h5><span> ${hours.slice(-2)} : ${minutes.slice(-2)} : ${seconds.slice(-2)}`;
+    }
+  }
+
+  displayCountdown() {
+    let that = this;
+    setInterval(function() { that.makeCountdown() }, 1000);
+  }
+
+  // Function to get stored theme, apply it and set checkbox to match it
+  getStoredDarkTheme() {
+    let theme = localStorage.getItem('theme');
+    if (theme === null) return;
+    this.darkTheme = (theme === 'true');
+    this.darkTheme ? this.makeDark() : this.makeLight();
+    this.checkThemeCheckbox();
+  }
+
+  // Function to set theme checkbox
+  checkThemeCheckbox() {
+    let lightDarkThemeCheckbox = document.getElementById('dark-theme-checkbox');
+    lightDarkThemeCheckbox.checked = this.darkTheme;
+  }
+
+  // Code to change set darkTheme and change theme when switch is clicked
+  lightDarkThemeListener() {
+    let that = this;
+    let lightDarkThemeSwitch = document.getElementById('dark-theme-switch');
+    let lightDarkThemeCheckbox = document.getElementById('dark-theme-checkbox');
+    lightDarkThemeSwitch.addEventListener('click', () => {
+      if (lightDarkThemeCheckbox.checked) {
+        that.setDarkTheme(true);
+        that.makeDark();
+      } else {
+        that.setDarkTheme(false);
+        that.makeLight();
+      }
+    })
+  }
+
+  // Function to set and store darkTheme
+  setDarkTheme(value) {
+    this.darkTheme = value;
+    localStorage.setItem('theme', value)
+  }
+
+  // Function to apply light theme
+  makeLight() {
+    let stylesheet = document.getElementById('rootStylesheet')
+    stylesheet.textContent = ":root { --fontColor: #000; --oppositeFont: #fff; --colorBG: #fff; --oppositeBG: #000; --secondFontColor: #888484; --offsetColorBG: #fff; --tileBorderColor: 2px solid rgba(83, 83, 91, 0.3); --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75); --invisibleBG: rgba(0, 0 ,0, 0.0); --greenBG: #588c4c; --yellowBG: #b89c3c; --darkGreyBG: #403c3c; --lightGreyBG: #d8d4dc; --uncheckedKey: #000; --checkedKey: #fff; --white: #fff;}";
+  }
+
+  // Function to apply dark theme
+  makeDark() {
+    let stylesheet = document.getElementById('rootStylesheet')
+    stylesheet.textContent = ":root { --fontColor: #fff; --oppositeFont: #000; --colorBG: #000; --oppositeBG: #fff; --secondFontColor: #888484; --offsetColorBG: #141414; --tileBorderColor: 2px solid rgba(60, 60 ,60, 0.6); --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75); --invisibleBG: rgba(0, 0 ,0, 0.0); --greenBG: #588c4c; --yellowBG: #b89c3c; --darkGreyBG: #403c3c; --lightGreyBG: #888484; --uncheckedKey: #fff; --checkedKey: #fff; --white: #fff;}";
+  }
+
+  // Function to get gameWon stored value upon page load if it isnt expired
+  getStoredGameWon() {
+    let now = this.getNowZeroTime();
+    let storedGameWon = JSON.parse(localStorage.getItem('GameWon'));
+    if (storedGameWon === null) return;
+    if (storedGameWon.expiry !== now) return;
+    this.gameWon = storedGameWon.value;
+  }
+
+  // Function to get gameOver stored value upon page load if it isnt expired
+  getStoredGameOver() {
+    let now = this.getNowZeroTime();
+    let storedGameOver = JSON.parse(localStorage.getItem('GameOver'));
+    if (storedGameOver === null) return;
+    if (storedGameOver.expiry !== now) return;
+    this.gameOver = storedGameOver.value;
+  }
+
+  // Function to get hardMode stored value upon page load
+  getStoredHardMode() {
+    let mode = localStorage.getItem('HardMode');
+    this.hardMode = (mode === 'true');
+    this.checkHardModeCheckbox()
+  }
+
+  // Function to check/uncheck hardMode checkbox upon load
+  checkHardModeCheckbox() {
+    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
+    hardModeCheckbox.checked = this.hardMode;
+  }
 
 
-
-
-
-
-
-  // Make function to get gameOver from localStorage upon page load. If it exists and the date is todays date set it as that stored value. If it doesnt exist or is not from today, set it as true.
-
-  // Work on showing the clock in scoreboard
+  // Make function to get preivous guesses of same day when page is reloaded
 
   // Add ETFs to validTickers
 
