@@ -54,6 +54,9 @@ export default class Game {
     this.getStoredGameOver();
     this.getStoredHardMode();
     this.getStoredDarkTheme();
+    this.getStoredCurrentRow();
+    this.getStoredCurrentTile();
+    this.verifyStoredGuess();
   }
 
   // Function to create tile row divs
@@ -414,31 +417,61 @@ export default class Game {
   // Function to add 1 to currentTile and save it to localStorage
   addToCurrentTile() {
     this.currentTile++;
-    localStorage.setItem('CurrentTile', this.currentTile);
+    this.storeCurrentTile(this.currentTile);
   }
 
   // Function to remove 1 from currentTile and save it to localStorage
   removeFromCurrentTile() {
     this.currentTile--;
-    localStorage.setItem('CurrentTile', this.currentTile);
+    this.storeCurrentTile(this.currentTile);
+  }
+
+  // Function to set currentTile to a value and save it to localStorage
+  setCurrentTile(value) {
+    this.currentTile = value;
+    this.storeCurrentTile(this.currentTile);
   }
 
   // Function to set currentTile to 0 and save it to localStorage
   resetCurrentTile() {
     this.currentTile = 0;
-    localStorage.setItem('CurrentTile', this.currentTile);
+    this.storeCurrentTile(this.currentTile);
+  }
+
+  // Function to store currentTile value in localStorage
+  storeCurrentTile(currentTile) {
+    let storedCurrentTile = {
+      value: currentTile,
+      expiry: this.getNowZeroTime()
+    }
+    localStorage.setItem('CurrentTile', JSON.stringify(storedCurrentTile));
   }
 
   // Function to add 1 to currentRow value and save it to localStorage
   addToCurrentRow() {
     this.currentRow++;
-    localStorage.setItem('CurrentRow', this.currentRow);
+    this.storeCurrentRow(this.currentRow);
+  }
+
+  // Function to set currentRow to a value and save it to localStorage
+  setCurrentRow(value) {
+    this.currentRow = value;
+    this.storeCurrentTile(this.currentTile);
   }
 
   // Function to set currentRow to 0 and save it to localStorage
   resetCurrentRow() {
     this.currentRow = 0;
-    localStorage.setItem('CurrentRow', this.currentRow);
+    this.storeCurrentRow(this.currentRow);
+  }
+
+  // Function to store currentRow value in localStorage
+  storeCurrentRow(currentRow) {
+    let storedCurrentRow = {
+      value: currentRow,
+      expiry: this.getNowZeroTime()
+    }
+    localStorage.setItem('CurrentRow', JSON.stringify(storedCurrentRow));
   }
 
   // Function to render value into a tile element
@@ -958,6 +991,24 @@ export default class Game {
     stylesheet.textContent = ":root { --fontColor: #fff; --oppositeFont: #000; --colorBG: #000; --oppositeBG: #fff; --secondFontColor: #888484; --offsetColorBG: #141414; --tileBorderColor: 2px solid rgba(60, 60 ,60, 0.6); --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75); --invisibleBG: rgba(0, 0 ,0, 0.0); --greenBG: #588c4c; --yellowBG: #b89c3c; --darkGreyBG: #403c3c; --lightGreyBG: #888484; --uncheckedKey: #fff; --checkedKey: #fff; --white: #fff;}";
   }
 
+  // Function to get currentRow stored value upon page load if it isnt expired
+  getStoredCurrentRow() {
+    let now = this.getNowZeroTime();
+    let storedCurrentRow = JSON.parse(localStorage.getItem('CurrentRow'));
+    if (storedCurrentRow === null) return;
+    if (storedCurrentRow.expiry !== now) return;
+    this.currentRow = Number(storedCurrentRow.value);
+  }
+
+  // Function to get currentTile stored value upon page load if it isnt expired
+  getStoredCurrentTile() {
+    let now = this.getNowZeroTime();
+    let storedCurrentTile = JSON.parse(localStorage.getItem('CurrentTile'));
+    if (storedCurrentTile === null) return;
+    if (storedCurrentTile.expiry !== now) return;
+    this.currentTile = Number(storedCurrentTile.value);
+  }
+
   // Function to get gameWon stored value upon page load if it isnt expired
   getStoredGameWon() {
     let now = this.getNowZeroTime();
@@ -989,8 +1040,50 @@ export default class Game {
     hardModeCheckbox.checked = this.hardMode;
   }
 
+  // Populate tiles and rows with stored guesses upon page load
+  verifyStoredGuess() {
+    let now = this.getNowZeroTime();
+    for (let row = 0; row < 6; row++) {
+      for (let tile = 0; tile < 3; tile++) {
+        let thisTile = 'row' + row + 'tile' + tile;
+        if (localStorage.getItem(thisTile) === null) {
+          this.setCurrentRow(row);
+          this.setCurrentTile(0);
+          return;
+        }
+
+        let storedGuess = JSON.parse(localStorage.getItem(thisTile));
+        let tileElement = document.getElementById(thisTile);
+        let letter = storedGuess.value;
+
+        if (storedGuess.expiry !== now) {
+          localStorage.removeItem(thisTile);
+          this.setCurrentRow(row);
+          this.setCurrentTile(0);
+          return;
+        }
+
+        tileElement.textContent = letter;
+        tileElement.setAttribute('data', letter);
+        tileElement.classList.add(storedGuess.color);
+
+        if (storedGuess.color === 'green-color') {
+          this.greenLetters.push({letter: letter, position: tile});
+        }
+
+        if (storedGuess.color === 'yellow-color') {
+          this.yellowLetters.push(letter);
+        }
+      }
+      this.setCurrentRow(row + 1);
+      this.setCurrentTile(0);
+    }
+  }
+
 
   // Make function to get preivous guesses of same day when page is reloaded
+
+
 
   // Add ETFs to validTickers
 
