@@ -879,6 +879,8 @@ export default class Game {
       let guess = [];
       let guessOuter = [];
       let guessEmojiColors = [];
+      console.log(this.guesses);
+      console.log(thisGuessRow);
 
       thisGuessRow.forEach(guessLetter => {
           guess.push({letter: guessLetter, color: 'darkgrey'})
@@ -915,6 +917,7 @@ export default class Game {
       }
 
       this.emojiCopyPaste += '\n';
+      console.log(this.emojiCopyPaste);
     }
   }
 
@@ -1063,6 +1066,8 @@ export default class Game {
           return;
         }
 
+        this.guesses[row][tile] = letter;
+
         tileElement.textContent = letter;
         tileElement.setAttribute('data', letter);
         tileElement.classList.add(storedGuess.color);
@@ -1079,9 +1084,6 @@ export default class Game {
       this.setCurrentTile(0);
     }
   }
-
-
-  // Make function to get preivous guesses of same day when page is reloaded
 
 
 
