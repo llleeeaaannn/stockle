@@ -14,14 +14,18 @@
       --offsetColorBG: #141414;
       --tileBorderColor: 2px solid rgba(60, 60 ,60, 0.6);
       --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75);
-      --invisibleBG: rgba(0, 0 , 0, 0.0);
+      --chartBarColor: rgba(70, 70, 70, 0.8);
+      --invisibleBG: rgba(0, 0 ,0, 0.0);
       --greenBG: #588c4c;
       --yellowBG: #b89c3c;
       --darkGreyBG: #403c3c;
       --lightGreyBG: #888484;
+      --shadowGrey: rgba(0, 0, 0, 0);
+      --opaqueBG: rgba(0, 0, 0, 0.5);
       --uncheckedKey: #fff;
       --checkedKey: #fff;
       --white: #fff;
+      --black: #000;
     }
   </style>
 </head>
@@ -58,13 +62,13 @@
 
       <div id="settings-inner-container">
 
+        <svg id="close-settings-button" viewBox="0 0 16 16">
+          <path fill="currentColor" d="m8 8.707l3.646 3.647l.708-.707L8.707 8l3.647-3.646l-.707-.708L8 7.293L4.354 3.646l-.707.708L7.293 8l-3.646 3.646l.707.708L8 8.707z"/>
+        </svg>
+
         <div id="settings-header">
 
-          <button type="button" name="close" id="hidden-button">X</button>
-
           <h3>SETTINGS</h3>
-
-          <button type="button" name="close" id="close-settings-button">X</button>
 
         </div>
 
@@ -80,9 +84,7 @@
 
           <div id="hard-mode-switch">
 
-            <label class="switch">
 	          <input type="checkbox" id="hard-mode-checkbox">
-	          <span class="slider"></span>
 
           </div>
 
@@ -94,9 +96,7 @@
 
           <div id="dark-theme-switch">
 
-            <label class="switch">
-            <input type="checkbox" id="dark-theme-checkbox">
-            <span class="slider"></span>
+            <input type="checkbox" id="dark-theme-checkbox" checked>
 
           </div>
 
@@ -114,9 +114,7 @@
 
           <div id="high-contrast-switch">
 
-            <label class="switch">
             <input type="checkbox">
-            <span class="slider"></span>
 
           </div>
 
@@ -162,11 +160,13 @@
 
     </div>
 
-    <div id="scoreboard">
+    <div id="scoreboard" class="scoreboard-hide">
 
-      <div id="scoreboard-container" class="scoreboard-hide">
+      <div id="scoreboard-container">
 
-        <button id="scoreboard-close"type="button" name="button">X</button>
+        <svg id="close-scoreboard-button" viewBox="0 0 16 16">
+          <path fill="currentColor" d="m8 8.707l3.646 3.647l.708-.707L8.707 8l3.647-3.646l-.707-.708L8 7.293L4.354 3.646l-.707.708L7.293 8l-3.646 3.646l.707.708L8 8.707z"/>
+        </svg>
 
         <h3>STATISTICS</h3>
 
@@ -216,7 +216,7 @@
 
             <span>1</span>
 
-            <div id="bar-chart-one">
+            <div id="bar-chart-1">
 
             </div>
 
@@ -226,7 +226,7 @@
 
             <span>2</span>
 
-            <div id="bar-chart-two">
+            <div id="bar-chart-2">
 
             </div>
 
@@ -236,7 +236,7 @@
 
             <span>3</span>
 
-            <div id="bar-chart-three">
+            <div id="bar-chart-3">
 
             </div>
 
@@ -246,7 +246,7 @@
 
             <span>4</span>
 
-            <div id="bar-chart-four">
+            <div id="bar-chart-4">
 
             </div>
 
@@ -256,7 +256,7 @@
 
             <span>5</span>
 
-            <div id="bar-chart-five">
+            <div id="bar-chart-5">
 
             </div>
 
@@ -266,7 +266,7 @@
 
             <span>6</span>
 
-            <div id="bar-chart-six">
+            <div id="bar-chart-6">
 
             </div>
 

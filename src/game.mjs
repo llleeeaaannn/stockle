@@ -270,7 +270,7 @@ export default class Game {
         this.togglePopUp()
       }, 3500)
       setTimeout(() => {
-        this.toggleLoadScoreboard();
+        this.toggleAndLoadScoreboard();
       }, 4600)
       return;
     }
@@ -287,7 +287,7 @@ export default class Game {
         this.togglePopUpLong()
       }, 2000)
       setTimeout(() => {
-        this.toggleLoadScoreboard();
+        this.toggleAndLoadScoreboard();
       }, 4200)
     } else {
       this.colorTiles();
@@ -686,6 +686,15 @@ export default class Game {
     localStorage.setItem(row, currentScore);
   }
 
+  makeWinRowGreen() {
+    for (let i = 1; i < 7; i++) {
+      let bar = document.getElementById(`bar-chart-` + i);
+      bar.classList.remove('green-bar');
+    }
+    let bar = document.getElementById(`bar-chart-${this.currentRow + 1}`);
+    bar.classList.add('green-bar');
+  }
+
   // Function to update stats upon win
   updateStatsOnWin() {
     this.addToWordlesCount();
@@ -693,6 +702,7 @@ export default class Game {
     this.addToStreakCount();
     this.updateMaxStreak();
     this.trackWinRowStats();
+    this.makeWinRowGreen();
   }
 
   // Function to update stats upon loss
@@ -705,9 +715,9 @@ export default class Game {
   toggleAndLoadScoreboard() {
     this.addScoreValues();
     this.barChartLength();
-    let scoreboardContainer = document.getElementById('scoreboard-container');
+    let scoreboard = document.getElementById('scoreboard');
     let clockShareContainer = document.getElementById('clock-share-container');
-    scoreboardContainer.classList.toggle('scoreboard-hide');
+    scoreboard.classList.remove('scoreboard-hide');
     if (this.gameOver) {
       clockShareContainer.classList.remove('hide-clock-share')
     } else {
@@ -724,17 +734,15 @@ export default class Game {
     });
   }
 
+  // Function to set listener for closing scoreboard
   scoreboardCloseListener() {
-    let scoreboardButton = document.getElementById('scoreboard-button');
+    let scoreboard = document.getElementById('scoreboard');
     let scoreboardContainer = document.getElementById('scoreboard-container');
-    let scoreboardCloseButton = document.getElementById('scoreboard-close');
-    document.addEventListener('click', function(e) {
-      if (!scoreboardButton.contains(e.target) && !scoreboardContainer.contains(e.target)) {
-        scoreboardContainer.classList.add('scoreboard-hide');
+    let scoreboardCloseButton = document.getElementById('close-scoreboard-button');
+    scoreboard.addEventListener('click', function(e) {
+      if (scoreboardCloseButton.contains(e.target) || !(scoreboardContainer.contains(e.target))) {
+        scoreboard.classList.add('scoreboard-hide');
       }
-    });
-    document.addEventListener('click', function(e) {
-      if (scoreboardCloseButton.contains(e.target)) scoreboardContainer.classList.add('scoreboard-hide');
     })
   }
 
@@ -753,15 +761,18 @@ export default class Game {
   // Code to toggle settings when clicked etc
   settingsButtonListener() {
     let settingsButton = document.getElementById('settings-button');
-    let settingsContainer = document.getElementById('settings-container');
     let settingsClose = document.getElementById('close-settings-button');
+    let settingsContainer = document.getElementById('settings-container');
+    let settingsInnerContainer = document.getElementById('settings-inner-container');
 
     settingsButton.addEventListener('click', () => {
-      settingsContainer.classList.toggle('settings-hide');
+      settingsContainer.classList.remove('settings-hide');
     })
 
-    settingsClose.addEventListener('click', () => {
-      settingsContainer.classList.toggle('settings-hide');
+    settingsContainer.addEventListener('click', function(e) {
+      if (settingsClose.contains(e.target) || !(settingsInnerContainer.contains(e.target))) {
+        settingsContainer.classList.add('settings-hide');
+      }
     })
   }
 
@@ -774,6 +785,7 @@ export default class Game {
     let played = Number(localStorage.getItem('TotalGames'));
     let wins = Number(localStorage.getItem('TotalWins'));
     let winPercentage =  Math.floor(wins / played * 100);
+    if (isNaN(winPercentage)) winPercentage = 0;
     let currentStreak = Number(localStorage.getItem('CurrentStreak'));
     let maxStreak = Number(localStorage.getItem('MaxStreak'));
     playedValue.textContent = `${played}`;
@@ -801,27 +813,27 @@ export default class Game {
     let barChartFiveLength = Math.floor(barChartFive / maxBar * 100);
     let barChartSixLength = Math.floor(barChartSix / maxBar * 100);
 
-    let barOne = document.getElementById('bar-chart-one');
+    let barOne = document.getElementById('bar-chart-1');
     barOne.style.width = `${barChartOneLength}%`
     barOne.innerHTML = `<p>${barChartOne}</p>`
 
-    let barTwo = document.getElementById('bar-chart-two');
+    let barTwo = document.getElementById('bar-chart-2');
     barTwo.style.width = `${barChartTwoLength}%`
     barTwo.innerHTML = `<p>${barChartTwo}</p>`
 
-    let barThree = document.getElementById('bar-chart-three');
+    let barThree = document.getElementById('bar-chart-3');
     barThree.style.width = `${barChartThreeLength}%`
     barThree.innerHTML = `<p>${barChartThree}</p>`
 
-    let barFour = document.getElementById('bar-chart-four');
+    let barFour = document.getElementById('bar-chart-4');
     barFour.style.width = `${barChartFourLength}%`
     barFour.innerHTML = `<p>${barChartFour}</p>`
 
-    let barFive = document.getElementById('bar-chart-five');
+    let barFive = document.getElementById('bar-chart-5');
     barFive.style.width = `${barChartFiveLength}%`
     barFive.innerHTML = `<p>${barChartFive}</p>`
 
-    let barSix = document.getElementById('bar-chart-six');
+    let barSix = document.getElementById('bar-chart-6');
     barSix.style.width = `${barChartSixLength}%`
     barSix.innerHTML = `<p>${barChartSix}</p>`
   }
@@ -879,8 +891,6 @@ export default class Game {
       let guess = [];
       let guessOuter = [];
       let guessEmojiColors = [];
-      console.log(this.guesses);
-      console.log(thisGuessRow);
 
       thisGuessRow.forEach(guessLetter => {
           guess.push({letter: guessLetter, color: 'darkgrey'})
@@ -985,13 +995,13 @@ export default class Game {
   // Function to apply light theme
   makeLight() {
     let stylesheet = document.getElementById('rootStylesheet')
-    stylesheet.textContent = ":root { --fontColor: #000; --oppositeFont: #fff; --colorBG: #fff; --oppositeBG: #000; --secondFontColor: #888484; --offsetColorBG: #fff; --tileBorderColor: 2px solid rgba(83, 83, 91, 0.3); --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75); --invisibleBG: rgba(0, 0 ,0, 0.0); --greenBG: #588c4c; --yellowBG: #b89c3c; --darkGreyBG: #403c3c; --lightGreyBG: #d8d4dc; --uncheckedKey: #000; --checkedKey: #fff; --white: #fff;}";
+    stylesheet.textContent = ":root { --fontColor: #000; --oppositeFont: #fff; --colorBG: #fff; --oppositeBG: #000; --secondFontColor: #888484; --offsetColorBG: #fff; --tileBorderColor: 2px solid rgba(83, 83, 91, 0.3); --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75); --chartBarColor: rgba(70, 70, 70, 0.8); --invisibleBG: rgba(0, 0 ,0, 0.0); --greenBG: #588c4c; --yellowBG: #b89c3c; --darkGreyBG: #403c3c; --lightGreyBG: #d8d4dc; --shadowGrey: rgba(200, 200, 200, 0.4); --opaqueBG: rgba(255, 255, 255, 0.5); --uncheckedKey: #000; --checkedKey: #fff; --white: #fff; --black: #000;}";
   }
 
   // Function to apply dark theme
   makeDark() {
     let stylesheet = document.getElementById('rootStylesheet')
-    stylesheet.textContent = ":root { --fontColor: #fff; --oppositeFont: #000; --colorBG: #000; --oppositeBG: #fff; --secondFontColor: #888484; --offsetColorBG: #141414; --tileBorderColor: 2px solid rgba(60, 60 ,60, 0.6); --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75); --invisibleBG: rgba(0, 0 ,0, 0.0); --greenBG: #588c4c; --yellowBG: #b89c3c; --darkGreyBG: #403c3c; --lightGreyBG: #888484; --uncheckedKey: #fff; --checkedKey: #fff; --white: #fff;}";
+    stylesheet.textContent = ":root { --fontColor: #fff; --oppositeFont: #000; --colorBG: #000; --oppositeBG: #fff; --secondFontColor: #888484; --offsetColorBG: #141414; --tileBorderColor: 2px solid rgba(60, 60 ,60, 0.6); --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75); --chartBarColor: rgba(70, 70, 70, 0.8); --invisibleBG: rgba(0, 0 ,0, 0.0); --greenBG: #588c4c; --yellowBG: #b89c3c; --darkGreyBG: #403c3c; --lightGreyBG: #888484; --shadowGrey: rgba(0, 0, 0, 0); --opaqueBG: rgba(0, 0, 0, 0.5); --uncheckedKey: #fff; --checkedKey: #fff; --white: #fff; --black: #000;}";
   }
 
   // Function to get currentRow stored value upon page load if it isnt expired
@@ -1086,20 +1096,13 @@ export default class Game {
   }
 
 
-
   // Add ETFs to validTickers
 
+  // Change most click lsiteners to add and remove classes rather than toggle
 
+  // Fix scoreboard and settings parent element being moved to the right and messing up scroll etc
 
-
-
-
-
-
-
-
-
-
+  // Color settings checkboxes
 
 
 }

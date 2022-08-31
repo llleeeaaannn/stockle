@@ -53,13 +53,18 @@ table {
   --offsetColorBG: #141414;
   --tileBorderColor: 2px solid rgba(60, 60 ,60, 0.6);
   --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75);
+  --chartBarColor: rgba(70, 70, 70, 0.8);
   --invisibleBG: rgba(0, 0 ,0, 0.0);
   --greenBG: #588c4c;
   --yellowBG: #b89c3c;
   --darkGreyBG: #403c3c;
   --lightGreyBG: #888484;
+	--shadowGrey: rgba(0, 0, 0, 0);
+  --opaqueBG: rgba(0, 0, 0, 0.5);
   --uncheckedKey: #fff;
   --checkedKey: #fff;
+  --white: #fff;
+  --black: #000;
 } */
 
 .lightroot {
@@ -71,13 +76,18 @@ table {
   --offsetColorBG: #fff;
   --tileBorderColor: 2px solid rgba(83, 83, 91, 0.3);
   --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75);
+  --chartBarColor: rgba(70, 70, 70, 0.8);
   --invisibleBG: rgba(0, 0 ,0, 0.0);
   --greenBG: #588c4c;
   --yellowBG: #b89c3c;
   --darkGreyBG: #403c3c;
   --lightGreyBG: #d8d4dc;
+	--shaodwGrey: rgba(200, 200, 200, 0.4);
+  --opaqueBG: rgba(255, 255, 255, 0.5);
   --uncheckedKey: #000;
   --checkedKey: #fff;
+  --white: #fff;
+  --black: #000;
 }
 
 /* General body styling */
@@ -364,7 +374,7 @@ svg {
   opacity: 0.0;
   position: absolute;
   top: 15px;
-  z-index: 3;
+  z-index: 100;
 }
 
 .popup-hide {
@@ -375,95 +385,51 @@ svg {
   color: var(--oppositeFont);
 }
 
-
-/* Dropdown Menu Positioning and General Sizing Styling */
-#dropdown-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 300px;
-  height: 93vh;
-  position: absolute;
-  top: 7vh;
-  left: 0px;
-  z-index: 1;
-  border-right: 1px solid rgba(60, 60 ,60, 0.5);
-  background-color: var(--colorBG);
-}
-
-.dropdown-hide {
-  display: none !important;
-}
-
-#dropdown-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-#dropdown-list {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-#dropdown-footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  margin-top: auto;
-  border-top: 2px white solid;
-}
-
-
-/* Dropdown Menu Specific Styling */
-#dropdown-header button {
-  border: 0px;
-  margin: 10px;
-  cursor: pointer;
-  background-color: var(--invisibleBG);
-  color: var(--fontColor);
-}
-
-#dropdown-header h1 {
-  margin: 10px;
-}
-
-#dropdown-list p {
-  margin: 10px;
-}
-
-#dropdown-list a {
-  margin: 5px 0px 5px 10px;
-}
-
-#dropdown-footer h3 {
-  margin: 10px;
-}
-
 /* Scoreboard Container */
 #scoreboard {
-  position: absolute;
-  left: 50%;
-  top: 25%;
-  padding: 15px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100vw;
+	z-index: 2;
+	background-color: var(--opaqueBG);
+}
+
+#scoreboard.scoreboard-hide {
+	display: none;
 }
 
 #scoreboard-container {
+	position: relative;
   display: flex;
   flex-direction: column;
   position: relative;
-  left: -50%;
-  top: -50%;
-  align-items: center;
+	align-items: center;
+	padding: 1rem;
+  border-radius: 0.5rem;
   background-color: var(--offsetColorBG);
-  border: 0.5px solid rgba(60, 60 , 60, 0.5);
-  border-radius: 5px;
+	box-shadow: 0rem 0rem 1rem 0.5rem var(--shadowGrey);
+}
+
+#close-scoreboard-button {
+	position: absolute;
+	right: 0.5rem;
+	top: 0.5rem;
+	height: 1rem;
+	width: 1rem;
+	margin: 0rem;
+	cursor: pointer;
 }
 
 #scores-container {
   display: flex;
   flex-direction: row;
+	margin: 1rem 0rem;
 }
 
 #scores-container div {
@@ -474,21 +440,11 @@ svg {
   padding: 3px;
 }
 
-#scoreboard-container button {
-  align-self: flex-end;
-  border: 0px;
-  cursor: pointer;
-  margin-right: 5px;
-  margin-top: 5px;
-  background-color: var(--invisibleBG);
-  color: var(--fontColor);
-}
-
 #scoreboard-container h3 {
-  font-size: 15px;
-  margin-top: -5px;
+	margin-top: 1rem;
 }
 
+#scoreboard-container h3,
 #scoreboard-container h4 {
   font-size: 15px;
 }
@@ -503,19 +459,22 @@ svg {
   font-weight: 300;
 }
 
-.scoreboard-hide {
-  display: none !important;
-}
-
 /* Scoreboard Chart Styling */
-
 #chart-score-container {
   width: 80%;
   margin: 5px;
 }
 
 #chart-score-container span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   margin-right: 10px;
+  color: var(--fontColor);
+}
+
+#chart-score-container > div > div.green-bar {
+  background-color: var(--greenBG);
 }
 
 #chart-one,
@@ -531,34 +490,30 @@ svg {
   align-items: center;
 }
 
-#bar-chart-one,
-#bar-chart-two,
-#bar-chart-three,
-#bar-chart-four,
-#bar-chart-five,
-#bar-chart-six {
-  min-width: 12%;
-  background-color: rgba(71, 71, 71, 1.0);
+#bar-chart-1,
+#bar-chart-2,
+#bar-chart-3,
+#bar-chart-4,
+#bar-chart-5,
+#bar-chart-6 {
+  min-width: 10%;
+  background-color: var(--chartBarColor);
   padding: 2px;
 }
 
-#bar-chart-four {
-  background-color: var(--greenBG);
-}
-
 #chart-score-container p {
+  color: var(--white);
   float: right;
   margin-right: 3px;
   margin-left: 3px;
 }
-
 
 /* Styling for clock & share container */
 #clock-share-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 20px;
+	margin: 1rem 0rem;
 }
 
 .hide-clock-share {
@@ -567,13 +522,16 @@ svg {
 
 /* Styling for countdown clock */
 #countdown-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 170px;
   margin: 10px 25px;
 }
 
 #countdown-container h5 {
-  text-align: center;
   font-size: 15px;
+	margin-bottom: 0.25rem;
 }
 
 #countdown-container span {
@@ -587,6 +545,7 @@ svg {
 }
 
 #share-container button {
+  color: var(--white);
   background-color: var(--greenBG);
   border: 0px;
   border-radius: 5px;
@@ -595,33 +554,48 @@ svg {
   font-size: 25px;
 }
 
-.copypaste-hide {
-  display: none !important;
-}
-
-
 /* Settings Styling */
 #settings-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2;
-  background-color: var(--colorBG);
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100vw;
+	z-index: 2;
+	background-color: var(--opaqueBG);
 }
 
-.settings-hide {
-  display: none !important;
+#settings-container.hide {
+	display: none;
+}
+
+#settings-container.settings-hide {
+  display: none;
 }
 
 #settings-inner-container {
+	position: relative;
   display: flex;
   flex-direction: column;
-  width: 500px;
-  height: 100%;
+	align-items: center;
+	width: 400px;
+	border-radius: 0.5rem;
+	background-color: var(--offsetColorBG);
+	box-shadow: 0rem 0rem 1rem 0.5rem var(--shadowGrey);
+}
+
+#close-settings-button {
+	position: absolute;
+	right: 0.5rem;
+	top: 0.5rem;
+	height: 1rem;
+	width: 1rem;
+	margin: 0rem;
+	cursor: pointer;
 }
 
 #settings-header,
@@ -635,34 +609,29 @@ svg {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 15px 0px;
+	align-items: center;
+	width: 90%;
+  padding: 1rem 0rem;
   border-bottom: 1.5px solid rgba(60, 60 ,60, 0.5);
+}
+
+#settings-header {
+	justify-content: center;
+}
+
+#settings-footer,
+#settings-header {
+  border: none;
+}
+
+#settings-inner-container input[type="checkbox"] {
+	accent-color: var(--greenBG);
 }
 
 .settings-extra-text {
   display: flex;
   flex-direction: column;
 }
-
-#settings-footer,
-#settings-header {
-  border: 0px;
-}
-
-#settings-footer {
-  margin-top: auto;
-}
-
-#settings-header {
-  justify-content: space-between;
-  padding: 10px 0px;
-}
-
-#settings-header #hidden-button {
-  visibility: hidden;
-}
-
-
 
 /* Settings text styling */
 #settings-container h3 {
@@ -681,89 +650,10 @@ svg {
 #settings-container a {
   color: var(--secondFontColor);
   font-size: 14px;
+	text-decoration: none;
 }
 
 #settings-header button {
-  border: 0px;
-  cursor: pointer;
-  background-color: var(--invisibleBG);
-  color: var(--fontColor);
-}
-
-
-/* Help Styling */
-#help-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2;
-  background-color: var(--colorBG);
-}
-
-.help-hide {
-  display: none !important;
-}
-
-#help-inner-container {
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  height: 100%;
-}
-
-#help-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 10px 0px;
-}
-
-.hidden-help-button {
-  visibility: hidden;
-}
-
-#help-instructions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 15px 0px;
-  border-bottom: 1.5px solid rgba(60, 60 ,60, 0.5);
-}
-
-#help-examples {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 15px 0px;
-  border-bottom: 1.5px solid rgba(60, 60 ,60, 0.5);
-}
-
-#help-footer {
-  padding: 10px 0px;
-}
-
-#help-container h3 {
-  font-size: 19px;
-}
-
-#help-container h6 {
-  font-size: 14px;
-}
-
-#help-container p {
-  font-size: 14px;
-  margin: 7px 0px;
-}
-
-#help-container img {
-  margin: 20px 0px 10px 0px;
-}
-
-#help-header button {
   border: 0px;
   cursor: pointer;
   background-color: var(--invisibleBG);
