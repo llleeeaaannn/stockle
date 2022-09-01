@@ -90,6 +90,22 @@ table {
   --black: #000;
 }
 
+/* Root Styling */
+:root {
+
+}
+
+/* Fonts */
+@font-face {
+  font-family: NeueHelveticaBQ;
+  src: url("NeueHelveticaBQ-Bold.woff2") format("woff");
+}
+
+@font-face {
+  font-family: NYTKarnak;
+  src: url("NYTKarnak-Text.woff2") format("woff");
+}
+
 /* General body styling */
 * {
   margin: 0px;
@@ -102,10 +118,12 @@ table {
 body {
   background-color: var(--colorBG);
   color: var(--fontColor);
+	font-family: 'NeueHelveticaBQ', sans-serif;
 }
 
 button {
   cursor: pointer;
+	font-family: 'NeueHelveticaBQ', sans-serif;
 }
 
 /* Containers styling for flexbox and sizing */
@@ -140,8 +158,9 @@ button {
 
 /* Styling for header */
 #header-container h1 {
-	font-size: 1.5rem;
-	cursor: pointer;
+	font-size: 2rem;
+	font-family: NYTKarnak;
+	letter-spacing: 0.2rem;
 }
 
 /* SVG Icon Styling */
@@ -393,7 +412,8 @@ button.lightgrey-color-key {
   flex-direction: column;
   position: relative;
 	align-items: center;
-	padding: 1rem;
+	min-width: 400px;
+	padding: 0.8rem;
   border-radius: 0.5rem;
   background-color: var(--offsetColorBG);
 	box-shadow: 0rem 0rem 1rem 0.5rem var(--shadowGrey);
@@ -423,13 +443,17 @@ button.lightgrey-color-key {
   padding: 3px;
 }
 
-#scoreboard-container h3 {
-	margin-top: 1rem;
+#scores-container > div :first-child {
+	margin-bottom: 0.2rem;
 }
 
-#scoreboard-container h3,
+#scoreboard-container h3 {
+	margin-top: 1rem;
+	font-size: 24px;
+}
+
 #scoreboard-container h4 {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 #scores-container .value {
@@ -479,7 +503,7 @@ button.lightgrey-color-key {
 #bar-chart-4,
 #bar-chart-5,
 #bar-chart-6 {
-  min-width: 10%;
+  min-width: 8%;
   background-color: var(--chartBarColor);
   padding: 2px;
 }
@@ -499,8 +523,12 @@ button.lightgrey-color-key {
 	margin: 1rem 0rem;
 }
 
-.hide-clock-share {
-  display: none !important;
+#clock-share-container.hide-clock-share {
+  display: none;
+}
+
+#scoreboard-share-button {
+	font-family: 'NeueHelveticaBQ', sans-serif;
 }
 
 /* Styling for countdown clock */

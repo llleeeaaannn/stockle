@@ -1,7 +1,7 @@
 import './style.css';
 import Day from './day.mjs';
 import Storage from './storage.mjs';
-import { keysArray, validLetters, colorKeys } from './variables.mjs';
+import { keysArray, validLetters, colorKeys, darkStyle, darkContrastStyle, lightStyle, lightContrastStyle } from './variables.mjs';
 import { validAnswers, validTickers, validTickers2, validTickers3, validTickers4, validTickers5 } from './tickers.mjs';
 
 export default class Game {
@@ -14,6 +14,7 @@ export default class Game {
     this.gameOver = false;
     this.hardMode = false;
     this.darkTheme = true;
+    this.contrastTheme = false;
     this.currentRow = 0;
     this.currentTile = 0;
     this.greenLetters = [];
@@ -37,6 +38,7 @@ export default class Game {
     this.makeKeyboardKeys();
     this.makePopUp();
     this.displayCountdown();
+    this.populateWordleNumber()
   }
 
   addListeners() {
@@ -47,6 +49,7 @@ export default class Game {
     this.settingsButtonListener();
     this.switchHardModeListener();
     this.lightDarkThemeListener();
+    this.contrastThemeListener();
   }
 
   // On page load, do the following to set variables as those stored locally:
@@ -55,8 +58,10 @@ export default class Game {
     this.getStoredGameOver();
     this.getStoredHardMode();
     this.getStoredDarkTheme();
+    this.getStoredContrastTheme();
     this.getStoredCurrentRow();
     this.getStoredCurrentTile();
+    this.getStoredLastWinRow();
     this.verifyStoredGuess();
   }
 
@@ -209,6 +214,7 @@ export default class Game {
       this.jump();
       this.saveGuess();
       this.copyResults();
+      this.storeLastWinRow();
       setTimeout(() => {
         this.togglePopUp()
       }, 3500)
@@ -276,6 +282,7 @@ export default class Game {
       this.jump();
       this.saveGuess();
       this.copyResults();
+      this.storeLastWinRow();
       setTimeout( () => {
         this.togglePopUp()
       }, 3500)
@@ -605,24 +612,6 @@ export default class Game {
 
   }
 
-  // Function to make pop up message to appear temporarily
-  togglePopUp() {
-    let popUpMessage = document.getElementById('popup');
-    popUpMessage.classList.toggle('popup-hide');
-    setTimeout(() => {
-      popUpMessage.classList.toggle('popup-hide');
-    }, 1000 );
-  }
-
-  // Function to make pop up message to appear temporarily but for longer
-  togglePopUpLong() {
-    let popUpMessage = document.getElementById('popup');
-    popUpMessage.classList.toggle('popup-hide');
-    setTimeout(() => {
-      popUpMessage.classList.toggle('popup-hide');
-    }, 2000 );
-  }
-
   // Function to set gameWon along with date
   setGameWon(value) {
     this.gameWon = value;
@@ -708,13 +697,33 @@ export default class Game {
     localStorage.setItem(row, currentScore);
   }
 
-  makeWinRowGreen() {
+  // Function to make the row won on green in stats bar chart. Its winRow is either passed in from localStorage upon page load or is currentRow upon win
+  makeWinRowGreen(winRow = this.currentRow) {
     for (let i = 1; i < 7; i++) {
       let bar = document.getElementById(`bar-chart-` + i);
       bar.classList.remove('green-bar');
     }
-    let bar = document.getElementById(`bar-chart-${this.currentRow + 1}`);
+    let bar = document.getElementById(`bar-chart-${winRow + 1}`);
     bar.classList.add('green-bar');
+  }
+
+  // Function to store the row that the game was won on in localStorage
+  storeLastWinRow() {
+    let storedLastWinRow = {
+      value: this.currentRow,
+      expiry: this.getNowZeroTime()
+    }
+    localStorage.setItem('LastWinRow', JSON.stringify(storedLastWinRow));
+  }
+
+  // Function to get lastWinRow stored value upon page load if it isnt expired and call makeWinRowGreen
+  getStoredLastWinRow() {
+    let now = this.getNowZeroTime();
+    let storedLastWinRow = JSON.parse(localStorage.getItem('LastWinRow'));
+    if (storedLastWinRow === null) return;
+    if (storedLastWinRow.expiry !== now) return;
+    let winRow = Number(storedLastWinRow.value);
+    this.makeWinRowGreen(winRow)
   }
 
   // Function to update stats upon win
@@ -860,6 +869,12 @@ export default class Game {
     barSix.innerHTML = `<p>${barChartSix}</p>`
   }
 
+  // Code to populate wordle number at bottom right of settings
+  populateWordleNumber() {
+    let wordleNumberParagraph = document.getElementById('wordle-number');
+    wordleNumberParagraph.textContent = `#${this.wordleNumber()}`;
+  }
+
   // Function to return the position of earliest missing green letter for hard mode in necessary vocab (1st, 2nd...)
   greenMissingPosition() {
     switch(this.missingGreenLetter[0].position) {
@@ -977,7 +992,7 @@ export default class Game {
     setInterval(function() { that.makeCountdown() }, 1000);
   }
 
-  // Function to get stored theme, apply it and set checkbox to match it
+  // Function to get stored Darktheme, apply it and set checkbox to match it
   getStoredDarkTheme() {
     let theme = localStorage.getItem('theme');
     if (theme === null) return;
@@ -990,6 +1005,21 @@ export default class Game {
   checkThemeCheckbox() {
     let lightDarkThemeCheckbox = document.getElementById('dark-theme-checkbox');
     lightDarkThemeCheckbox.checked = this.darkTheme;
+  }
+
+  // Function to get stored contrastTheme, apply it and set checkbox to match it
+  getStoredContrastTheme() {
+    let contrast = localStorage.getItem('contrast');
+    if (contrast === null) return;
+    this.contrastTheme = (contrast === 'true');
+    this.contrastTheme ? this.addContrast() : this.removeContrast();
+    this.checkContrastCheckbox();
+  }
+
+  // Function to set contrast checkbox
+  checkContrastCheckbox() {
+    let contrastThemeCheckbox = document.getElementById('contrast-theme-checkbox');
+    contrastThemeCheckbox.checked = this.contrastTheme;
   }
 
   // Code to change set darkTheme and change theme when switch is clicked
@@ -1008,22 +1038,72 @@ export default class Game {
     })
   }
 
+  // Code to change set contrastTheme and change theme when switch is clicked
+  contrastThemeListener() {
+    let that = this;
+    let contrastThemeSwitch = document.getElementById('contrast-switch');
+    let contrastThemeCheckbox = document.getElementById('contrast-theme-checkbox');
+    contrastThemeSwitch.addEventListener('click', () => {
+      if (contrastThemeCheckbox.checked) {
+        that.setContrastTheme(true);
+        that.addContrast();
+      } else {
+        that.setContrastTheme(false);
+        that.removeContrast();
+      }
+    })
+  }
+
   // Function to set and store darkTheme
   setDarkTheme(value) {
     this.darkTheme = value;
     localStorage.setItem('theme', value)
   }
 
+  // Function to set and store contrastTheme
+  setContrastTheme(value) {
+    this.contrastTheme = value;
+    localStorage.setItem('contrast', value)
+  }
+
   // Function to apply light theme
   makeLight() {
-    let stylesheet = document.getElementById('rootStylesheet')
-    stylesheet.textContent = ":root { --fontColor: #000; --oppositeFont: #fff; --colorBG: #fff; --oppositeBG: #000; --secondFontColor: #888484; --offsetColorBG: #fff; --tileBorderColor: 2px solid rgba(83, 83, 91, 0.3); --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75); --chartBarColor: rgba(70, 70, 70, 0.8); --invisibleBG: rgba(0, 0 ,0, 0.0); --greenBG: #588c4c; --yellowBG: #b89c3c; --darkGreyBG: #403c3c; --lightGreyBG: #d8d4dc; --shadowGrey: rgba(200, 200, 200, 0.4); --opaqueBG: rgba(255, 255, 255, 0.5); --uncheckedKey: #000; --checkedKey: #fff; --white: #fff; --black: #000;}";
+    let stylesheet = document.getElementById('rootStylesheet');
+    if (this.contrastTheme) {
+      stylesheet.textContent = lightContrastStyle;
+    } else {
+      stylesheet.textContent = lightStyle;
+    }
   }
 
   // Function to apply dark theme
   makeDark() {
-    let stylesheet = document.getElementById('rootStylesheet')
-    stylesheet.textContent = ":root { --fontColor: #fff; --oppositeFont: #000; --colorBG: #000; --oppositeBG: #fff; --secondFontColor: #888484; --offsetColorBG: #141414; --tileBorderColor: 2px solid rgba(60, 60 ,60, 0.6); --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75); --chartBarColor: rgba(70, 70, 70, 0.8); --invisibleBG: rgba(0, 0 ,0, 0.0); --greenBG: #588c4c; --yellowBG: #b89c3c; --darkGreyBG: #403c3c; --lightGreyBG: #888484; --shadowGrey: rgba(0, 0, 0, 0); --opaqueBG: rgba(0, 0, 0, 0.5); --uncheckedKey: #fff; --checkedKey: #fff; --white: #fff; --black: #000;}";
+    let stylesheet = document.getElementById('rootStylesheet');
+    if (this.contrastTheme) {
+      stylesheet.textContent = darkContrastStyle;
+    } else {
+      stylesheet.textContent = darkStyle;
+    }
+  }
+
+  // Function to apply contrast theme
+  addContrast() {
+    let stylesheet = document.getElementById('rootStylesheet');
+    if (this.darkTheme) {
+      stylesheet.textContent = darkContrastStyle;
+    } else {
+      stylesheet.textContent = lightContrastStyle;
+    }
+  }
+
+  // Function to apply contrast theme
+  removeContrast() {
+    let stylesheet = document.getElementById('rootStylesheet');
+    if (this.darkTheme) {
+      stylesheet.textContent = darkStyle;
+    } else {
+      stylesheet.textContent = lightStyle;
+    }
   }
 
   // Function to get currentRow stored value upon page load if it isnt expired
@@ -1119,6 +1199,8 @@ export default class Game {
 
 
   // Add ETFs to validTickers
+
+  // Make keys coloured when page is reloaded
 
   // Fix CSS so it doesnt use !important and uses first child etc and uses less IDs
 
