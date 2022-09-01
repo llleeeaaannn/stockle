@@ -110,32 +110,32 @@ button {
 
 /* Containers styling for flexbox and sizing */
 #container {
-  height: 95vh;
-  display: flex;
+	position: relative;
+	display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  position: relative;
+  height: 95vh;
 }
 
 #header-container {
-  width: 100vw;
-  height: 7vh;
-  display: flex;
+	display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+	height: 7vh;
+  width: 100vw;
   border-bottom: 1px solid rgba(60, 60 ,60, 0.5);
 }
 
 #tile-container {
   position: relative;
-  width: 500px;
-  display: flex;
+	display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 0px;
+  width: 500px;
+  border: none;
 }
 
 /* Styling for header */
@@ -143,7 +143,6 @@ button {
 	font-size: 1.5rem;
 	cursor: pointer;
 }
-
 
 /* SVG Icon Styling */
 svg {
@@ -182,7 +181,7 @@ svg {
 #tile-container div {
   display: flex;
   flex-direction: row;
-  border: 0px;
+  border: none;
 }
 
 /* Styling for each tile */
@@ -191,10 +190,10 @@ svg {
   justify-content: center;
   align-items: center;
   font-size: 30px;
-  border: var(--tileBorderColor);
-  margin: 2px;
-  min-width: 62.5px;
+	min-width: 62.5px;
   min-height: 62.5px;
+  margin: 2px;
+	border: var(--tileBorderColor);
 }
 
 /* Styling to change tile border colour when selected */
@@ -250,7 +249,6 @@ svg {
   animation: jump 0.6s;
 }
 
-
 /* Keyboard Styling */
 #keyboard-container {
   height: 170px;
@@ -275,67 +273,63 @@ svg {
 }
 
 /* Adding margin to second row of keyboard to account for space on each side */
-#A {
-  margin-left: 22px !important;
+#keyboard-row1 :first-child {
+	margin-left: 22px;
 }
 
-#L {
-  margin-right: 22px !important;
+#keyboard-row1 :last-child {
+	margin-right: 22px;
 }
 
 /* Increasing size of 'Enter' and 'Back' keys on keyboard */
-#ENTER,
-#BACK {
-  flex: 1.5 !important;
+#keyboard-row2 :first-child,
+#keyboard-row2 :last-child {
+  flex: 1.5;
 }
 
 /* Colouring tiles*/
-.green-color {
+#tile-container div.green-color {
   background-color: var(--greenBG);
   color: var(--white);
-  border: 0px !important;
+  border: none;
 }
 
-.yellow-color {
+#tile-container div.yellow-color {
   background-color: var(--yellowBG);
   color: var(--white);
-  border: 0px !important;
+  border: none;
 }
 
-.darkgrey-color {
+#tile-container div.darkgrey-color {
   background-color: var(--darkGreyBG);
   color: var(--white);
-  border: 0px !important;
+  border: none;
 }
 
-.lightgrey-color {
+#tile-container div.lightgrey-color {
   background-color: var(--lightGreyBG)
 }
 
 /* Colouring keys */
-.green-color-key {
+button.green-color-key {
   background-color: var(--greenBG);
   color: var(--checkedKey);
-  border: 0px !important;
 }
 
-.yellow-color-key {
+button.yellow-color-key {
   background-color: var(--yellowBG);
   color: var(--checkedKey);
-  border: 0px !important;
 }
 
-.darkgrey-color-key {
+button.darkgrey-color-key {
   background-color: var(--darkGreyBG);
   color: var(--checkedKey);
-  border: 0px !important;
 }
 
-.lightgrey-color-key {
+button.lightgrey-color-key {
   background-color: var(--lightGreyBG);
   color: var(--uncheckedKey);
 }
-
 
 /* Make tiles flip */
 .flip {
@@ -356,25 +350,22 @@ svg {
 
 /* Style for pop-up message */
 #popup {
+	position: absolute;
+	top: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   height: auto;
   padding: 20px;
   border-radius: 5px;
+	color: var(--oppositeFont);
   background-color: var(--oppositeBG);
-  opacity: 0.0;
-  position: absolute;
-  top: 15px;
+	opacity: 0;
   z-index: 100;
 }
 
-.popup-hide {
-  opacity: 1.0 !important;
-}
-
-#popup p {
-  color: var(--oppositeFont);
+#popup.popup-hide {
+  opacity: 1.0;
 }
 
 /* Scoreboard Container */
