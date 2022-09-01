@@ -108,7 +108,6 @@ button {
   cursor: pointer;
 }
 
-
 /* Containers styling for flexbox and sizing */
 #container {
   height: 95vh;
@@ -139,16 +138,12 @@ button {
   border: 0px;
 }
 
-/* Styling for header (mainly flexbox) */
-#scoreboard-button {
-  stroke-width: 4;
-  stroke-linejoin: miter;
-  stroke-linecap: butt;
+/* Styling for header */
+#header-container h1 {
+	font-size: 1.5rem;
+	cursor: pointer;
 }
 
-#help-button {
-  margin-right: auto;
-}
 
 /* SVG Icon Styling */
 svg {
@@ -167,8 +162,8 @@ svg {
   stroke-width: 4;
 }
 
-#help-icon {
-  stroke-width: 10;
+#scoreboard-button {
+  stroke-width: 4;
   stroke-linejoin: miter;
   stroke-linecap: butt;
 }
@@ -358,9 +353,6 @@ svg {
         transform: rotateX(0deg);
     }
 }
-
-
-
 
 /* Style for pop-up message */
 #popup {
@@ -626,6 +618,7 @@ svg {
 
 #settings-inner-container input[type="checkbox"] {
 	accent-color: var(--greenBG);
+	cursor: pointer;
 }
 
 .settings-extra-text {

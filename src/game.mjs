@@ -7,7 +7,9 @@ import { validAnswers, validTickers, validTickers2, validTickers3, validTickers4
 export default class Game {
 
   constructor() {
-    this.wordle = 'AMD';
+    this.day = this.wordleNumber();
+    this.wordle = validAnswers[this.day];
+    this.l = this.wordle.length;
     this.gameWon = false;
     this.gameOver = false;
     this.hardMode = false;
@@ -19,14 +21,13 @@ export default class Game {
     this.missingGreenLetter = [];
     this.missingYellowLetter = [];
     this.emojiCopyPaste = "";
-    this.guesses = [
-      ['', '', ''],
-      ['', '', ''],
-      ['', '', ''],
-      ['', '', ''],
-      ['', '', ''],
-      ['', '', '']
-    ];
+    this.guesses = this.makeGuessesArray(this.l)
+  }
+
+  play() {
+    this.createUI();
+    this.addListeners();
+    this.loadLocalStorage()
   }
 
   createUI() {
@@ -73,7 +74,7 @@ export default class Game {
   makeTiles() {
     for (let i = 0; i < 6; i++) {
       let rowContainer = document.getElementById('row' + i);
-      for (let x = 0; x < 3; x++) {
+      for (let x = 0; x < this.l; x++) {
         let addTile = document.createElement('div');
         addTile.setAttribute('id', 'row' + i + 'tile' + x);
         rowContainer.appendChild(addTile);
@@ -116,6 +117,15 @@ export default class Game {
     popUpContainer.appendChild(popUp);
   }
 
+  // Function to create guesses array
+  makeGuessesArray(length) {
+    let array = [];
+    for (let i = 0; i < 6; i++) {
+      array.push(Array(length).fill(''))
+    }
+    return array;
+  }
+
   // Function to handle key onscreen keyboard being clicked
   click(letter) {
     if (this.gameOver) return;
@@ -153,7 +163,7 @@ export default class Game {
   addLetter(letter) {
     let currentTile = this.currentTile;
     let currentRow = this.currentRow;
-    if (currentRow < 6 && currentTile < 3) {
+    if (currentRow < 6 && currentTile < this.l) {
       this.guesses[currentRow][currentTile] = letter;
       this.renderTile(letter, currentRow, currentTile)
       this.addToCurrentTile();
@@ -177,7 +187,7 @@ export default class Game {
     let currentTile = this.currentTile;
     let currentGuess = this.guesses[currentRow].join('').toUpperCase();
 
-    if (currentTile < 3) {
+    if (currentTile < this.l) {
       this.setPopUpMessage('Not enough letters');
       this.invalidAnswerDisplay();
       return;
@@ -208,7 +218,7 @@ export default class Game {
       return;
     }
 
-    if (currentTile === 3 && currentRow > 4) {
+    if (currentTile === this.l && currentRow > 4) {
       this.setGameOver(true);
       this.disableHardmodeCheckbox();
       this.updateStatsOnLoss();
@@ -237,7 +247,7 @@ export default class Game {
     let currentTile = this.currentTile;
     let currentGuess = this.guesses[currentRow].join('').toUpperCase();
 
-    if (currentTile < 3) {
+    if (currentTile < this.l) {
       this.setPopUpMessage('Not enough letters');
       this.invalidAnswerDisplay();
       return;
@@ -275,7 +285,7 @@ export default class Game {
       return;
     }
 
-    if (currentTile === 3 && currentRow > 4) {
+    if (currentTile === this.l && currentRow > 4) {
       this.setGameOver(true);
       this.disableHardmodeCheckbox();
       this.updateStatsOnLoss();
@@ -568,18 +578,30 @@ export default class Game {
       let tileElement = document.getElementById('row' + row + 'tile' + tile);
       tileElement.classList.toggle('jump');
     }
-
+    if (this.l <= 0) return;
     setTimeout(() => {
       jumpArg(0, currentRow);
     }, 2000)
 
+    if (this.l <= 1) return;
     setTimeout(() => {
       jumpArg(1, currentRow);
     }, 2300)
 
+    if (this.l <= 2) return;
     setTimeout(() => {
       jumpArg(2, currentRow);
     }, 2600)
+
+    if (this.l <= 3) return;
+    setTimeout(() => {
+      jumpArg(3, currentRow);
+    }, 2900)
+
+    if (this.l <= 4) return;
+    setTimeout(() => {
+      jumpArg(4, currentRow);
+    }, 3200)
 
   }
 
@@ -865,7 +887,7 @@ export default class Game {
     let milliSince1970 = today.getTime();
     let milliPerDay = 86400000;
     let daysSince1970 = Math.floor(milliSince1970/milliPerDay);
-    let dailyDate = daysSince1970 - 19227 + 0;
+    let dailyDate = daysSince1970 - 19236 + 0;
     return dailyDate;
   }
 
@@ -1057,7 +1079,7 @@ export default class Game {
   verifyStoredGuess() {
     let now = this.getNowZeroTime();
     for (let row = 0; row < 6; row++) {
-      for (let tile = 0; tile < 3; tile++) {
+      for (let tile = 0; tile < this.l; tile++) {
         let thisTile = 'row' + row + 'tile' + tile;
         if (localStorage.getItem(thisTile) === null) {
           this.setCurrentRow(row);
@@ -1098,11 +1120,12 @@ export default class Game {
 
   // Add ETFs to validTickers
 
-  // Change most click lsiteners to add and remove classes rather than toggle
+  // Fix CSS so it doesnt use !important and uses first child etc and uses less IDs
 
-  // Fix scoreboard and settings parent element being moved to the right and messing up scroll etc
+  // Comment all javascript functions
 
-  // Color settings checkboxes
+
+
 
 
 }
