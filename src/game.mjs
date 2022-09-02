@@ -1219,7 +1219,7 @@ export default class Game {
 
   // Add fluid font sizes maybe or would it wreck stuff (if not add standardised font sizes ie. --fs-small: 1rem)
 
-  // Change all sizing to rem instead of pixels
+  // Change all sizing to rem instead of pixels or EM
 
   // Figure out a way to make keyboard keys divs instead of buttons
 
