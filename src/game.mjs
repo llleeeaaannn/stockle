@@ -2,7 +2,7 @@ import './style.css';
 import Day from './day.mjs';
 import Storage from './storage.mjs';
 import { keysArray, validLetters, colorKeys, darkStyle, darkContrastStyle, lightStyle, lightContrastStyle } from './variables.mjs';
-import { validAnswers, validTickers, validTickers2, validTickers3, validTickers4, validTickers5 } from './tickers.mjs';
+import { validAnswers, validTickers } from './tickers.mjs';
 
 export default class Game {
 
@@ -105,8 +105,10 @@ export default class Game {
     keysArray.forEach((array, index) => {
       let keyboardRow = document.getElementById('keyboard-row' + index);
       array.forEach((key) => {
-        let addKey = document.createElement('button');
-        addKey.textContent = key;
+        let addKey = document.createElement('div');
+        let letter = document.createElement('span');
+        letter.textContent = key;
+        addKey.appendChild(letter);
         addKey.setAttribute('data-key', key);
         addKey.setAttribute('id', key);
         addKey.classList.add('lightgrey-color-key');

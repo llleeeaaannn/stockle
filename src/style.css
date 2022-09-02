@@ -223,7 +223,7 @@ svg {
   width: 450px;
 }
 
-#keyboard-container div {
+#keyboard-container > div {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -232,20 +232,27 @@ svg {
   height: 33%;
 }
 
-#keyboard-container div button {
+#keyboard-container > div > div {
+	display: grid;
+	place-items: center;
   flex: 1;
-  border-radius: 5px;
-  border: 0px;
   margin-left: 2px;
   margin-right: 2px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+#keyboard-container span {
+	cursor: pointer;
 }
 
 /* Adding margin to second row of keyboard to account for space on each side */
-#keyboard-row1 :first-child {
+#keyboard-row1 :first-child#A {
 	margin-left: 22px;
 }
 
-#keyboard-row1 :last-child {
+#keyboard-row1 :last-child#L {
 	margin-right: 22px;
 }
 
@@ -279,22 +286,22 @@ svg {
 }
 
 /* Colouring keys */
-button.green-color-key {
+div.green-color-key {
   background-color: var(--greenBG);
   color: var(--checkedKey);
 }
 
-button.yellow-color-key {
+div.yellow-color-key {
   background-color: var(--yellowBG);
   color: var(--checkedKey);
 }
 
-button.darkgrey-color-key {
+div.darkgrey-color-key {
   background-color: var(--darkGreyBG);
   color: var(--checkedKey);
 }
 
-button.lightgrey-color-key {
+div.lightgrey-color-key {
   background-color: var(--lightGreyBG);
   color: var(--uncheckedKey);
 }
