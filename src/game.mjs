@@ -10,6 +10,7 @@ export default class Game {
     this.day = this.wordleNumber();
     this.wordle = validAnswers[this.day];
     this.l = this.wordle.length;
+    this.guesses = this.makeGuessesArray(this.l)
     this.gameWon = false;
     this.gameOver = false;
     this.hardMode = false;
@@ -22,7 +23,6 @@ export default class Game {
     this.missingGreenLetter = [];
     this.missingYellowLetter = [];
     this.emojiCopyPaste = "";
-    this.guesses = this.makeGuessesArray(this.l)
   }
 
   play() {
@@ -31,6 +31,7 @@ export default class Game {
     this.loadLocalStorage()
   }
 
+  // On page load, do the following to set create UI
   createUI() {
     this.makeRows();
     this.makeTiles();
@@ -41,6 +42,7 @@ export default class Game {
     this.populateWordleNumber()
   }
 
+  // On page load, do the following to set event listeners
   addListeners() {
     this.keyPressListener();
     this.scoreboardButtonListener();
@@ -52,7 +54,7 @@ export default class Game {
     this.contrastThemeListener();
   }
 
-  // On page load, do the following to set variables as those stored locally:
+  // On page load, do the following to set variables as those stored locally
   loadLocalStorage() {
     this.getStoredGameWon();
     this.getStoredGameOver();
@@ -175,6 +177,7 @@ export default class Game {
     }
   }
 
+  // Function to remove a letter from the previous tile
   removeLetter() {
   let currentRow = this.currentRow;
   let currentTile = this.currentTile;
@@ -777,6 +780,7 @@ export default class Game {
     })
   }
 
+  // Function to set event listener for share button allowing wordle to be copied to clipboard
   shareButtonListener() {
     let that = this;
     let popUpMessage = document.getElementById('popup');
@@ -964,10 +968,10 @@ export default class Game {
       }
 
       this.emojiCopyPaste += '\n';
-      console.log(this.emojiCopyPaste);
     }
   }
 
+  // Function to create countdown clock for scoreboard
   makeCountdown() {
     let date = new Date();
     date.setDate(date.getDate() + 1)
@@ -987,6 +991,7 @@ export default class Game {
     }
   }
 
+  // Function to update and display the countdown every second
   displayCountdown() {
     let that = this;
     setInterval(function() { that.makeCountdown() }, 1000);
@@ -1155,7 +1160,7 @@ export default class Game {
     hardModeCheckbox.checked = this.hardMode;
   }
 
-  // Populate tiles and rows with stored guesses upon page load
+  // Populate tiles and rows with stored guesses and color keys upon page load
   verifyStoredGuess() {
     let now = this.getNowZeroTime();
     for (let row = 0; row < 6; row++) {
@@ -1184,12 +1189,22 @@ export default class Game {
         tileElement.setAttribute('data', letter);
         tileElement.classList.add(storedGuess.color);
 
+        let key = document.getElementById(letter);
+
         if (storedGuess.color === 'green-color') {
           this.greenLetters.push({letter: letter, position: tile});
+          key.className = 'green-color-key';
         }
 
         if (storedGuess.color === 'yellow-color') {
           this.yellowLetters.push(letter);
+          if (!(key.className === 'green-color-key')) {
+            key.className = 'yellow-color-key';
+          }
+        }
+
+        if (!(key.className === 'green-color-key') && !(key.className === 'yellow-color-key')) {
+          key.className = 'darkgrey-color-key';
         }
       }
       this.setCurrentRow(row + 1);
@@ -1200,11 +1215,13 @@ export default class Game {
 
   // Add ETFs to validTickers
 
-  // Make keys coloured when page is reloaded
+  // Reorganise all javascript functions
 
-  // Fix CSS so it doesnt use !important and uses first child etc and uses less IDs
+  // Add fluid font sizes maybe or would it wreck stuff (if not add standardised font sizes ie. --fs-small: 1rem)
 
-  // Comment all javascript functions
+  // Change all sizing to rem instead of pixels
+
+  // Figure out a way to make keyboard keys divs instead of buttons
 
 
 

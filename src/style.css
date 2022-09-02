@@ -44,7 +44,7 @@ table {
 }
 
 /* Color Themes */
-/* :root {
+/* Dark {
   --fontColor: #fff;
   --oppositeFont: #000;
   --colorBG: #000;
@@ -67,7 +67,7 @@ table {
   --black: #000;
 } */
 
-.lightroot {
+/* Light {
   --fontColor: #000;
   --oppositeFont: #fff;
   --colorBG: #fff;
@@ -82,17 +82,21 @@ table {
   --yellowBG: #b89c3c;
   --darkGreyBG: #403c3c;
   --lightGreyBG: #d8d4dc;
-	--shaodwGrey: rgba(200, 200, 200, 0.4);
+	--shadowGrey: rgba(200, 200, 200, 0.4);
   --opaqueBG: rgba(255, 255, 255, 0.5);
   --uncheckedKey: #000;
   --checkedKey: #fff;
   --white: #fff;
   --black: #000;
-}
+} */
+
+/* Contrast {
+	--greenBG: #88c4fc;
+	--yellowBG: #f87c3c;
+} */
 
 /* Root Styling */
 :root {
-
 }
 
 /* Fonts */
@@ -111,8 +115,6 @@ table {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  font-family: 'Lato', sans-serif;
-  font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -133,7 +135,7 @@ button {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 95vh;
+  height: 98vh;
 }
 
 #header-container {
@@ -175,14 +177,9 @@ svg {
   margin: 0px 20px;
 }
 
-#score-icon,
-#settings-icon {
+#score-icon {
   stroke-width: 4;
-}
-
-#scoreboard-button {
-  stroke-width: 4;
-  stroke-linejoin: miter;
+  stroke-linejoin: round;
   stroke-linecap: butt;
 }
 
@@ -218,54 +215,6 @@ svg {
 /* Styling to change tile border colour when selected */
 #tile-container .on-row {
   border: var(--tileOnRowBorderColor);
-}
-
-/* Styling to shake current row of divs when answer is not valid */
-@keyframes shake {
-  0% { transform: translate(-6px) }
-  10% { transform: translate(1px) }
-  20% { transform: translate(8px) }
-  30% { transform: translate(-2px) }
-  40% { transform: translate(8px) }
-  50% { transform: translate(0px) }
-  60% { transform: translate(8px) }
-  70% { transform: translate(-1px) }
-  80% { transform: translate(-8px) }
-  90% { transform: translate(0px) }
-  100% { transform: translate(6px) }
-}
-
-.shake {
-  animation: shake 0.5s;
-}
-
-/* Styling to make individual tiles jump when correct */
-@keyframes jump {
-  0% { transform: translate(0px, -5px) }
-  5% { transform: translate(0px, -8px) }
-  10% { transform: translate(0px, -12px) }
-  15% { transform: translate(0px, -18px) }
-  20% { transform: translate(0px, -24px) }
-  25% { transform: translate(0px, -30px) }
-  30% { transform: translate(0px, -24px) }
-  35% { transform: translate(0px, -18px) }
-  40% { transform: translate(0px, -12px) }
-  45% { transform: translate(0px, -7px) }
-  50% { transform: translate(0px, -2px) }
-  55% { transform: translate(0px, -0px) }
-  60% { transform: translate(0px, -0px) }
-  65% { transform: translate(0px, -0px) }
-  70% { transform: translate(0px, -3px) }
-  75% { transform: translate(0px, -6px) }
-  80% { transform: translate(0px, -7px) }
-  85% { transform: translate(0px, -6px) }
-  90% { transform: translate(0px, -3px) }
-  95% { transform: translate(0px, -0px) }
-  100% { transform: translate(0px, -0px) }
-}
-
-.jump {
-  animation: jump 0.6s;
 }
 
 /* Keyboard Styling */
@@ -348,23 +297,6 @@ button.darkgrey-color-key {
 button.lightgrey-color-key {
   background-color: var(--lightGreyBG);
   color: var(--uncheckedKey);
-}
-
-/* Make tiles flip */
-.flip {
-    animation: 0.8s linear flipping;
-}
-
-@keyframes flipping {
-    0% {
-        transform: rotateX(0deg);
-    }
-    50% {
-        transform: rotateX(90deg);
-    }
-    100% {
-        transform: rotateX(0deg);
-    }
 }
 
 /* Style for pop-up message */
@@ -520,15 +452,11 @@ button.lightgrey-color-key {
   display: flex;
   flex-direction: row;
   align-items: center;
-	margin: 1rem 0rem;
+	margin: 0.5rem 0rem;
 }
 
 #clock-share-container.hide-clock-share {
   display: none;
-}
-
-#scoreboard-share-button {
-	font-family: 'NeueHelveticaBQ', sans-serif;
 }
 
 /* Styling for countdown clock */
@@ -558,7 +486,7 @@ button.lightgrey-color-key {
 #share-container button {
   color: var(--white);
   background-color: var(--greenBG);
-  border: 0px;
+  border: none;
   border-radius: 5px;
   width: 170px;
   padding: 5px 10px;
@@ -574,14 +502,10 @@ button.lightgrey-color-key {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+	background-color: var(--opaqueBG);
 	height: 100vh;
 	width: 100vw;
 	z-index: 2;
-	background-color: var(--opaqueBG);
-}
-
-#settings-container.hide {
-	display: none;
 }
 
 #settings-container.settings-hide {
@@ -666,8 +590,74 @@ button.lightgrey-color-key {
 }
 
 #settings-header button {
-  border: 0px;
+	color: var(--fontColor);
+	background-color: var(--invisibleBG);
+  border: none;
   cursor: pointer;
-  background-color: var(--invisibleBG);
-  color: var(--fontColor);
+}
+
+/* Animations */
+/* Styling to shake current row of divs when answer is not valid */
+.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0% { transform: translate(-6px) }
+  10% { transform: translate(1px) }
+  20% { transform: translate(8px) }
+  30% { transform: translate(-2px) }
+  40% { transform: translate(8px) }
+  50% { transform: translate(0px) }
+  60% { transform: translate(8px) }
+  70% { transform: translate(-1px) }
+  80% { transform: translate(-8px) }
+  90% { transform: translate(0px) }
+  100% { transform: translate(6px) }
+}
+
+/* Styling to make individual tiles jump when correct */
+.jump {
+  animation: jump 0.6s;
+}
+
+@keyframes jump {
+  0% { transform: translate(0px, -5px) }
+  5% { transform: translate(0px, -8px) }
+  10% { transform: translate(0px, -12px) }
+  15% { transform: translate(0px, -18px) }
+  20% { transform: translate(0px, -24px) }
+  25% { transform: translate(0px, -30px) }
+  30% { transform: translate(0px, -24px) }
+  35% { transform: translate(0px, -18px) }
+  40% { transform: translate(0px, -12px) }
+  45% { transform: translate(0px, -7px) }
+  50% { transform: translate(0px, -2px) }
+  55% { transform: translate(0px, -0px) }
+  60% { transform: translate(0px, -0px) }
+  65% { transform: translate(0px, -0px) }
+  70% { transform: translate(0px, -3px) }
+  75% { transform: translate(0px, -6px) }
+  80% { transform: translate(0px, -7px) }
+  85% { transform: translate(0px, -6px) }
+  90% { transform: translate(0px, -3px) }
+  95% { transform: translate(0px, -0px) }
+  100% { transform: translate(0px, -0px) }
+}
+
+/* Make tiles flip */
+.flip {
+    animation: 0.8s linear flipping;
+}
+
+@keyframes flipping {
+    0% {
+        transform: rotateX(0deg);
+    }
+    50% {
+        transform: rotateX(90deg);
+    }
+    100% {
+        transform: rotateX(0deg);
+    }
 }
