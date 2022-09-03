@@ -52,6 +52,7 @@ export default class Game {
     this.switchHardModeListener();
     this.lightDarkThemeListener();
     this.contrastThemeListener();
+    this.disabledCheckboxListener();
   }
 
   // On page load, do the following to set variables as those stored locally
@@ -651,9 +652,23 @@ export default class Game {
   switchHardModeListener() {
     let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
     hardModeCheckbox.addEventListener('click', () => {
+      console.log('hm');
       hardModeCheckbox.checked === true ? this.hardMode = true : this.hardMode = false;
       this.storeHardMode();
     });
+  }
+
+  disabledCheckboxListener() {
+    let that = this;
+    let hardModeSwitch = document.getElementById('hard-mode-switch');
+    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
+    hardModeSwitch.addEventListener('click', function(e) {
+      if (hardModeCheckbox.disabled) {
+        console.log('hi');
+        hardModeCheckbox.checked ? that.setPopUpMessage('Hard mode can only be disabled at the start of a round') : that.setPopUpMessage('Hard mode can only be enabled at the start of a round');
+        that.togglePopUpLong();
+      }
+    })
   }
 
   // Code to store hardMode value in localStorage
@@ -1223,7 +1238,16 @@ export default class Game {
 
   // Change all sizing to rem instead of pixels or EM
 
-  // Figure out a way to make keyboard keys divs instead of buttons
+  // Find a thinner font for settings extra text etc
+
+  // Add popup when hardmopde is clicked during game
+
+  // Style chedkboxes into switches
+
+  //Hard mode not staying disabled on page load?
+
+  // Move popup slightly higer up the page
+
 
 
 

@@ -97,6 +97,12 @@ table {
 
 /* Root Styling */
 :root {
+	--fs-xs: 0.7rem;
+	--fs-sm: 0.85rem;
+	--fs-base: 1rem;
+	--fs-md: 1.2rem;
+	--fs-lg: 1.5rem;
+	--fs-xl: 2rem;
 }
 
 /* Fonts */
@@ -135,7 +141,7 @@ button {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 98vh;
+  height: 97.5vh;
 }
 
 #header-container {
@@ -244,6 +250,7 @@ svg {
 }
 
 #keyboard-container span {
+	font-size: var(--fs-sm);
 	cursor: pointer;
 }
 
@@ -388,20 +395,20 @@ div.lightgrey-color-key {
 
 #scoreboard-container h3 {
 	margin-top: 1rem;
-	font-size: 24px;
+	font-size: var(--fs-lg);
 }
 
 #scoreboard-container h4 {
-  font-size: 16px;
+  font-size: var(fs-base);
 }
 
 #scores-container .value {
-  font-size: 32px;
+  font-size: var(--fs-xl);
   font-weight: 500;
 }
 
 #scores-container span {
-  font-size: 12px;
+  font-size: var(--fs-xs);
   font-weight: 300;
 }
 
@@ -476,12 +483,12 @@ div.lightgrey-color-key {
 }
 
 #countdown-container h5 {
-  font-size: 15px;
+  font-size: var(--fs-base);
 	margin-bottom: 0.25rem;
 }
 
 #countdown-container span {
-  font-size: 32px;
+  font-size: var(--fs-xl);
 }
 
 /* Share Button Styling */
@@ -493,11 +500,11 @@ div.lightgrey-color-key {
 #share-container button {
   color: var(--white);
   background-color: var(--greenBG);
+	font-size: var(--fs-lg);
+	width: 170px;
   border: none;
   border-radius: 5px;
-  width: 170px;
   padding: 5px 10px;
-  font-size: 25px;
 }
 
 /* Settings Styling */
@@ -571,28 +578,36 @@ div.lightgrey-color-key {
 	cursor: pointer;
 }
 
+#hard-mode-switch input[disabled] {
+	pointer-events: none;
+}
+
 .settings-extra-text {
   display: flex;
   flex-direction: column;
 }
 
+.settings-extra-text span {
+  margin-bottom: 0.2rem;
+}
+
 /* Settings text styling */
 #settings-container h3 {
-  font-size: 19px;
+  font-size: var(--fs-md);
 }
 
 #settings-container span {
-  font-size: 16px;
+  font-size: var(--fs-base);
 }
 
 #settings-container p {
   color: var(--secondFontColor);
-  font-size: 10px;
+  font-size: var(--fs-xs);
 }
 
 #settings-container a {
   color: var(--secondFontColor);
-  font-size: 14px;
+  font-size: var(--fs-sm);
 	text-decoration: none;
 }
 
