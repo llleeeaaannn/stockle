@@ -28,7 +28,8 @@ export default class Game {
   play() {
     this.createUI();
     this.addListeners();
-    this.loadLocalStorage()
+    this.loadLocalStorage();
+    this.afterLoad();
   }
 
   // On page load, do the following to set create UI
@@ -66,6 +67,11 @@ export default class Game {
     this.getStoredCurrentTile();
     this.getStoredLastWinRow();
     this.verifyStoredGuess();
+  }
+
+  // On page load, do the following to the UI
+  afterLoad() {
+    this.disableHardModeCheckbox();
   }
 
   // Function to create tile row divs
@@ -213,7 +219,7 @@ export default class Game {
     if (currentGuess === this.wordle) {
       this.setGameWon(true);
       this.setGameOver(true);
-      this.disableHardmodeCheckbox();
+      this.disableHardModeCheckbox();
       this.updateStatsOnWin();
       this.setPopUpMessage('HUZZAH');
       this.colorTiles();
@@ -232,7 +238,7 @@ export default class Game {
 
     if (currentTile === this.l && currentRow > 4) {
       this.setGameOver(true);
-      this.disableHardmodeCheckbox();
+      this.disableHardModeCheckbox();
       this.updateStatsOnLoss();
       this.setPopUpMessage(this.wordle.toUpperCase());
       this.colorTiles();
@@ -249,7 +255,7 @@ export default class Game {
       this.saveGuess();
       this.addToCurrentRow();
       this.resetCurrentTile();
-      this.disableHardmodeCheckbox();
+      this.disableHardModeCheckbox();
     }
   }
 
@@ -281,7 +287,7 @@ export default class Game {
     if (currentGuess === this.wordle) {
       this.setGameWon(true);
       this.setGameOver(true);
-      this.disableHardmodeCheckbox();
+      this.disableHardModeCheckbox();
       this.updateStatsOnWin();
       this.setPopUpMessage('HUZZAH');
       this.colorTiles();
@@ -300,7 +306,7 @@ export default class Game {
 
     if (currentTile === this.l && currentRow > 4) {
       this.setGameOver(true);
-      this.disableHardmodeCheckbox();
+      this.disableHardModeCheckbox();
       this.updateStatsOnLoss();
       this.setPopUpMessage(this.wordle.toUpperCase());
       this.colorTiles();
@@ -317,7 +323,7 @@ export default class Game {
       this.saveGuess();
       this.addToCurrentRow();
       this.resetCurrentTile();
-      this.disableHardmodeCheckbox();
+      this.disableHardModeCheckbox();
     }
   }
 
@@ -639,7 +645,7 @@ export default class Game {
   }
 
   // Function to disable Hard Mode checkbox
-  disableHardmodeCheckbox() {
+  disableHardModeCheckbox() {
     let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
     if (this.gameOver || this.currentRow === 0) {
       hardModeCheckbox.disabled = false;
@@ -652,7 +658,6 @@ export default class Game {
   switchHardModeListener() {
     let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
     hardModeCheckbox.addEventListener('click', () => {
-      console.log('hm');
       hardModeCheckbox.checked === true ? this.hardMode = true : this.hardMode = false;
       this.storeHardMode();
     });
@@ -664,7 +669,6 @@ export default class Game {
     let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
     hardModeSwitch.addEventListener('click', function(e) {
       if (hardModeCheckbox.disabled) {
-        console.log('hi');
         hardModeCheckbox.checked ? that.setPopUpMessage('Hard mode can only be disabled at the start of a round') : that.setPopUpMessage('Hard mode can only be enabled at the start of a round');
         that.togglePopUpLong();
       }
@@ -856,38 +860,22 @@ export default class Game {
     let barChartSix = Number(localStorage.getItem('Row6Wins'));
 
     let barCharts = [barChartOne, barChartTwo, barChartThree, barChartFour, barChartFive, barChartSix];
+
     let maxBar = Math.max.apply(Math.max, barCharts);
 
-    let barChartOneLength = Math.floor(barChartOne / maxBar * 100);
-    let barChartTwoLength = Math.floor(barChartTwo / maxBar * 100);
-    let barChartThreeLength = Math.floor(barChartThree / maxBar * 100);
-    let barChartFourLength = Math.floor(barChartFour / maxBar * 100);
-    let barChartFiveLength = Math.floor(barChartFive / maxBar * 100);
-    let barChartSixLength = Math.floor(barChartSix / maxBar * 100);
+    let barChartLengths = barCharts.map(bar => Math.floor(bar / maxBar * 100));
 
-    let barOne = document.getElementById('bar-chart-1');
-    barOne.style.width = `${barChartOneLength}%`
-    barOne.innerHTML = `<p>${barChartOne}</p>`
-
-    let barTwo = document.getElementById('bar-chart-2');
-    barTwo.style.width = `${barChartTwoLength}%`
-    barTwo.innerHTML = `<p>${barChartTwo}</p>`
-
-    let barThree = document.getElementById('bar-chart-3');
-    barThree.style.width = `${barChartThreeLength}%`
-    barThree.innerHTML = `<p>${barChartThree}</p>`
-
-    let barFour = document.getElementById('bar-chart-4');
-    barFour.style.width = `${barChartFourLength}%`
-    barFour.innerHTML = `<p>${barChartFour}</p>`
-
-    let barFive = document.getElementById('bar-chart-5');
-    barFive.style.width = `${barChartFiveLength}%`
-    barFive.innerHTML = `<p>${barChartFive}</p>`
-
-    let barSix = document.getElementById('bar-chart-6');
-    barSix.style.width = `${barChartSixLength}%`
-    barSix.innerHTML = `<p>${barChartSix}</p>`
+    for (let i = 0; i < 6; i++) {
+      let bar = document.getElementById(`bar-chart-${i + 1}`);
+      bar.classList.remove('zero');
+      bar.innerHTML = `<p>${barCharts[i]}</p>`;
+      if (barCharts[i] === 0) {
+        bar.classList.add('zero');
+        bar.style.width = '';
+      } else {
+        bar.style.width = `${barChartLengths[i]}%`;
+      }
+    }
   }
 
   // Code to populate wordle number at bottom right of settings
@@ -1004,7 +992,7 @@ export default class Game {
 
     if (this.gameOver) {
       let countdown = document.getElementById('countdown-container');
-      countdown.innerHTML = `<h5>NEXT WORDLE</h5><span> ${hours.slice(-2)} : ${minutes.slice(-2)} : ${seconds.slice(-2)}`;
+      countdown.innerHTML = `<h5>NEXT STOCKLE</h5><span> ${hours.slice(-2)} : ${minutes.slice(-2)} : ${seconds.slice(-2)}`;
     }
   }
 
@@ -1234,19 +1222,11 @@ export default class Game {
 
   // Reorganise all javascript functions
 
-  // Add fluid font sizes maybe or would it wreck stuff (if not add standardised font sizes ie. --fs-small: 1rem)
-
-  // Change all sizing to rem instead of pixels or EM
-
-  // Find a thinner font for settings extra text etc
-
-  // Add popup when hardmopde is clicked during game
-
   // Style chedkboxes into switches
 
-  //Hard mode not staying disabled on page load?
+  // Dark grey is too dark
 
-  // Move popup slightly higer up the page
+
 
 
 

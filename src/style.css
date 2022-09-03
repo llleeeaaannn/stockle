@@ -53,6 +53,7 @@ table {
   --offsetColorBG: #141414;
   --tileBorderColor: 2px solid rgba(60, 60 ,60, 0.6);
   --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75);
+  --settingsLineColor: rgba(60, 60, 60, 0.5);
   --chartBarColor: rgba(70, 70, 70, 0.8);
   --invisibleBG: rgba(0, 0 ,0, 0.0);
   --greenBG: #588c4c;
@@ -76,6 +77,7 @@ table {
   --offsetColorBG: #fff;
   --tileBorderColor: 2px solid rgba(83, 83, 91, 0.3);
   --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75);
+  --settingsLineColor: rgba(60, 60, 60, 0.5);
   --chartBarColor: rgba(70, 70, 70, 0.8);
   --invisibleBG: rgba(0, 0 ,0, 0.0);
   --greenBG: #588c4c;
@@ -112,6 +114,11 @@ table {
 }
 
 @font-face {
+  font-family: NeueHelveticaLight;
+  src: url("NeueHelveticaLight.ttf") format("ttf");
+}
+
+@font-face {
   font-family: NYTKarnak;
   src: url("NYTKarnak-Text.woff2") format("woff");
 }
@@ -141,7 +148,7 @@ button {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 97.5vh;
+  height: 100vh;
 }
 
 #header-container {
@@ -151,7 +158,7 @@ button {
   align-items: center;
 	height: 7vh;
   width: 100vw;
-  border-bottom: 1px solid rgba(60, 60 ,60, 0.5);
+  border-bottom: 1px solid var(--settingsLineColor);
 }
 
 #tile-container {
@@ -178,9 +185,9 @@ svg {
   stroke-linecap: round;
   stroke: var(--oppositeBG);
   stroke-width: 2;
-  width: 40px;
-  height: 40px;
-  margin: 0px 20px;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 1rem;
 }
 
 #score-icon {
@@ -200,20 +207,20 @@ svg {
 }
 
 /* Styling for each row of tiles (mainly flexbox) */
-#tile-container div {
+#tile-container > div {
   display: flex;
   flex-direction: row;
   border: none;
 }
 
 /* Styling for each tile */
-#tile-container div div{
+#tile-container > div > div{
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
-	min-width: 62.5px;
-  min-height: 62.5px;
+  font-size: 2rem;
+	width: 4rem;
+  height: 4rem;
   margin: 2px;
 	border: var(--tileBorderColor);
 }
@@ -225,8 +232,7 @@ svg {
 
 /* Keyboard Styling */
 #keyboard-container {
-  height: 170px;
-  width: 450px;
+  margin-bottom: 0.25rem;
 }
 
 #keyboard-container > div {
@@ -234,18 +240,17 @@ svg {
   flex-direction: row;
   justify-content: space-around;
   text-align: center;
-  margin: 5px 0px;
   height: 33%;
 }
 
 #keyboard-container > div > div {
 	display: grid;
 	place-items: center;
-  flex: 1;
-  margin-left: 2px;
-  margin-right: 2px;
+	height: 4rem;
+  width: 2.75rem;
+  margin: 0.2rem;
 	border: none;
-	border-radius: 5px;
+	border-radius: 0.3rem;
 	cursor: pointer;
 }
 
@@ -254,13 +259,11 @@ svg {
 	cursor: pointer;
 }
 
-/* Adding margin to second row of keyboard to account for space on each side */
-#keyboard-row1 :first-child#A {
-	margin-left: 22px;
-}
-
-#keyboard-row1 :last-child#L {
-	margin-right: 22px;
+/* Forcing keys of middle row to the center */
+#keyboard-container #keyboard-row1 {
+	justify-content: center;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* Increasing size of 'Enter' and 'Back' keys on keyboard */
@@ -293,22 +296,22 @@ svg {
 }
 
 /* Colouring keys */
-div.green-color-key {
+#keyboard-container .green-color-key {
   background-color: var(--greenBG);
   color: var(--checkedKey);
 }
 
-div.yellow-color-key {
+#keyboard-container .yellow-color-key {
   background-color: var(--yellowBG);
   color: var(--checkedKey);
 }
 
-div.darkgrey-color-key {
+#keyboard-container .darkgrey-color-key {
   background-color: var(--darkGreyBG);
   color: var(--checkedKey);
 }
 
-div.lightgrey-color-key {
+#keyboard-container .lightgrey-color-key {
   background-color: var(--lightGreyBG);
   color: var(--uncheckedKey);
 }
@@ -316,13 +319,11 @@ div.lightgrey-color-key {
 /* Style for pop-up message */
 #popup {
 	position: absolute;
-	top: 15px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-  padding: 20px;
-  border-radius: 5px;
+	top: -1.5rem;
+  display: grid;
+	place-items: center;
+  padding: 1.25rem;
+  border-radius: 0.3rem;
 	color: var(--oppositeFont);
   background-color: var(--oppositeBG);
 	opacity: 0;
@@ -338,10 +339,8 @@ div.lightgrey-color-key {
 	position: absolute;
 	top: 0;
 	left: 0;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
+	display: grid;
+	place-items: center;
 	height: 100vh;
 	width: 100vw;
 	z-index: 2;
@@ -356,19 +355,18 @@ div.lightgrey-color-key {
 	position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
 	align-items: center;
-	min-width: 400px;
-	padding: 0.8rem;
+	min-width: 32rem;
+	padding: 1rem;
   border-radius: 0.5rem;
-  background-color: var(--offsetColorBG);
 	box-shadow: 0rem 0rem 1rem 0.5rem var(--shadowGrey);
+  background-color: var(--offsetColorBG);
 }
 
 #close-scoreboard-button {
 	position: absolute;
-	right: 0.5rem;
-	top: 0.5rem;
+	right: 0.75rem;
+	top: 0.75rem;
 	height: 1rem;
 	width: 1rem;
 	margin: 0rem;
@@ -381,12 +379,11 @@ div.lightgrey-color-key {
 	margin: 1rem 0rem;
 }
 
-#scores-container div {
+#scores-container > div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 5px;
-  padding: 3px;
+  padding: 0.5rem;
 }
 
 #scores-container > div :first-child {
@@ -394,40 +391,35 @@ div.lightgrey-color-key {
 }
 
 #scoreboard-container h3 {
-	margin-top: 1rem;
 	font-size: var(--fs-lg);
+	margin-top: 1rem;
 }
 
 #scoreboard-container h4 {
   font-size: var(fs-base);
 }
 
-#scores-container .value {
-  font-size: var(--fs-xl);
-  font-weight: 500;
-}
-
 #scores-container span {
   font-size: var(--fs-xs);
-  font-weight: 300;
+  font-family: 'NeueHelveticaLight', sans-serif;
+}
+
+#scores-container .value {
+  font-size: var(--fs-xl);
+	font-family: 'NeueHelveticaBQ', sans-serif;
 }
 
 /* Scoreboard Chart Styling */
 #chart-score-container {
   width: 80%;
-  margin: 5px;
+  margin: 0.5rem;
 }
 
 #chart-score-container span {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-right: 10px;
+  display: grid;
+	place-items: center;
+  margin-right: 0.5rem;
   color: var(--fontColor);
-}
-
-#chart-score-container > div > div.green-bar {
-  background-color: var(--greenBG);
 }
 
 #chart-one,
@@ -439,8 +431,8 @@ div.lightgrey-color-key {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  margin: 4px;
-  align-items: center;
+	align-items: center;
+  margin: 0.25rem;
 }
 
 #bar-chart-1,
@@ -449,16 +441,25 @@ div.lightgrey-color-key {
 #bar-chart-4,
 #bar-chart-5,
 #bar-chart-6 {
-  min-width: 8%;
+  min-width: 7%;
   background-color: var(--chartBarColor);
-  padding: 2px;
+  padding: 0.15rem;
+}
+
+#chart-score-container .zero {
+	display: grid;
+	place-items: center;
+	width: 7%;
+}
+
+#chart-score-container > div > div.green-bar {
+  background-color: var(--greenBG);
 }
 
 #chart-score-container p {
   color: var(--white);
   float: right;
-  margin-right: 3px;
-  margin-left: 3px;
+	margin-right: 0.1rem;
 }
 
 /* Styling for clock & share container */
@@ -478,8 +479,8 @@ div.lightgrey-color-key {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 170px;
-  margin: 10px 25px;
+  width: 12rem;
+  margin: 0.75rem 1.5rem;
 }
 
 #countdown-container h5 {
@@ -493,18 +494,18 @@ div.lightgrey-color-key {
 
 /* Share Button Styling */
 #share-container {
-  padding: 10px 25px;
-  border-left: 1px white solid;
+  border-left: 1px solid var(--fontColor);
 }
 
 #share-container button {
   color: var(--white);
   background-color: var(--greenBG);
 	font-size: var(--fs-lg);
-	width: 170px;
+	width: 12rem;
+	padding: 0.5rem 0.5rem;
+	margin: 0.75rem 1.5rem;
   border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
+  border-radius: 0.3rem;
 }
 
 /* Settings Styling */
@@ -512,10 +513,8 @@ div.lightgrey-color-key {
 	position: absolute;
 	top: 0;
 	left: 0;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
+	display: grid;
+	place-items: center;
 	background-color: var(--opaqueBG);
 	height: 100vh;
 	width: 100vw;
@@ -531,16 +530,16 @@ div.lightgrey-color-key {
   display: flex;
   flex-direction: column;
 	align-items: center;
-	width: 400px;
+	min-width: 32rem;
 	border-radius: 0.5rem;
-	background-color: var(--offsetColorBG);
 	box-shadow: 0rem 0rem 1rem 0.5rem var(--shadowGrey);
+	background-color: var(--offsetColorBG);
 }
 
 #close-settings-button {
 	position: absolute;
-	right: 0.5rem;
-	top: 0.5rem;
+	right: 0.75rem;
+	top: 0.75rem;
 	height: 1rem;
 	width: 1rem;
 	margin: 0rem;
@@ -561,7 +560,7 @@ div.lightgrey-color-key {
 	align-items: center;
 	width: 90%;
   padding: 1rem 0rem;
-  border-bottom: 1.5px solid rgba(60, 60 ,60, 0.5);
+  border-bottom: 1px solid var(--settingsLineColor);
 }
 
 #settings-header {
@@ -588,12 +587,19 @@ div.lightgrey-color-key {
 }
 
 .settings-extra-text span {
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.25rem;
 }
 
 /* Settings text styling */
+#settings-container span,
+#settings-container p,
+#settings-container a {
+  font-family: 'NeueHelveticaLight', sans-serif;
+}
+
 #settings-container h3 {
   font-size: var(--fs-md);
+	font-family: 'NeueHelveticaBQ', sans-serif;
 }
 
 #settings-container span {
@@ -609,13 +615,6 @@ div.lightgrey-color-key {
   color: var(--secondFontColor);
   font-size: var(--fs-sm);
 	text-decoration: none;
-}
-
-#settings-header button {
-	color: var(--fontColor);
-	background-color: var(--invisibleBG);
-  border: none;
-  cursor: pointer;
 }
 
 /* Animations */
