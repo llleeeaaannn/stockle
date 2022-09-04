@@ -45,56 +45,61 @@ table {
 
 /* Color Themes */
 /* Dark {
-  --fontColor: #fff;
-  --oppositeFont: #000;
-  --colorBG: #000;
-  --oppositeBG: #fff;
-  --secondFontColor: #888484;
-  --offsetColorBG: #141414;
-  --tileBorderColor: 2px solid rgba(60, 60 ,60, 0.6);
-  --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75);
+  --fontColor: rgba(255, 255, 255, 1);
+  --oppositeFont: rgba(0, 0 ,0, 1);
+  --colorBG: rgba(0, 0 ,0, 1);
+  --oppositeBG: rgba(255, 255, 255, 1);
+  --secondFontColor: rgba(136, 132, 132, 1);
+  --offsetColorBG: rgba(20, 20, 20, 1);
+  --tileBorder: 2px solid rgba(60, 60 ,60, 0.6);
+  --tileOnRowBorder: 2px solid rgba(83, 83, 91, 0.75);
+  --disabledSwitch: brightness(50%);
   --settingsLineColor: rgba(60, 60, 60, 0.5);
   --chartBarColor: rgba(70, 70, 70, 0.8);
   --invisibleBG: rgba(0, 0 ,0, 0.0);
-  --greenBG: #588c4c;
-  --yellowBG: #b89c3c;
-  --darkGreyBG: #403c3c;
-  --lightGreyBG: #888484;
+  --greenBG: rgba(88, 140, 76, 1);
+  --yellowBG: rgba(184, 155, 60, 1);
+  --switchDisabledGreen: rgba(39, 64, 34, 1);
+	--switchDisabledKnob: rgba(161, 161, 161, 1);
+  --darkGreyBG: rgba(64, 60, 60, 1);
+  --lightGreyBG: rgba(136, 132, 132, 1);
 	--shadowGrey: rgba(0, 0, 0, 0);
   --opaqueBG: rgba(0, 0, 0, 0.5);
-  --uncheckedKey: #fff;
-  --checkedKey: #fff;
-  --white: #fff;
-  --black: #000;
+  --uncheckedKey: rgba(255, 255, 255, 1);
+  --checkedKey: rgba(255, 255, 255, 1);
+  --white: rgba(255, 255, 255, 1);
+  --black: rgba(0, 0 ,0, 1);
 } */
 
 /* Light {
-  --fontColor: #000;
-  --oppositeFont: #fff;
-  --colorBG: #fff;
-  --oppositeBG: #000;
-  --secondFontColor: #888484;
-  --offsetColorBG: #fff;
-  --tileBorderColor: 2px solid rgba(83, 83, 91, 0.3);
-  --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75);
+  --fontColor: rgba(0, 0 ,0, 1);
+  --oppositeFont: rgba(255, 255, 255, 1);
+  --colorBG: rgba(255, 255, 255, 1);
+  --oppositeBG: rgba(0, 0 ,0, 1);
+  --secondFontColor: rgba(136, 132, 132, 1);
+  --offsetColorBG: rgba(255, 255, 255, 1);
+  --tileBorder: 2px solid rgba(83, 83, 91, 0.3);
+  --tileOnRowBorder: 2px solid rgba(83, 83, 91, 0.75);
+  --disabledSwitch: brightness(200%);
   --settingsLineColor: rgba(60, 60, 60, 0.5);
   --chartBarColor: rgba(70, 70, 70, 0.8);
   --invisibleBG: rgba(0, 0 ,0, 0.0);
-  --greenBG: #588c4c;
-  --yellowBG: #b89c3c;
-  --darkGreyBG: #403c3c;
-  --lightGreyBG: #d8d4dc;
+  --greenBG: rgba(88, 140, 76, 1);
+  --yellowBG: rgba(184, 155, 60, 1);
+  --darkGreyBG: rgba(64, 60, 60, 1);
+  --lightGreyBG: rgba(216, 212, 220, 1);
 	--shadowGrey: rgba(200, 200, 200, 0.4);
   --opaqueBG: rgba(255, 255, 255, 0.5);
-  --uncheckedKey: #000;
-  --checkedKey: #fff;
-  --white: #fff;
-  --black: #000;
+  --uncheckedKey: rgba(0, 0 ,0, 1);
+  --checkedKey: rgba(255, 255, 255, 1);
+  --white: rgba(255, 255, 255, 1);
+  --black: rgba(0, 0 ,0, 1);
 } */
 
 /* Contrast {
-	--greenBG: #88c4fc;
-	--yellowBG: #f87c3c;
+	--greenBG: rgba(136, 196, 252, 1);
+	--yellowBG: rgba(248, 124, 60, 1);
+	--switchDisabledGreen: rgba(101, 149, 194, 1);
 } */
 
 /* Root Styling */
@@ -222,12 +227,12 @@ svg {
 	width: 4rem;
   height: 4rem;
   margin: 2px;
-	border: var(--tileBorderColor);
+	border: var(--tileBorder);
 }
 
 /* Styling to change tile border colour when selected */
 #tile-container .on-row {
-  border: var(--tileOnRowBorderColor);
+  border: var(--tileOnRowBorder);
 }
 
 /* Keyboard Styling */
@@ -588,6 +593,56 @@ svg {
 
 .settings-extra-text span {
   margin-bottom: 0.25rem;
+}
+
+/* Settings Switch/Checkbox */
+.settings-switch {
+	position: relative;
+  display: block;
+  width: 45px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.settings-switch input[type="checkbox"]{
+  display: none;
+}
+
+.settings-switch input[type="checkbox"]:checked+.toggler-slider {
+  background-color: var(--greenBG);
+}
+
+.settings-switch input[type="checkbox"]:disabled+.toggler-slider {
+  filter: brightness(50%);
+}
+
+.settings-switch .toggler-slider {
+  background-color: var(--darkGreyBG);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+	border-radius: 12.5px;
+  transition: all 300ms ease;
+}
+
+.settings-switch .toggler-knob {
+  position: absolute;
+  transition: all 300ms ease;
+}
+
+.settings-switch input[type="checkbox"]:checked+.toggler-slider .toggler-knob {
+  left: calc(100% - 19px - 3px);
+}
+
+.settings-switch .toggler-knob {
+	top: 3px;
+	left: 3px;
+  width: calc(25px - 6px);
+  height: calc(25px - 6px);
+  border-radius: 50%;
+  background-color: var(--white);
 }
 
 /* Settings text styling */

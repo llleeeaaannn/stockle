@@ -7,27 +7,29 @@
   <link rel="shortcut icon" href="./stockle-favicon.ico" />
   <style id="rootStylesheet">
     :root {
-      --fontColor: #fff;
-      --oppositeFont: #000;
-      --colorBG: #000;
-      --oppositeBG: #fff;
-      --secondFontColor: #888484;
-      --offsetColorBG: #141414;
-      --tileBorderColor: 2px solid rgba(60, 60 ,60, 0.6);
-      --tileOnRowBorderColor: 2px solid rgba(83, 83, 91, 0.75);
+      --fontColor: rgba(255, 255, 255, 1);
+      --oppositeFont: rgba(0, 0 ,0, 1);
+      --colorBG: rgba(0, 0 ,0, 1);
+      --oppositeBG: rgba(255, 255, 255, 1);
+      --secondFontColor: rgba(136, 132, 132, 1);
+      --offsetColorBG: rgba(20, 20, 20, 1);
+      --tileBorder: 2px solid rgba(60, 60 ,60, 0.6);
+      --tileOnRowBorder: 2px solid rgba(83, 83, 91, 0.75);
       --settingsLineColor: rgba(60, 60, 60, 0.5);
       --chartBarColor: rgba(70, 70, 70, 0.8);
       --invisibleBG: rgba(0, 0 ,0, 0.0);
-      --greenBG: #588c4c;
-      --yellowBG: #b89c3c;
-      --darkGreyBG: #403c3c;
-      --lightGreyBG: #888484;
+      --greenBG: rgba(88, 140, 76, 1);
+      --yellowBG: rgba(184, 155, 60, 1);
+      --switchDisabledGreen: rgba(39, 64, 34, 1);
+      --switchDisabledKnob: rgba(161, 161, 161, 1);
+      --darkGreyBG: rgba(64, 60, 60, 1);
+      --lightGreyBG: rgba(136, 132, 132, 1);
     	--shadowGrey: rgba(0, 0, 0, 0);
       --opaqueBG: rgba(0, 0, 0, 0.5);
-      --uncheckedKey: #fff;
-      --checkedKey: #fff;
-      --white: #fff;
-      --black: #000;
+      --uncheckedKey: rgba(255, 255, 255, 1);
+      --checkedKey: rgba(255, 255, 255, 1);
+      --white: rgba(255, 255, 255, 1);
+      --black: rgba(0, 0 ,0, 1);
     }
   </style>
 </head>
@@ -84,11 +86,15 @@
 
           </div>
 
-          <div id="hard-mode-switch">
+          <label id="hard-mode-switch" class="settings-switch">
 
-	          <input type="checkbox" id="hard-mode-checkbox">
+            <input type="checkbox" id="hard-mode-checkbox">
 
-          </div>
+            <div class="toggler-slider">
+              <div class="toggler-knob"></div>
+            </div>
+
+          </label>
 
         </div>
 
@@ -96,11 +102,15 @@
 
           <span>Dark Theme</span>
 
-          <div id="dark-theme-switch">
+          <label id="dark-theme-switch" class="settings-switch">
 
             <input type="checkbox" id="dark-theme-checkbox" checked>
 
-          </div>
+            <div class="toggler-slider">
+              <div class="toggler-knob"></div>
+            </div>
+
+          </label>
 
         </div>
 
@@ -114,11 +124,15 @@
 
           </div>
 
-          <div id="contrast-switch">
+          <label id="contrast-switch" class="settings-switch">
 
             <input type="checkbox" id="contrast-theme-checkbox">
 
-          </div>
+            <div class="toggler-slider">
+              <div class="toggler-knob"></div>
+            </div>
+
+          </label>
 
         </div>
 
@@ -134,7 +148,7 @@
 
           <span>Community</span>
 
-          <a href="#">Twitter</a>
+          <a href="https://www.reddit.com/r/StockleGame">Reddit</a>
 
         </div>
 

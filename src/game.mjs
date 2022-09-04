@@ -1222,10 +1222,6 @@ export default class Game {
 
   // Reorganise all javascript functions
 
-  // Style chedkboxes into switches
-
-  // Dark grey is too dark
-
 
 
 
