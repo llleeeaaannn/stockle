@@ -146,6 +146,21 @@ button {
 	font-family: 'NeueHelveticaBQ', sans-serif;
 }
 
+/* Cover Styling */
+#cover {
+  background-color: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+}
+
+#cover.hide {
+  display: none;
+}
+
 /* Containers styling for flexbox and sizing */
 #container {
 	position: relative;
@@ -196,12 +211,16 @@ svg {
 }
 
 #score-icon {
+  width: 2.5rem;
+  height: 2.5rem;
   stroke-width: 4;
   stroke-linejoin: round;
   stroke-linecap: butt;
 }
 
 #settings-icon {
+  width: 2.5rem;
+  height: 2.5rem;
   stroke-width: 10;
   stroke-linejoin: miter;
   stroke-linecap: butt;
@@ -736,4 +755,10 @@ svg {
     100% {
         transform: rotateX(0deg);
     }
+}
+
+/* Styling to reveal page once CSS is loaded */
+html {
+  visibility: visible;
+  opacity: 1;
 }

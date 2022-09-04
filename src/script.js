@@ -6,4 +6,4 @@ import { keysArray, validLetters, colorKeys } from './variables.mjs';
 import { validAnswers, validTickers } from './tickers.mjs';
 
 let game = new Game();
-game.play()
+game.play();

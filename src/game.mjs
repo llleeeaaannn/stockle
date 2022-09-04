@@ -1219,16 +1219,4 @@ export default class Game {
     return now.getTime();
   }
 
-
-  // Add ETFs to validTickers
-
-  // Reorganise all javascript functions
-
-
-
-
-
-
-
-
 }

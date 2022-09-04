@@ -6,6 +6,11 @@
   <title>Stockle</title>
   <link rel="shortcut icon" href="./stockle-favicon.ico" />
   <style id="rootStylesheet">
+    html {
+      visibility: hidden;
+      opacity: 0;
+    }
+
     :root {
       --fontColor: rgba(255, 255, 255, 1);
       --oppositeFont: rgba(0, 0 ,0, 1);
@@ -67,7 +72,7 @@
       <div id="settings-inner-container">
 
         <svg id="close-settings-button" viewBox="0 0 16 16">
-          <path fill="currentColor" d="m8 8.707l3.646 3.647l.708-.707L8.707 8l3.647-3.646l-.707-.708L8 7.293L4.354 3.646l-.707.708L7.293 8l-3.646 3.646l.707.708L8 8.707z"/>
+          <path d="m8 8.707l3.646 3.647l.708-.707L8.707 8l3.647-3.646l-.707-.708L8 7.293L4.354 3.646l-.707.708L7.293 8l-3.646 3.646l.707.708L8 8.707z"/>
         </svg>
 
         <div id="settings-header">
@@ -181,7 +186,7 @@
       <div id="scoreboard-container">
 
         <svg id="close-scoreboard-button" viewBox="0 0 16 16">
-          <path fill="currentColor" d="m8 8.707l3.646 3.647l.708-.707L8.707 8l3.647-3.646l-.707-.708L8 7.293L4.354 3.646l-.707.708L7.293 8l-3.646 3.646l.707.708L8 8.707z"/>
+          <path d="m8 8.707l3.646 3.647l.708-.707L8.707 8l3.647-3.646l-.707-.708L8 7.293L4.354 3.646l-.707.708L7.293 8l-3.646 3.646l.707.708L8 8.707z"/>
         </svg>
 
         <h3>STATISTICS</h3>
@@ -317,7 +322,7 @@
 
   </div>
 
-  <script src="script.js"></script>
+  <script defer src="script.js"></script>
 
 </body>
 
