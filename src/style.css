@@ -253,7 +253,7 @@ svg {
 	place-items: center;
 	height: 4rem;
   width: 2.75rem;
-  margin: 0.2rem;
+  margin: 0.25rem 0.2rem;
 	border: none;
 	border-radius: 0.3rem;
 	cursor: pointer;

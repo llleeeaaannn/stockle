@@ -205,14 +205,16 @@ export default class Game {
     let currentGuess = this.guesses[currentRow].join('').toUpperCase();
 
     if (currentTile < this.l) {
+      this.shake();
       this.setPopUpMessage('Not enough letters');
-      this.invalidAnswerDisplay();
+      this.togglePopUp();
       return;
     }
 
     if (!(validTickers.includes(currentGuess)) && currentGuess !== this.wordle) {
+      this.shake();
       this.setPopUpMessage('Not a ticker ');
-      this.invalidAnswerDisplay();
+      this.togglePopUp();
       return;
     }
 
@@ -266,14 +268,16 @@ export default class Game {
     let currentGuess = this.guesses[currentRow].join('').toUpperCase();
 
     if (currentTile < this.l) {
+      this.shake();
       this.setPopUpMessage('Not enough letters');
-      this.invalidAnswerDisplay();
+      this.togglePopUp();
       return;
     }
 
     if (!(validTickers.includes(currentGuess)) && currentGuess !== this.wordle) {
+      this.shake();
       this.setPopUpMessage('Not a ticker ');
-      this.invalidAnswerDisplay();
+      this.togglePopUp();
       return;
     }
 
@@ -443,66 +447,6 @@ export default class Game {
     }
   }
 
-  // Function to add 1 to currentTile and save it to localStorage
-  addToCurrentTile() {
-    this.currentTile++;
-    this.storeCurrentTile(this.currentTile);
-  }
-
-  // Function to remove 1 from currentTile and save it to localStorage
-  removeFromCurrentTile() {
-    this.currentTile--;
-    this.storeCurrentTile(this.currentTile);
-  }
-
-  // Function to set currentTile to a value and save it to localStorage
-  setCurrentTile(value) {
-    this.currentTile = value;
-    this.storeCurrentTile(this.currentTile);
-  }
-
-  // Function to set currentTile to 0 and save it to localStorage
-  resetCurrentTile() {
-    this.currentTile = 0;
-    this.storeCurrentTile(this.currentTile);
-  }
-
-  // Function to store currentTile value in localStorage
-  storeCurrentTile(currentTile) {
-    let storedCurrentTile = {
-      value: currentTile,
-      expiry: this.getNowZeroTime()
-    }
-    localStorage.setItem('CurrentTile', JSON.stringify(storedCurrentTile));
-  }
-
-  // Function to add 1 to currentRow value and save it to localStorage
-  addToCurrentRow() {
-    this.currentRow++;
-    this.storeCurrentRow(this.currentRow);
-  }
-
-  // Function to set currentRow to a value and save it to localStorage
-  setCurrentRow(value) {
-    this.currentRow = value;
-    this.storeCurrentTile(this.currentTile);
-  }
-
-  // Function to set currentRow to 0 and save it to localStorage
-  resetCurrentRow() {
-    this.currentRow = 0;
-    this.storeCurrentRow(this.currentRow);
-  }
-
-  // Function to store currentRow value in localStorage
-  storeCurrentRow(currentRow) {
-    let storedCurrentRow = {
-      value: currentRow,
-      expiry: this.getNowZeroTime()
-    }
-    localStorage.setItem('CurrentRow', JSON.stringify(storedCurrentRow));
-  }
-
   // Function to render value into a tile element
   renderTile(letter, row, tile) {
     let tileElement = document.getElementById('row' + row + 'tile' + tile);
@@ -517,42 +461,6 @@ export default class Game {
     tileElement.textContent = '';
     tileElement.removeAttribute('data');
     tileElement.classList.remove('on-row');
-  }
-
-  // Code to populate previous guesses of that day upon page reload
-  saveGuess() {
-    let currentRow = this.currentRow;
-    for (let tile = 0; tile < this.guesses[currentRow].length; tile++) {
-      let guess = this.guesses[currentRow][tile];
-      let key = 'row' + currentRow + 'tile' + tile;
-      let color = document.getElementById(key).dataset.color;
-      this.setGuessWithExpiry(key, guess, color);
-    }
-  }
-
-  // Save each letter of a entered guess alongside the time(day) and color
-  setGuessWithExpiry(key, value, color) {
-  	let valueWithExpiry = {
-  		value: value,
-      color: color,
-      expiry: this.getNowZeroTime()
-  	}
-  	localStorage.setItem(key, JSON.stringify(valueWithExpiry))
-  }
-
-  // Function to return the getTime of today at 00:00:00
-  getNowZeroTime() {
-    let now = new Date();
-    now.setHours(0);
-    now.setMinutes(0);
-    now.setSeconds(0, 0);
-    return now.getTime();
-  }
-
-  // Function to call necessary functions when answer is not valid
-  invalidAnswerDisplay() {
-    this.shake();
-    this.togglePopUp();
   }
 
   // Function to set popup message text
@@ -622,62 +530,6 @@ export default class Game {
       jumpArg(4, currentRow);
     }, 3200)
 
-  }
-
-  // Function to set gameWon along with date
-  setGameWon(value) {
-    this.gameWon = value;
-    let storedGameWon = {
-      value: value,
-      expiry: this.getNowZeroTime()
-    }
-    localStorage.setItem('GameWon', JSON.stringify(storedGameWon))
-  }
-
-  // Function to set gameOver along with date
-  setGameOver(value) {
-    this.gameOver = value;
-    let storedGameOver = {
-      value: value,
-      expiry: this.getNowZeroTime()
-    }
-    localStorage.setItem('GameOver', JSON.stringify(storedGameOver))
-  }
-
-  // Function to disable Hard Mode checkbox
-  disableHardModeCheckbox() {
-    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
-    if (this.gameOver || this.currentRow === 0) {
-      hardModeCheckbox.disabled = false;
-    } else {
-      hardModeCheckbox.disabled = true;
-    }
-  }
-
-  // Code to change to and from Hard Mode when switch is clicked
-  switchHardModeListener() {
-    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
-    hardModeCheckbox.addEventListener('click', () => {
-      hardModeCheckbox.checked === true ? this.hardMode = true : this.hardMode = false;
-      this.storeHardMode();
-    });
-  }
-
-  disabledCheckboxListener() {
-    let that = this;
-    let hardModeSwitch = document.getElementById('hard-mode-switch');
-    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
-    hardModeSwitch.addEventListener('click', function(e) {
-      if (hardModeCheckbox.disabled) {
-        hardModeCheckbox.checked ? that.setPopUpMessage('Hard mode can only be disabled at the start of a round') : that.setPopUpMessage('Hard mode can only be enabled at the start of a round');
-        that.togglePopUpLong();
-      }
-    })
-  }
-
-  // Code to store hardMode value in localStorage
-  storeHardMode() {
-    this.hardMode ? localStorage.setItem('HardMode', true) : localStorage.setItem('HardMode', false);
   }
 
   // Function to add to number of games completed
@@ -878,6 +730,32 @@ export default class Game {
     }
   }
 
+  // Function to create countdown clock for scoreboard
+  makeCountdown() {
+    let date = new Date();
+    date.setDate(date.getDate() + 1)
+    date.setHours(0, 0, 0);
+    let total = Date.parse(date) - Date.parse(new Date());
+    let seconds = Math.floor( (total/1000) % 60 );
+    let minutes = Math.floor( (total/1000/60) % 60 );
+    let hours = Math.floor( (total/(1000*60*60)) % 24 );
+
+    hours = '0' + hours;
+    minutes = '0' + minutes
+    seconds = '0' + seconds;
+
+    if (this.gameOver) {
+      let countdown = document.getElementById('countdown-container');
+      countdown.innerHTML = `<h5>NEXT STOCKLE</h5><span> ${hours.slice(-2)} : ${minutes.slice(-2)} : ${seconds.slice(-2)}`;
+    }
+  }
+
+  // Function to update and display the countdown every second
+  displayCountdown() {
+    let that = this;
+    setInterval(function() { that.makeCountdown() }, 1000);
+  }
+
   // Code to populate wordle number at bottom right of settings
   populateWordleNumber() {
     let wordleNumberParagraph = document.getElementById('wordle-number');
@@ -903,16 +781,6 @@ export default class Game {
         return '5th';
         break;
     }
-  }
-
-  // Code to define which day it is
-  wordleNumber() {
-    let today = new Date();
-    let milliSince1970 = today.getTime();
-    let milliPerDay = 86400000;
-    let daysSince1970 = Math.floor(milliSince1970/milliPerDay);
-    let dailyDate = daysSince1970 - 19236 + 0;
-    return dailyDate;
   }
 
   // Code to copy the results of the users daily wordle to the clipboard upon them clicking on the Share button in thr scoreboard
@@ -976,31 +844,144 @@ export default class Game {
     }
   }
 
-  // Function to create countdown clock for scoreboard
-  makeCountdown() {
-    let date = new Date();
-    date.setDate(date.getDate() + 1)
-    date.setHours(0, 0, 0);
-    let total = Date.parse(date) - Date.parse(new Date());
-    let seconds = Math.floor( (total/1000) % 60 );
-    let minutes = Math.floor( (total/1000/60) % 60 );
-    let hours = Math.floor( (total/(1000*60*60)) % 24 );
+  // Function to add 1 to currentTile and save it to localStorage
+  addToCurrentTile() {
+    this.currentTile++;
+    this.storeCurrentTile(this.currentTile);
+  }
 
-    hours = '0' + hours;
-    minutes = '0' + minutes
-    seconds = '0' + seconds;
+  // Function to remove 1 from currentTile and save it to localStorage
+  removeFromCurrentTile() {
+    this.currentTile--;
+    this.storeCurrentTile(this.currentTile);
+  }
 
-    if (this.gameOver) {
-      let countdown = document.getElementById('countdown-container');
-      countdown.innerHTML = `<h5>NEXT STOCKLE</h5><span> ${hours.slice(-2)} : ${minutes.slice(-2)} : ${seconds.slice(-2)}`;
+  // Function to set currentTile to a value and save it to localStorage
+  setCurrentTile(value) {
+    this.currentTile = value;
+    this.storeCurrentTile(this.currentTile);
+  }
+
+  // Function to set currentTile to 0 and save it to localStorage
+  resetCurrentTile() {
+    this.currentTile = 0;
+    this.storeCurrentTile(this.currentTile);
+  }
+
+  // Function to store currentTile value in localStorage
+  storeCurrentTile(currentTile) {
+    let storedCurrentTile = {
+      value: currentTile,
+      expiry: this.getNowZeroTime()
+    }
+    localStorage.setItem('CurrentTile', JSON.stringify(storedCurrentTile));
+  }
+
+  // Function to add 1 to currentRow value and save it to localStorage
+  addToCurrentRow() {
+    this.currentRow++;
+    this.storeCurrentRow(this.currentRow);
+  }
+
+  // Function to set currentRow to a value and save it to localStorage
+  setCurrentRow(value) {
+    this.currentRow = value;
+    this.storeCurrentTile(this.currentTile);
+  }
+
+  // Function to set currentRow to 0 and save it to localStorage
+  resetCurrentRow() {
+    this.currentRow = 0;
+    this.storeCurrentRow(this.currentRow);
+  }
+
+  // Function to store currentRow value in localStorage
+  storeCurrentRow(currentRow) {
+    let storedCurrentRow = {
+      value: currentRow,
+      expiry: this.getNowZeroTime()
+    }
+    localStorage.setItem('CurrentRow', JSON.stringify(storedCurrentRow));
+  }
+
+  // Code to populate previous guesses of that day upon page reload
+  saveGuess() {
+    let currentRow = this.currentRow;
+    for (let tile = 0; tile < this.guesses[currentRow].length; tile++) {
+      let guess = this.guesses[currentRow][tile];
+      let key = 'row' + currentRow + 'tile' + tile;
+      let color = document.getElementById(key).dataset.color;
+      this.setGuessWithExpiry(key, guess, color);
     }
   }
 
-  // Function to update and display the countdown every second
-  displayCountdown() {
-    let that = this;
-    setInterval(function() { that.makeCountdown() }, 1000);
+  // Save each letter of a entered guess alongside the time(day) and color
+  setGuessWithExpiry(key, value, color) {
+  	let valueWithExpiry = {
+  		value: value,
+      color: color,
+      expiry: this.getNowZeroTime()
+  	}
+  	localStorage.setItem(key, JSON.stringify(valueWithExpiry))
   }
+
+  // Function to set gameWon along with date
+  setGameWon(value) {
+    this.gameWon = value;
+    let storedGameWon = {
+      value: value,
+      expiry: this.getNowZeroTime()
+    }
+    localStorage.setItem('GameWon', JSON.stringify(storedGameWon))
+  }
+
+  // Function to set gameOver along with date
+  setGameOver(value) {
+    this.gameOver = value;
+    let storedGameOver = {
+      value: value,
+      expiry: this.getNowZeroTime()
+    }
+    localStorage.setItem('GameOver', JSON.stringify(storedGameOver))
+  }
+
+  // Code to change to and from Hard Mode when switch is clicked
+  switchHardModeListener() {
+    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
+    hardModeCheckbox.addEventListener('click', () => {
+      hardModeCheckbox.checked === true ? this.hardMode = true : this.hardMode = false;
+      this.storeHardMode();
+    });
+  }
+
+  // Function to disable Hard Mode checkbox
+  disableHardModeCheckbox() {
+    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
+    if (this.gameOver || this.currentRow === 0) {
+      hardModeCheckbox.disabled = false;
+    } else {
+      hardModeCheckbox.disabled = true;
+    }
+  }
+
+  // Function to set and trigger pop up message of hard mode switch is clicked while disabled (during game)
+  disabledCheckboxListener() {
+    let that = this;
+    let hardModeSwitch = document.getElementById('hard-mode-switch');
+    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
+    hardModeSwitch.addEventListener('click', function(e) {
+      if (hardModeCheckbox.disabled) {
+        hardModeCheckbox.checked ? that.setPopUpMessage('Hard mode can only be disabled at the start of a round') : that.setPopUpMessage('Hard mode can only be enabled at the start of a round');
+        that.togglePopUpLong();
+      }
+    })
+  }
+
+  // Code to store hardMode value in localStorage
+  storeHardMode() {
+    this.hardMode ? localStorage.setItem('HardMode', true) : localStorage.setItem('HardMode', false);
+  }
+
 
   // Function to get stored Darktheme, apply it and set checkbox to match it
   getStoredDarkTheme() {
@@ -1076,16 +1057,6 @@ export default class Game {
     localStorage.setItem('contrast', value)
   }
 
-  // Function to apply light theme
-  makeLight() {
-    let stylesheet = document.getElementById('rootStylesheet');
-    if (this.contrastTheme) {
-      stylesheet.textContent = lightContrastStyle;
-    } else {
-      stylesheet.textContent = lightStyle;
-    }
-  }
-
   // Function to apply dark theme
   makeDark() {
     let stylesheet = document.getElementById('rootStylesheet');
@@ -1093,6 +1064,16 @@ export default class Game {
       stylesheet.textContent = darkContrastStyle;
     } else {
       stylesheet.textContent = darkStyle;
+    }
+  }
+
+  // Function to apply light theme
+  makeLight() {
+    let stylesheet = document.getElementById('rootStylesheet');
+    if (this.contrastTheme) {
+      stylesheet.textContent = lightContrastStyle;
+    } else {
+      stylesheet.textContent = lightStyle;
     }
   }
 
@@ -1215,6 +1196,27 @@ export default class Game {
       this.setCurrentRow(row + 1);
       this.setCurrentTile(0);
     }
+  }
+
+  // STAND ALONE FUNCTIONS
+
+  // Code to define which day it is
+  wordleNumber() {
+    let today = new Date();
+    let milliSince1970 = today.getTime();
+    let milliPerDay = 86400000;
+    let daysSince1970 = Math.floor(milliSince1970/milliPerDay);
+    let dailyDate = daysSince1970 - 19236 + 0;
+    return dailyDate;
+  }
+
+  // Function to return the getTime of today at 00:00:00
+  getNowZeroTime() {
+    let now = new Date();
+    now.setHours(0);
+    now.setMinutes(0);
+    now.setSeconds(0, 0);
+    return now.getTime();
   }
 
 
