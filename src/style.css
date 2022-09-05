@@ -765,7 +765,7 @@ html {
   opacity: 1;
 }
 
-@media {
+@media (max-width:480px) {
 	/* Tile Stlying */
 	#tile-container {
 	  position: relative;
