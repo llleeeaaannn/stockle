@@ -762,3 +762,50 @@ html {
   visibility: visible;
   opacity: 1;
 }
+
+@media {
+	#keyboard-container {
+		width: 100vw;
+		height: 25vh;
+		padding: 2%;
+	}
+
+	#keyboard-container > div {
+	  display: flex;
+	  flex-direction: row;
+	  justify-content: space-around;
+	  text-align: center;
+	  height: 30.66%;
+	}
+
+	#keyboard-container > div > div {
+		display: grid;
+		place-items: center;
+		flex: 1;
+		height: 100%;
+	  margin: 0 1%;
+		border: none;
+		border-radius: 0.3rem;
+		cursor: pointer;
+	}
+
+	#keyboard-row0,
+	#keyboard-row1 {
+		margin-bottom: 2%;
+	}
+
+	/* Forcing keys of middle row to the center */
+	#keyboard-container #keyboard-row1 {
+		justify-content: center;
+		margin-left: 4.85%;
+		margin-right: 4.85%;
+	}
+
+	/* Increasing size of 'Enter' and 'Back' keys on keyboard */
+	#keyboard-row2 :first-child,
+	#keyboard-row2 :last-child {
+	  flex: 1.6055;
+	}
+
+
+}
