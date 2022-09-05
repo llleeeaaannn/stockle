@@ -1206,7 +1206,7 @@ export default class Game {
     let milliSince1970 = today.getTime();
     let milliPerDay = 86400000;
     let daysSince1970 = Math.floor(milliSince1970/milliPerDay);
-    let dailyDate = daysSince1970 - 19236 + 0;
+    let dailyDate = daysSince1970 - 19240 + 0;
     return dailyDate;
   }
 
