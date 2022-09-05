@@ -110,6 +110,8 @@ table {
 	--fs-md: 1.2rem;
 	--fs-lg: 1.5rem;
 	--fs-xl: 2rem;
+  --fs-xxl: 4rem;
+  --fs-xxxl: 5rem;
 }
 
 /* Fonts */
@@ -193,7 +195,7 @@ button {
 
 /* Styling for header */
 #header-container h1 {
-	font-size: 2rem;
+	font-size: var(--fs-xl);
 	font-family: NYTKarnak;
 	letter-spacing: 0.2rem;
 }
@@ -764,9 +766,53 @@ html {
 }
 
 @media {
+	/* Tile Stlying */
+	#tile-container {
+	  position: relative;
+		display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  justify-content: center;
+	  width: 100vw;
+		height: 60vh;
+	  border: none;
+	}
+
+	/* Styling for each row of tiles (mainly flexbox) */
+	#tile-container > div {
+	  display: flex;
+	  flex-direction: row;
+		justify-content: center;
+		width: 100%;
+		margin: 0.4rem 0rem;
+	  border: none;
+	}
+
+	/* Styling for each tile */
+	#tile-container > div > div {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  height: 9vh;
+		width: 9vh;
+	  margin: 0rem 0.4rem;
+		border: var(--tileBorder);
+		border-width: 0.35rem;
+		font-size: var(--fs-xxxl);
+	}
+
+	/* Styling to change tile border colour when selected */
+	#tile-container .on-row {
+	  border: var(--tileOnRowBorder);
+		border-width: 0.35rem;
+	}
+
+
+
+	/* Keyboard Styling */
 	#keyboard-container {
 		width: 100vw;
-		height: 25vh;
+		height: 30vh;
 		padding: 2%;
 	}
 
@@ -785,7 +831,7 @@ html {
 		height: 100%;
 	  margin: 0 1%;
 		border: none;
-		border-radius: 0.3rem;
+		border-radius: 0.5rem;
 		cursor: pointer;
 	}
 
@@ -807,5 +853,34 @@ html {
 	  flex: 1.6055;
 	}
 
+	#keyboard-container span {
+		font-size: var(--fs-xl);
+		cursor: pointer;
+	}
+
+	/* Header Styling */
+	#header-container {
+		display: flex;
+	  flex-direction: row;
+	  justify-content: space-between;
+	  align-items: center;
+		height: 7vh;
+	  width: 100vw;
+		border-bottom: var(--tileBorder);
+		border-width: 0.2rem;
+	}
+
+	/* Styling for header */
+	#header-container h1 {
+		font-size: var(--fs-xxl);
+		font-family: NYTKarnak;
+		letter-spacing: 0.25rem;
+	}
+
+	#score-icon,
+	#settings-icon {
+	  width: 5rem;
+	  height: 5rem;
+	}
 
 }
