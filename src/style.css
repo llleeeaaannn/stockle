@@ -765,7 +765,7 @@ html {
   opacity: 1;
 }
 
-@media (max-width:480px) {
+@media (max-width:300px) {
 	/* Tile Stlying */
 	#tile-container {
 	  position: relative;
@@ -882,5 +882,4 @@ html {
 	  width: 5rem;
 	  height: 5rem;
 	}
-
 }
