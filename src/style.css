@@ -417,15 +417,6 @@ svg {
 	margin-bottom: 0.2rem;
 }
 
-#scoreboard-container h3 {
-	font-size: var(--fs-lg);
-	margin-top: 1rem;
-}
-
-#scoreboard-container h4 {
-  font-size: var(fs-base);
-}
-
 #scores-container span {
   font-size: var(--fs-xs);
   font-family: 'NeueHelveticaLight', sans-serif;
@@ -434,6 +425,15 @@ svg {
 #scores-container .value {
   font-size: var(--fs-xl);
 	font-family: 'NeueHelveticaBQ', sans-serif;
+}
+
+#scoreboard-container h3 {
+	font-size: var(--fs-lg);
+	margin-top: 1rem;
+}
+
+#scoreboard-container h4 {
+  font-size: var(fs-base);
 }
 
 /* Scoreboard Chart Styling */
@@ -447,6 +447,12 @@ svg {
 	place-items: center;
   margin-right: 0.5rem;
   color: var(--fontColor);
+}
+
+#chart-score-container p {
+  color: var(--white);
+  float: right;
+	margin-right: 0.1rem;
 }
 
 #chart-one,
@@ -483,11 +489,6 @@ svg {
   background-color: var(--greenBG);
 }
 
-#chart-score-container p {
-  color: var(--white);
-  float: right;
-	margin-right: 0.1rem;
-}
 
 /* Styling for clock & share container */
 #clock-share-container {
@@ -780,7 +781,7 @@ html {
 	}
 
 	/* Styling for each row of tiles (mainly flexbox) */
-	#tile-container > div {
+	#tile-container > div[id^="row"] {
 	  display: flex;
 	  flex-direction: row;
 		justify-content: center;
@@ -871,7 +872,6 @@ html {
 
 	/* Styling for header */
 	#header-container h1 {
-		color: blue;
 		font-size: var(--fs-xxl);
 		font-family: NYTKarnak;
 		letter-spacing: 0.25rem;
@@ -881,5 +881,206 @@ html {
 	#settings-icon {
 	  width: 6rem;
 	  height: 6rem;
+	}
+
+	/* Popup Styling */
+	#popup {
+		position: absolute;
+		top: -1.5rem;
+	  display: grid;
+		place-items: center;
+	  padding: 2rem;
+	  border-radius: 0.75rem;
+		color: var(--oppositeFont);
+	  background-color: var(--oppositeBG);
+		opacity: 0;
+	  z-index: 100;
+	}
+
+	#popup p {
+		font-size: var(--fs-xl);
+	}
+
+	/* Scoreboard Styling */
+	/* Scoreboard Container */
+	#scoreboard {
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: 100vh;
+		width: 100vw;
+		z-index: 2;
+		background-color: var(--opaqueBG);
+	}
+
+	#scoreboard.scoreboard-hide {
+		display: none;
+	}
+
+	#scoreboard-container {
+		position: relative;
+	  display: flex;
+	  flex-direction: column;
+		align-items: center;
+		width: 90%;
+		padding: 1rem;
+	  border-radius: 1rem;
+		box-shadow: 0rem 0rem 1rem 0.5rem var(--shadowGrey);
+	  background-color: var(--offsetColorBG);
+	}
+
+	#close-scoreboard-button {
+		position: absolute;
+		right: 2rem;
+		top: 2rem;
+		height: 3rem;
+		width: 3rem;
+		margin: 0rem;
+		cursor: pointer;
+	}
+
+	#scores-container {
+	  display: flex;
+	  flex-direction: row;
+		margin: 1rem 0rem;
+	}
+
+	#scores-container > div {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  padding: 0.5rem;
+	}
+
+	#scores-container > div :first-child {
+		margin-bottom: 0.2rem;
+	}
+
+	#scores-container span {
+		/* Make a bit smaller */
+	  font-size: 1.75rem;
+	  font-family: 'NeueHelveticaLight', sans-serif;
+	}
+
+	#scores-container .value {
+	  font-size: var(--fs-xxxl);
+		font-family: 'NeueHelveticaBQ', sans-serif;
+	}
+
+	#scoreboard-container h3 {
+		font-size: 2.5rem;
+		margin-top: 4rem;
+	}
+
+	#scoreboard-container h4 {
+		font-size: var(--fs-xl);
+		margin-top: 2rem;
+	}
+
+	/* Scoreboard Chart Styling */
+	#chart-score-container {
+	  width: 80%;
+	  margin: 0.5rem;
+	}
+
+	#chart-score-container span {
+	  display: grid;
+		place-items: center;
+	  margin-right: 1rem;
+		font-size: var(--fs-xl);
+	  color: var(--fontColor);
+	}
+
+	#chart-score-container p {
+		font-size: var(--fs-xl);
+	  color: var(--white);
+	  float: right;
+		margin-right: 0.1rem;
+	}
+
+	#chart-one,
+	#chart-two,
+	#chart-three,
+	#chart-four,
+	#chart-five,
+	#chart-six {
+	  display: flex;
+	  flex-direction: row;
+	  justify-content: flex-start;
+		align-items: center;
+	  margin: 0.6rem;
+	}
+
+	#bar-chart-1,
+	#bar-chart-2,
+	#bar-chart-3,
+	#bar-chart-4,
+	#bar-chart-5,
+	#bar-chart-6 {
+	  min-width: 7%;
+	  background-color: var(--chartBarColor);
+	  padding: 0.5rem;
+	}
+
+	#chart-score-container .zero {
+		display: grid;
+		place-items: center;
+		width: 7%;
+	}
+
+	#chart-score-container > div > div.green-bar {
+	  background-color: var(--greenBG);
+	}
+
+	/* Styling for clock & share container */
+	#clock-share-container {
+	  display: flex;
+	  flex-direction: row;
+	  align-items: center;
+		width: 90%;
+		margin: 2rem 0rem;
+	}
+
+	#clock-share-container.hide-clock-share {
+	  display: none;
+	}
+
+	/* Styling for countdown clock */
+	#countdown-container {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  width: 50%;
+		margin: 0;
+	}
+
+	#countdown-container h5 {
+		font-size: var(--fs-xl);
+		margin-bottom: 0.5rem;
+	}
+
+	#countdown-container span {
+	  font-size: var(--fs-xxl);
+	}
+
+	/* Share Button Styling */
+	#share-container {
+		width: 50%;
+		padding: 1rem 0rem;
+	  border-left: 1px solid var(--fontColor);
+	}
+
+	#share-container button {
+	  color: var(--white);
+	  background-color: var(--greenBG);
+		font-size: 3rem;
+		width: 90%;
+		padding: 1rem 1rem;
+		margin: 0 0 0 2rem;
+	  border: none;
+	  border-radius: 0.5rem;
 	}
 }
