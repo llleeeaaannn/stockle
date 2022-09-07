@@ -15,7 +15,7 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 10 0%;
+	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
 }
@@ -138,7 +138,6 @@ table {
 }
 
 body {
-	position: absolute;
   background-color: var(--colorBG);
   color: var(--fontColor);
 	font-family: 'NeueHelveticaBQ', sans-serif;
@@ -766,7 +765,7 @@ html {
   opacity: 1;
 }
 
-@media (max-device-width:480px) {
+@media (min-width:80px) {
 	/* Tile Stlying */
 	#tile-container {
 	  position: relative;
@@ -808,10 +807,12 @@ html {
 		border-width: 0.35rem;
 	}
 
+
+
 	/* Keyboard Styling */
 	#keyboard-container {
 		width: 100vw;
-		height: 28vh;
+		height: 30vh;
 		padding: 2%;
 	}
 
@@ -879,7 +880,129 @@ html {
 
 	#score-icon,
 	#settings-icon {
-	  width: 6rem;
-	  height: 6rem;
+	  width: 5rem;
+	  height: 5rem;
+	}
+}
+
+@media (max-width:480px) {
+	/* Tile Stlying */
+	#tile-container {
+	  position: relative;
+		display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  justify-content: center;
+	  width: 500px;
+		height: auto;
+	  border: none;
+	}
+
+	/* Styling for each row of tiles (mainly flexbox) */
+	#tile-container > div {
+	  display: flex;
+	  flex-direction: row;
+		/* Mayeb remove below */
+		justify-content: center;
+		width: auto;
+		margin: 0;
+	  border: none;
+	}
+
+	/* Styling for each tile */
+	#tile-container > div > div{
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  height: 4rem;
+		width: 4rem;
+		margin: 2px;
+		border: var(--tileBorder);
+		font-size: var(--fs-xl);
+	}
+
+	/* Styling to change tile border colour when selected */
+	#tile-container .on-row {
+	  border: var(--tileOnRowBorder);
+	}
+
+	/* Maybe override border width */
+
+
+	/* Keyboard Styling */
+	#keyboard-container {
+		height: auto;
+		width: auto;
+		padding: 0;
+	  margin-bottom: 0.25rem;
+	}
+
+	#keyboard-container > div {
+	  display: flex;
+	  flex-direction: row;
+	  justify-content: space-around;
+	  text-align: center;
+	  height: 33%;
+	}
+
+	#keyboard-container > div > div {
+		display: grid;
+		place-items: center;
+		flex: 0 1 auto;
+		height: 4rem;
+	  width: 2.75rem;
+	  margin: 0.25rem 0.2rem;
+		border: none;
+		border-radius: 0.3rem;
+		cursor: pointer;
+	}
+
+	#keyboard-row0,
+	#keyboard-row1 {
+		margin-bottom: 0;
+	}
+
+	/* Forcing keys of middle row to the center */
+	#keyboard-container #keyboard-row1 {
+		justify-content: center;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	/* Increasing size of 'Enter' and 'Back' keys on keyboard */
+	#keyboard-row2 :first-child,
+	#keyboard-row2 :last-child {
+	  flex: 1.5;
+	}
+
+	#keyboard-container span {
+		font-size: var(--fs-sm);
+		cursor: pointer;
+	}
+
+	/* Header Styling */
+	#header-container {
+		display: flex;
+	  flex-direction: row;
+	  justify-content: space-between;
+	  align-items: center;
+		height: 7vh;
+	  width: 100vw;
+	  border-bottom: 1px solid var(--settingsLineColor);
+		/* Border width */
+	}
+
+	/* Styling for header */
+	#header-container h1 {
+		color: red;
+		font-size: var(--fs-xl);
+		font-family: NYTKarnak;
+		letter-spacing: 0.2rem;
+	}
+
+	#score-icon,
+	#settings-icon {
+	  width: 2.5rem;
+	  height: 2.5rem;
 	}
 }
