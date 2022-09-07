@@ -809,6 +809,8 @@ html {
 		border-width: 0.35rem;
 	}
 
+
+
 	/* Keyboard Styling */
 	#keyboard-container {
 		width: 100vw;
@@ -858,6 +860,8 @@ html {
 		cursor: pointer;
 	}
 
+
+
 	/* Header Styling */
 	#header-container {
 		display: flex;
@@ -883,6 +887,8 @@ html {
 	  height: 6rem;
 	}
 
+
+
 	/* Popup Styling */
 	#popup {
 		position: absolute;
@@ -900,6 +906,8 @@ html {
 	#popup p {
 		font-size: var(--fs-xl);
 	}
+
+
 
 	/* Scoreboard Styling */
 	/* Scoreboard Container */
@@ -927,6 +935,7 @@ html {
 		align-items: center;
 		width: 90%;
 		padding: 1rem;
+		padding-bottom: 2rem;
 	  border-radius: 1rem;
 		box-shadow: 0rem 0rem 1rem 0.5rem var(--shadowGrey);
 	  background-color: var(--offsetColorBG);
@@ -952,7 +961,7 @@ html {
 	  display: flex;
 	  flex-direction: column;
 	  align-items: center;
-	  padding: 0.5rem;
+	  padding: 1rem;
 	}
 
 	#scores-container > div :first-child {
@@ -972,7 +981,7 @@ html {
 
 	#scoreboard-container h3 {
 		font-size: 2.5rem;
-		margin-top: 4rem;
+		margin-top: 2rem;
 	}
 
 	#scoreboard-container h4 {
@@ -1041,7 +1050,7 @@ html {
 	  flex-direction: row;
 	  align-items: center;
 		width: 90%;
-		margin: 2rem 0rem;
+		margin-top: 2rem;
 	}
 
 	#clock-share-container.hide-clock-share {
@@ -1082,5 +1091,176 @@ html {
 		margin: 0 0 0 2rem;
 	  border: none;
 	  border-radius: 0.5rem;
+	}
+
+
+
+	/* Settings Styling */
+	#settings-container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: grid;
+		place-items: center;
+		background-color: var(--opaqueBG);
+		height: 100vh;
+		width: 100vw;
+		z-index: 2;
+	}
+
+	#settings-container.settings-hide {
+	  display: none;
+	}
+
+	#settings-inner-container {
+		position: relative;
+	  display: flex;
+	  flex-direction: column;
+		align-items: center;
+		width: 90%;
+		border-radius: 1rem;
+		box-shadow: 0rem 0rem 1rem 0.5rem var(--shadowGrey);
+		background-color: var(--offsetColorBG);
+	}
+
+	#close-settings-button {
+		position: absolute;
+		right: 2rem;
+		top: 2rem;
+		height: 3rem;
+		width: 3rem;
+		margin: 0rem;
+		cursor: pointer;
+	}
+
+	#settings-header,
+	#settings-hard-mode,
+	#settings-dark-theme,
+	#settings-high-contrast,
+	#settings-feedback,
+	#settings-community,
+	#settings-questions,
+	#settings-footer {
+	  display: flex;
+	  flex-direction: row;
+	  justify-content: space-between;
+		align-items: center;
+		width: 90%;
+	  padding: 2.5rem 0rem;
+	  border-bottom: 1px solid var(--settingsLineColor);
+	}
+
+	#settings-header {
+		justify-content: center;
+		padding-top: 0;
+
+	}
+
+	#settings-footer,
+	#settings-header {
+	  border: none;
+	}
+
+	#settings-inner-container input[type="checkbox"] {
+		accent-color: var(--greenBG);
+		cursor: pointer;
+	}
+
+	#hard-mode-switch input[disabled] {
+		pointer-events: none;
+	}
+
+	.settings-extra-text {
+	  display: flex;
+	  flex-direction: column;
+	}
+
+	.settings-extra-text span {
+	  margin-bottom: 0.5rem;
+	}
+
+	/* Settings Switch/Checkbox */
+	.settings-switch {
+		position: relative;
+	  display: block;
+	  width: 45px;
+		width: 4rem;
+	  height: 25px;
+		height: 2.5rem;
+	  cursor: pointer;
+	}
+
+	.settings-switch input[type="checkbox"]{
+	  display: none;
+	}
+
+	.settings-switch input[type="checkbox"]:checked+.toggler-slider {
+	  background-color: var(--greenBG);
+	}
+
+	.settings-switch input[type="checkbox"]:disabled+.toggler-slider {
+	  filter: brightness(50%);
+	}
+
+	.settings-switch .toggler-slider {
+	  background-color: var(--darkGreyBG);
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+		border-radius: 1.25rem;
+	  transition: all 300ms ease;
+	}
+
+	.settings-switch .toggler-knob {
+	  position: absolute;
+	  transition: all 300ms ease;
+	}
+
+	.settings-switch input[type="checkbox"]:checked+.toggler-slider .toggler-knob {
+	  left: calc(100% - 19px - 3px);
+		left: calc(100% - 2rem - 0.25rem);
+	}
+
+	.settings-switch .toggler-knob {
+		top: 3px;
+		top: 0.25rem;
+		left: 3px;
+		left: 0.25rem;
+	  width: calc(25px - 6px);
+		width: calc(2.5rem - 0.5rem);
+	  height: calc(25px - 6px);
+		height: calc(2.5rem - 0.5rem);
+	  border-radius: 50%;
+	  background-color: var(--white);
+	}
+
+	/* Settings text styling */
+	#settings-container span,
+	#settings-container p,
+	#settings-container a {
+	  font-family: 'NeueHelveticaLight', sans-serif;
+	}
+
+	#settings-container h3 {
+		font-size: 2.5rem;
+		margin-top: 2rem;
+		font-family: 'NeueHelveticaBQ', sans-serif;
+	}
+
+	#settings-container span {
+	  font-size: 2.5rem;
+	}
+
+	#settings-container p {
+	  color: var(--secondFontColor);
+	  font-size: 1.75rem;
+	}
+
+	#settings-container a {
+	  color: var(--secondFontColor);
+	  font-size: var(--fs-xl);
+		text-decoration: none;
 	}
 }
