@@ -107,33 +107,16 @@ export default class Game {
   }
 
   // Function to create keyboard keys
-  // makeKeyboardKeys() {
-  //   let that = this;
-  //   keysArray.forEach((array, index) => {
-  //     let keyboardRow = document.getElementById('keyboard-row' + index);
-  //     array.forEach((key) => {
-  //       let addKey = document.createElement('div');
-  //       let letter = document.createElement('span');
-  //       letter.textContent = key;
-  //       addKey.appendChild(letter);
-  //       addKey.setAttribute('data-key', key);
-  //       addKey.setAttribute('id', key);
-  //       addKey.classList.add('lightgrey-color-key');
-  //       addKey.addEventListener('click', () => that.click(key));
-  //       keyboardRow.appendChild(addKey);
-  //     });
-  //   });
-  // }
-
   makeKeyboardKeys() {
     let that = this;
     keysArray.forEach((array, index) => {
       let keyboardRow = document.getElementById('keyboard-row' + index);
       array.forEach((key) => {
-        let addKey = document.createElement('button');
-        addKey.textContent = key;
+        let addKey = document.createElement('div');
+        let letter = document.createElement('span');
+        letter.textContent = key;
+        addKey.appendChild(letter);
         addKey.setAttribute('data-key', key);
-        addKey.setAttribute('tabindex', '-1');
         addKey.setAttribute('id', key);
         addKey.classList.add('lightgrey-color-key');
         addKey.addEventListener('click', () => that.click(key));
@@ -141,6 +124,23 @@ export default class Game {
       });
     });
   }
+
+  // makeKeyboardKeys() {
+  //   let that = this;
+  //   keysArray.forEach((array, index) => {
+  //     let keyboardRow = document.getElementById('keyboard-row' + index);
+  //     array.forEach((key) => {
+  //       let addKey = document.createElement('button');
+  //       addKey.textContent = key;
+  //       addKey.setAttribute('data-key', key);
+  //       addKey.setAttribute('tabindex', '-1');
+  //       addKey.setAttribute('id', key);
+  //       addKey.classList.add('lightgrey-color-key');
+  //       addKey.addEventListener('click', () => that.click(key));
+  //       keyboardRow.appendChild(addKey);
+  //     });
+  //   });
+  // }
 
 //   function makeKeyboardKeys() {
 //   for (i = 0; i < 3; i++) {
