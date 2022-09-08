@@ -270,7 +270,7 @@ svg {
   height: 33%;
 }
 
-#keyboard-container > div > div {
+#keyboard-container > div > button {
 	display: grid;
 	place-items: center;
 	height: 4rem;
@@ -278,6 +278,7 @@ svg {
   margin: 0.25rem 0.2rem;
 	border: none;
 	border-radius: 0.3rem;
+	font-size: var(--fs-sm);
 	cursor: pointer;
 }
 
@@ -826,7 +827,7 @@ html {
 	  height: 30.66%;
 	}
 
-	#keyboard-container > div > div {
+	#keyboard-container > div > button {
 		display: grid;
 		place-items: center;
 		flex: 1;
@@ -834,6 +835,7 @@ html {
 	  margin: 0 1%;
 		border: none;
 		border-radius: 0.5rem;
+		font-size: var(--fs-xl);
 		cursor: pointer;
 	}
 
@@ -853,11 +855,6 @@ html {
 	#keyboard-row2 :first-child,
 	#keyboard-row2 :last-child {
 	  flex: 1.6055;
-	}
-
-	#keyboard-container span {
-		font-size: var(--fs-xl);
-		cursor: pointer;
 	}
 
 

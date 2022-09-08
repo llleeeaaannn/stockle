@@ -107,16 +107,33 @@ export default class Game {
   }
 
   // Function to create keyboard keys
+  // makeKeyboardKeys() {
+  //   let that = this;
+  //   keysArray.forEach((array, index) => {
+  //     let keyboardRow = document.getElementById('keyboard-row' + index);
+  //     array.forEach((key) => {
+  //       let addKey = document.createElement('div');
+  //       let letter = document.createElement('span');
+  //       letter.textContent = key;
+  //       addKey.appendChild(letter);
+  //       addKey.setAttribute('data-key', key);
+  //       addKey.setAttribute('id', key);
+  //       addKey.classList.add('lightgrey-color-key');
+  //       addKey.addEventListener('click', () => that.click(key));
+  //       keyboardRow.appendChild(addKey);
+  //     });
+  //   });
+  // }
+
   makeKeyboardKeys() {
     let that = this;
     keysArray.forEach((array, index) => {
       let keyboardRow = document.getElementById('keyboard-row' + index);
       array.forEach((key) => {
-        let addKey = document.createElement('div');
-        let letter = document.createElement('span');
-        letter.textContent = key;
-        addKey.appendChild(letter);
+        let addKey = document.createElement('button');
+        addKey.textContent = key;
         addKey.setAttribute('data-key', key);
+        addKey.setAttribute('tabindex', '-1');
         addKey.setAttribute('id', key);
         addKey.classList.add('lightgrey-color-key');
         addKey.addEventListener('click', () => that.click(key));
@@ -124,6 +141,21 @@ export default class Game {
       });
     });
   }
+
+//   function makeKeyboardKeys() {
+//   for (i = 0; i < 3; i++) {
+//     let keyboardRow = document.getElementById('keyboard-row' + i);
+//     keysArray[i].forEach(function(key) {
+//       let addKey = document.createElement('button');
+//       addKey.textContent = key;
+//       addKey.setAttribute('data-key', key);
+//       addKey.setAttribute('id', key);
+//       addKey.setAttribute('class', 'lightgrey-color-key');
+//       addKey.addEventListener('click', () => click(key));
+//       keyboardRow.appendChild(addKey);
+//     })
+//   }
+// }
 
   // Function to create and insert the popup div
   makePopUp() {
@@ -1224,3 +1256,7 @@ export default class Game {
 // Make sure minimun width of keyboard/tiles is bigger than media query max-width
 
 // Copy paste results dont remain after reloading
+
+// Yesterdays result doesnt seem to clear on new day
+
+// Switch keyboard to div
