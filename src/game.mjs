@@ -1222,3 +1222,5 @@ export default class Game {
 }
 
 // Make sure minimun width of keyboard/tiles is bigger than media query max-width
+
+// Copy paste results dont remain after reloading

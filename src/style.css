@@ -363,6 +363,9 @@ svg {
 
 /* Scoreboard Container */
 #scoreboard {
+	position: absolute;
+	top: 0;
+	left: 0;
 	display: grid;
 	place-items: center;
 	height: 100vh;
@@ -888,8 +891,16 @@ html {
 
 	/* Popup Styling */
 	#popup {
+		position: absolute;
+		top: -1.5rem;
+	  display: grid;
+		place-items: center;
 	  padding: 2rem;
 	  border-radius: 0.75rem;
+		color: var(--oppositeFont);
+	  background-color: var(--oppositeBG);
+		opacity: 0;
+	  z-index: 100;
 	}
 
 	#popup p {
@@ -904,6 +915,10 @@ html {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		height: 100vh;
+		width: 100vw;
+		z-index: 2;
+		background-color: var(--opaqueBG);
 	}
 
 	#scoreboard-container {
