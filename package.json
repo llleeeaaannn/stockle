@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/llleeeaaannn/stockle/issues"
   },
-  "homepage": "./index.html"
+  "homepage": "./index.html",
+  "dependencies": {
+    "date-fns": "^2.29.2"
+  }
 }

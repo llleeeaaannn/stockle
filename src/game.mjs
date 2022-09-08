@@ -3,6 +3,7 @@ import Day from './day.mjs';
 import Storage from './storage.mjs';
 import { keysArray, validLetters, colorKeys, darkStyle, darkContrastStyle, lightStyle, lightContrastStyle } from './variables.mjs';
 import { validAnswers, validTickers } from './tickers.mjs';
+import { differenceInDays } from 'date-fns'
 
 export default class Game {
 
@@ -124,38 +125,6 @@ export default class Game {
       });
     });
   }
-
-  // makeKeyboardKeys() {
-  //   let that = this;
-  //   keysArray.forEach((array, index) => {
-  //     let keyboardRow = document.getElementById('keyboard-row' + index);
-  //     array.forEach((key) => {
-  //       let addKey = document.createElement('button');
-  //       addKey.textContent = key;
-  //       addKey.setAttribute('data-key', key);
-  //       addKey.setAttribute('tabindex', '-1');
-  //       addKey.setAttribute('id', key);
-  //       addKey.classList.add('lightgrey-color-key');
-  //       addKey.addEventListener('click', () => that.click(key));
-  //       keyboardRow.appendChild(addKey);
-  //     });
-  //   });
-  // }
-
-//   function makeKeyboardKeys() {
-//   for (i = 0; i < 3; i++) {
-//     let keyboardRow = document.getElementById('keyboard-row' + i);
-//     keysArray[i].forEach(function(key) {
-//       let addKey = document.createElement('button');
-//       addKey.textContent = key;
-//       addKey.setAttribute('data-key', key);
-//       addKey.setAttribute('id', key);
-//       addKey.setAttribute('class', 'lightgrey-color-key');
-//       addKey.addEventListener('click', () => click(key));
-//       keyboardRow.appendChild(addKey);
-//     })
-//   }
-// }
 
   // Function to create and insert the popup div
   makePopUp() {
@@ -1224,6 +1193,7 @@ export default class Game {
         if (!(key.className === 'green-color-key') && !(key.className === 'yellow-color-key')) {
           key.className = 'darkgrey-color-key';
         }
+        console.log(this.guesses);
       }
       this.setCurrentRow(row + 1);
       this.setCurrentTile(0);
@@ -1234,12 +1204,11 @@ export default class Game {
 
   // Code to define which day it is
   wordleNumber() {
-    let today = new Date();
-    let milliSince1970 = today.getTime();
-    let milliPerDay = 86400000;
-    let daysSince1970 = Math.floor(milliSince1970/milliPerDay);
-    let dailyDate = daysSince1970 - 19240 + 0;
-    return dailyDate;
+    let days = differenceInDays(
+      new Date(),
+      new Date(2022, 8, 8) //Day 0
+    )
+    return days;
   }
 
   // Function to return the getTime of today at 00:00:00
@@ -1258,5 +1227,6 @@ export default class Game {
 // Copy paste results dont remain after reloading
 
 // Yesterdays result doesnt seem to clear on new day
+// The issue is that wordleNumber only changes at 1am. So if changes are made between midnight and 1am they are stored as being made on the same date as the new wordle. Fix: Make wordleNumber update at midnight
 
-// Switch keyboard to div
+// Fix height for mobile
