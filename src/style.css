@@ -270,6 +270,17 @@ svg {
   height: 33%;
 }
 
+/* #keyboard-container > div > div {
+	display: grid;
+	place-items: center;
+	height: 4rem;
+  width: 2.75rem;
+  margin: 0.25rem 0.2rem;
+	border: none;
+	border-radius: 0.3rem;
+	cursor: pointer;
+} */
+
 #keyboard-container > div > button {
 	display: grid;
 	place-items: center;
@@ -282,10 +293,10 @@ svg {
 	cursor: pointer;
 }
 
-#keyboard-container span {
+/* #keyboard-container span {
 	font-size: var(--fs-sm);
 	cursor: pointer;
-}
+} */
 
 /* Forcing keys of middle row to the center */
 #keyboard-container #keyboard-row1 {
@@ -827,6 +838,17 @@ html {
 	  height: 30.66%;
 	}
 
+	/* #keyboard-container > div > div {
+		display: grid;
+		place-items: center;
+		flex: 1;
+		height: 100%;
+	  margin: 0 1%;
+		border: none;
+		border-radius: 0.5rem;
+		cursor: pointer;
+	} */
+
 	#keyboard-container > div > button {
 		display: grid;
 		place-items: center;
@@ -835,8 +857,8 @@ html {
 	  margin: 0 1%;
 		border: none;
 		border-radius: 0.5rem;
-		font-size: var(--fs-xl);
 		cursor: pointer;
+		font-size: var(--fs-xl);
 	}
 
 	#keyboard-row0,
@@ -856,6 +878,11 @@ html {
 	#keyboard-row2 :last-child {
 	  flex: 1.6055;
 	}
+
+	/* #keyboard-container span {
+		font-size: var(--fs-xl);
+		cursor: pointer;
+	} */
 
 
 
