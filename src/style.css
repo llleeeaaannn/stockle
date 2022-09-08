@@ -780,6 +780,10 @@ html {
 }
 
 @media (max-device-width:480px) {
+	body {
+		touch-action: manipulation;
+	}
+
 	/* Tile Stlying */
 	#tile-container {
 	  position: relative;
