@@ -363,9 +363,6 @@ svg {
 
 /* Scoreboard Container */
 #scoreboard {
-	position: absolute;
-	top: 0;
-	left: 0;
 	display: grid;
 	place-items: center;
 	height: 100vh;
@@ -891,16 +888,8 @@ html {
 
 	/* Popup Styling */
 	#popup {
-		position: absolute;
-		top: -1.5rem;
-	  display: grid;
-		place-items: center;
 	  padding: 2rem;
 	  border-radius: 0.75rem;
-		color: var(--oppositeFont);
-	  background-color: var(--oppositeBG);
-		opacity: 0;
-	  z-index: 100;
 	}
 
 	#popup p {
@@ -912,76 +901,39 @@ html {
 	/* Scoreboard Styling */
 	/* Scoreboard Container */
 	#scoreboard {
-		position: absolute;
-		top: 0;
-		left: 0;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		height: 100vh;
-		width: 100vw;
-		z-index: 2;
-		background-color: var(--opaqueBG);
-	}
-
-	#scoreboard.scoreboard-hide {
-		display: none;
 	}
 
 	#scoreboard-container {
-		position: relative;
-	  display: flex;
-	  flex-direction: column;
-		align-items: center;
 		width: 90%;
 		padding: 1rem;
 		padding-bottom: 2rem;
 	  border-radius: 1rem;
-		box-shadow: 0rem 0rem 1rem 0.5rem var(--shadowGrey);
-	  background-color: var(--offsetColorBG);
 	}
 
 	#close-scoreboard-button {
-		position: absolute;
 		right: 2rem;
 		top: 2rem;
 		height: 3rem;
 		width: 3rem;
-		margin: 0rem;
-		cursor: pointer;
-	}
-
-	#scores-container {
-	  display: flex;
-	  flex-direction: row;
-		margin: 1rem 0rem;
 	}
 
 	#scores-container > div {
-	  display: flex;
-	  flex-direction: column;
-	  align-items: center;
 	  padding: 1rem;
 	}
 
-	#scores-container > div :first-child {
-		margin-bottom: 0.2rem;
-	}
-
 	#scores-container span {
-		/* Make a bit smaller */
 	  font-size: 1.75rem;
-	  font-family: 'NeueHelveticaLight', sans-serif;
 	}
 
 	#scores-container .value {
 	  font-size: var(--fs-xxxl);
-		font-family: 'NeueHelveticaBQ', sans-serif;
 	}
 
 	#scoreboard-container h3 {
 		font-size: 2.5rem;
-		margin-top: 1rem;
 	}
 
 	#scoreboard-container h4 {
@@ -990,24 +942,14 @@ html {
 	}
 
 	/* Scoreboard Chart Styling */
-	#chart-score-container {
-	  width: 80%;
-	  margin: 0.5rem;
-	}
-
 	#chart-score-container span {
-	  display: grid;
-		place-items: center;
 	  margin-right: 1rem;
 		font-size: var(--fs-xl);
-	  color: var(--fontColor);
 	}
 
 	#chart-score-container p {
 		font-size: var(--fs-xl);
-	  color: var(--white);
-	  float: right;
-		margin-right: 0.1rem;
+		margin-right: 0.2rem;
 	}
 
 	#chart-one,
@@ -1029,39 +971,17 @@ html {
 	#bar-chart-4,
 	#bar-chart-5,
 	#bar-chart-6 {
-	  min-width: 7%;
-	  background-color: var(--chartBarColor);
 	  padding: 0.5rem;
-	}
-
-	#chart-score-container .zero {
-		display: grid;
-		place-items: center;
-		width: 7%;
-	}
-
-	#chart-score-container > div > div.green-bar {
-	  background-color: var(--greenBG);
 	}
 
 	/* Styling for clock & share container */
 	#clock-share-container {
-	  display: flex;
-	  flex-direction: row;
-	  align-items: center;
 		width: 90%;
 		margin-top: 2rem;
 	}
 
-	#clock-share-container.hide-clock-share {
-	  display: none;
-	}
-
 	/* Styling for countdown clock */
 	#countdown-container {
-	  display: flex;
-	  flex-direction: column;
-	  align-items: center;
 	  width: 50%;
 		margin: 0;
 	}
@@ -1079,58 +999,30 @@ html {
 	#share-container {
 		width: 50%;
 		padding: 1rem 0rem;
-	  border-left: 1px solid var(--fontColor);
 	}
 
 	#share-container button {
-	  color: var(--white);
-	  background-color: var(--greenBG);
 		font-size: 3rem;
 		width: 90%;
 		padding: 1rem 1rem;
 		margin: 0 0 0 2rem;
-	  border: none;
 	  border-radius: 0.5rem;
 	}
 
 
 
 	/* Settings Styling */
-	#settings-container {
-		position: absolute;
-		top: 0;
-		left: 0;
-		display: grid;
-		place-items: center;
-		background-color: var(--opaqueBG);
-		height: 100vh;
-		width: 100vw;
-		z-index: 2;
-	}
-
-	#settings-container.settings-hide {
-	  display: none;
-	}
-
 	#settings-inner-container {
-		position: relative;
-	  display: flex;
-	  flex-direction: column;
-		align-items: center;
 		width: 90%;
 		border-radius: 1rem;
-		box-shadow: 0rem 0rem 1rem 0.5rem var(--shadowGrey);
-		background-color: var(--offsetColorBG);
 	}
 
 	#close-settings-button {
-		position: absolute;
 		right: 2rem;
 		top: 2rem;
 		height: 3rem;
 		width: 3rem;
 		margin: 0rem;
-		cursor: pointer;
 	}
 
 	#settings-header,
@@ -1141,38 +1033,11 @@ html {
 	#settings-community,
 	#settings-questions,
 	#settings-footer {
-	  display: flex;
-	  flex-direction: row;
-	  justify-content: space-between;
-		align-items: center;
-		width: 90%;
 	  padding: 2.5rem 0rem;
-	  border-bottom: 1px solid var(--settingsLineColor);
 	}
 
 	#settings-header {
-		justify-content: center;
 		padding-top: 0;
-
-	}
-
-	#settings-footer,
-	#settings-header {
-	  border: none;
-	}
-
-	#settings-inner-container input[type="checkbox"] {
-		accent-color: var(--greenBG);
-		cursor: pointer;
-	}
-
-	#hard-mode-switch input[disabled] {
-		pointer-events: none;
-	}
-
-	.settings-extra-text {
-	  display: flex;
-	  flex-direction: column;
 	}
 
 	.settings-extra-text span {
@@ -1181,72 +1046,29 @@ html {
 
 	/* Settings Switch/Checkbox */
 	.settings-switch {
-		position: relative;
-	  display: block;
-	  width: 45px;
 		width: 4rem;
-	  height: 25px;
 		height: 2.5rem;
-	  cursor: pointer;
-	}
-
-	.settings-switch input[type="checkbox"]{
-	  display: none;
-	}
-
-	.settings-switch input[type="checkbox"]:checked+.toggler-slider {
-	  background-color: var(--greenBG);
-	}
-
-	.settings-switch input[type="checkbox"]:disabled+.toggler-slider {
-	  filter: brightness(50%);
 	}
 
 	.settings-switch .toggler-slider {
-	  background-color: var(--darkGreyBG);
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-	  width: 100%;
-	  height: 100%;
 		border-radius: 1.25rem;
-	  transition: all 300ms ease;
-	}
-
-	.settings-switch .toggler-knob {
-	  position: absolute;
-	  transition: all 300ms ease;
 	}
 
 	.settings-switch input[type="checkbox"]:checked+.toggler-slider .toggler-knob {
-	  left: calc(100% - 19px - 3px);
 		left: calc(100% - 2rem - 0.25rem);
 	}
 
 	.settings-switch .toggler-knob {
-		top: 3px;
 		top: 0.25rem;
-		left: 3px;
 		left: 0.25rem;
-	  width: calc(25px - 6px);
 		width: calc(2.5rem - 0.5rem);
-	  height: calc(25px - 6px);
 		height: calc(2.5rem - 0.5rem);
-	  border-radius: 50%;
-	  background-color: var(--white);
 	}
 
 	/* Settings text styling */
-	#settings-container span,
-	#settings-container p,
-	#settings-container a {
-	  font-family: 'NeueHelveticaLight', sans-serif;
-	}
-
 	#settings-container h3 {
 		font-size: 2.5rem;
 		margin-top: 2rem;
-		font-family: 'NeueHelveticaBQ', sans-serif;
 	}
 
 	#settings-container span {
@@ -1259,8 +1081,6 @@ html {
 	}
 
 	#settings-container a {
-	  color: var(--secondFontColor);
 	  font-size: var(--fs-xl);
-		text-decoration: none;
 	}
 }
