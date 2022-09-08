@@ -840,6 +840,7 @@ html {
 	  justify-content: space-around;
 	  text-align: center;
 	  height: 30.66%;
+		touch-action: manipulation;
 	}
 
 	/* #keyboard-container > div > div {
@@ -863,6 +864,7 @@ html {
 		border-radius: 0.5rem;
 		cursor: pointer;
 		font-size: var(--fs-xl);
+		touch-action: manipulation;
 	}
 
 	#keyboard-row0,
