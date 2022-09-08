@@ -780,9 +780,9 @@ html {
 }
 
 @media (max-device-width:480px) {
-	/* body {
-		touch-action: manipulation;
-	} */
+	body {
+		max-height: 100%;
+	}
 
 	/* Tile Stlying */
 	#tile-container {
