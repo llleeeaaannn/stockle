@@ -788,6 +788,7 @@ html {
 
 	#container {
 		position: fixed;
+		top: 0;
 		display: flex;
 	  flex-direction: column;
 	  justify-content: space-between;
@@ -843,8 +844,6 @@ html {
 
 	/* Keyboard Styling */
 	#keyboard-container {
-		position: fixed;
-		bottom: 0;
 		width: 100vw;
 		min-height: 25%;
 		padding: 2%;
