@@ -779,6 +779,7 @@ html {
   opacity: 1;
 }
 
+/* Media Query for Mobile Devices below 480px in width */
 @media (max-device-width:480px) {
 
 	#container {
