@@ -781,10 +781,10 @@ html {
 
 @media (max-device-width:480px) {
 
-	body {
+	/* body {
 		min-height: 100%;
 		max-height: 100%;
-	}
+	} */
 
 	#container {
 		position: fixed;
@@ -826,8 +826,8 @@ html {
 	  display: flex;
 	  justify-content: center;
 	  align-items: center;
-	  height: 8vh;
-		width: 8vh;
+	  height: 9vh;
+		width: 9vh;
 	  margin: 0rem 0.4rem;
 		border: var(--tileBorder);
 		border-width: 0.35rem;
