@@ -68,6 +68,7 @@ export default class Game {
     this.getStoredCurrentTile();
     this.getStoredLastWinRow();
     this.verifyStoredGuess();
+    this.copyStoredResults();
   }
 
   // On page load, do the following to the UI
@@ -786,6 +787,7 @@ export default class Game {
 
   // Code to copy the results of the users daily wordle to the clipboard upon them clicking on the Share button in thr scoreboard
   copyResults() {
+    console.log(this.currentRow);
     if (this.gameWon === true) {
       if (this.hardMode) {
         this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n`
@@ -1197,6 +1199,69 @@ export default class Game {
       }
       this.setCurrentRow(row + 1);
       this.setCurrentTile(0);
+    }
+  }
+
+  // Code to copy the results of the users daily wordle upon page reload if game is over
+  copyStoredResults() {
+    console.log(this.currentRow);
+    if (!this.gameOver) return;
+    if (this.gameWon === true) {
+      if (this.hardMode) {
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n`
+      } else {
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6\n`
+      }
+    } else {
+      if (this.hardMode) {
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6*\n`
+      } else {
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6\n`
+      }
+    }
+
+    for (let i = 0; i < this.currentRow; i++) {
+      let thisGuessRow = this.guesses[i];
+      let checkWordle = this.wordle;
+      let guess = [];
+      let guessOuter = [];
+      let guessEmojiColors = [];
+
+      thisGuessRow.forEach(guessLetter => {
+          guess.push({letter: guessLetter, color: 'darkgrey'})
+          guessOuter.push({letter: guessLetter, color: 'darkgrey'})
+      })
+
+      guess.forEach((guessLetter, index) => {
+          let thisLetter = guessLetter.letter.toUpperCase();
+          if (thisLetter === this.wordle[index]) {
+              guessLetter.color = 'green';
+              checkWordle = checkWordle.replace(thisLetter, '');
+              guessOuter[index] = ' ';
+          }
+      })
+
+      guessOuter.forEach((outer, index) => {
+        if (!(guess[index].color === 'green')) {
+          let thisLetter = outer.letter.toUpperCase();
+          if (checkWordle.includes(thisLetter)) {
+            guess[index].color = 'yellow';
+            checkWordle = checkWordle.replace(thisLetter, '');
+          }
+        }
+      })
+
+      for (let x = 0; x < guess.length; x++) {
+        if (guess[x].color === 'green') {
+          this.emojiCopyPaste += String.fromCodePoint(0x1F7E9);
+        } else if (guess[x].color === 'yellow') {
+          this.emojiCopyPaste += String.fromCodePoint(0x1F7E8);
+        } else if (guess[x].color === 'darkgrey') {
+          this.emojiCopyPaste += String.fromCodePoint(0x2B1B);
+        }
+      }
+
+      this.emojiCopyPaste += '\n';
     }
   }
 
