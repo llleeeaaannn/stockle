@@ -811,8 +811,8 @@ html {
 	  display: flex;
 	  justify-content: center;
 	  align-items: center;
-	  height: 9vh;
-		width: 9vh;
+	  height: 5vh;
+		width: 5vh;
 	  margin: 0rem 0.4rem;
 		border: var(--tileBorder);
 		border-width: 0.35rem;
