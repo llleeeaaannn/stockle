@@ -5,5 +5,5 @@ import Storage from './storage.mjs';
 import { keysArray, validLetters, colorKeys } from './variables.mjs';
 import { validAnswers, validTickers } from './tickers.mjs';
 
-let game = new Game();
+const game = new Game();
 game.play();

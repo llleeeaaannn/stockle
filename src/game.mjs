@@ -1,9 +1,11 @@
+/* eslint-disable */
+
 import './style.css';
+import { differenceInDays } from 'date-fns'
 import Day from './day.mjs';
 import Storage from './storage.mjs';
 import { keysArray, validLetters, colorKeys, darkStyle, darkContrastStyle, lightStyle, lightContrastStyle } from './variables.mjs';
 import { validAnswers, validTickers } from './tickers.mjs';
-import { differenceInDays } from 'date-fns'
 
 export default class Game {
 
@@ -23,9 +25,10 @@ export default class Game {
     this.yellowLetters = [];
     this.missingGreenLetter = [];
     this.missingYellowLetter = [];
-    this.emojiCopyPaste = "";
+    this.emojiCopyPaste = '';
   }
 
+  // Call functions to start game
   play() {
     this.createUI();
     this.addListeners();
@@ -41,7 +44,7 @@ export default class Game {
     this.makeKeyboardKeys();
     this.makePopUp();
     this.displayCountdown();
-    this.populateWordleNumber()
+    this.populateWordleNumber();
   }
 
   // On page load, do the following to set event listeners
@@ -78,9 +81,9 @@ export default class Game {
 
   // Function to create tile row divs
   makeRows() {
-    let tileContainer = document.getElementById('tile-container');
+    const tileContainer = document.getElementById('tile-container');
     for (let i = 0; i < 6; i++) {
-      let addRow = document.createElement('div');
+      const addRow = document.createElement('div');
       addRow.setAttribute('id', 'row' + i);
       tileContainer.appendChild(addRow);
     }
@@ -89,9 +92,9 @@ export default class Game {
   // Function to create tile divs
   makeTiles() {
     for (let i = 0; i < 6; i++) {
-      let rowContainer = document.getElementById('row' + i);
+      const rowContainer = document.getElementById('row' + i);
       for (let x = 0; x < this.l; x++) {
-        let addTile = document.createElement('div');
+        const addTile = document.createElement('div');
         addTile.setAttribute('id', 'row' + i + 'tile' + x);
         rowContainer.appendChild(addTile);
       }
@@ -100,9 +103,9 @@ export default class Game {
 
   // Function to create keyboard rows
   makeKeyboardRows() {
-    let keyboardContainer = document.getElementById('keyboard-container');
+    const keyboardContainer = document.getElementById('keyboard-container');
     for (let i = 0; i < 3; i++) {
-      let addKeyboardRow = document.createElement('div');
+      const addKeyboardRow = document.createElement('div');
       addKeyboardRow.setAttribute('id', 'keyboard-row' + i);
       keyboardContainer.appendChild(addKeyboardRow)
     }
@@ -110,12 +113,12 @@ export default class Game {
 
   // Function to create keyboard keys
   makeKeyboardKeys() {
-    let that = this;
+    const that = this;
     keysArray.forEach((array, index) => {
-      let keyboardRow = document.getElementById('keyboard-row' + index);
+      const keyboardRow = document.getElementById('keyboard-row' + index);
       array.forEach((key) => {
-        let addKey = document.createElement('div');
-        let letter = document.createElement('span');
+        const addKey = document.createElement('div');
+        const letter = document.createElement('span');
         letter.textContent = key;
         addKey.appendChild(letter);
         addKey.setAttribute('data-key', key);
@@ -129,15 +132,15 @@ export default class Game {
 
   // Function to create and insert the popup div
   makePopUp() {
-    let popUpContainer = document.getElementById('tile-container')
-    let popUp = document.createElement('div');
+    const popUpContainer = document.getElementById('tile-container')
+    const popUp = document.createElement('div');
     popUp.setAttribute('id', 'popup');
     popUpContainer.appendChild(popUp);
   }
 
   // Function to create guesses array
   makeGuessesArray(length) {
-    let array = [];
+    const array = [];
     for (let i = 0; i < 6; i++) {
       array.push(Array(length).fill(''))
     }
@@ -159,7 +162,7 @@ export default class Game {
   // Function to handle keyboard being clicked
   keyPressed(event, that) {
     if (this.gameOver) return;
-    let letter = event.key.toUpperCase();
+    const letter = event.key.toUpperCase();
     if (validLetters.includes(letter)) {
       that.click(letter);
     } else if (letter == 'ENTER') {
@@ -171,16 +174,16 @@ export default class Game {
 
   // Function to add event listener to keyboard keydowns
   keyPressListener() {
-    let that = this;
-    document.addEventListener('keydown', function() {
+    const that = this;
+    document.addEventListener('keydown', () => {
       that.keyPressed(event, that);
     });
   }
 
   // Function to add a letter to the current tile & row
   addLetter(letter) {
-    let currentTile = this.currentTile;
-    let currentRow = this.currentRow;
+    const currentTile = this.currentTile;
+    const currentRow = this.currentRow;
     if (currentRow < 6 && currentTile < this.l) {
       this.guesses[currentRow][currentTile] = letter;
       this.renderTile(letter, currentRow, currentTile)
@@ -190,21 +193,21 @@ export default class Game {
 
   // Function to remove a letter from the previous tile
   removeLetter() {
-  let currentRow = this.currentRow;
-  let currentTile = this.currentTile;
-  if (currentTile > 0) {
-    this.removeFromCurrentTile();
-    currentTile = this.currentTile;
-    this.guesses[currentRow][currentTile] = '';
-    this.renderEmptyTile(currentRow, currentTile);
+    let currentRow = this.currentRow;
+    let currentTile = this.currentTile;
+    if (currentTile > 0) {
+      this.removeFromCurrentTile();
+      currentTile = this.currentTile;
+      this.guesses[currentRow][currentTile] = '';
+      this.renderEmptyTile(currentRow, currentTile);
     }
   }
 
   // Function to check guess
   checkGuess() {
-    let currentRow = this.currentRow;
-    let currentTile = this.currentTile;
-    let currentGuess = this.guesses[currentRow].join('').toUpperCase();
+    const currentRow = this.currentRow;
+    const currentTile = this.currentTile;
+    const currentGuess = this.guesses[currentRow].join('').toUpperCase();
 
     if (currentTile < this.l) {
       this.shake();
@@ -232,11 +235,11 @@ export default class Game {
       this.copyResults();
       this.storeLastWinRow();
       setTimeout(() => {
-        this.togglePopUp()
-      }, 3500)
+        this.togglePopUp();
+      }, 3500);
       setTimeout(() => {
         this.toggleAndLoadScoreboard();
-      }, 4600)
+      }, 4600);
       return;
     }
 
@@ -248,12 +251,12 @@ export default class Game {
       this.colorTiles();
       this.saveGuess();
       this.copyResults();
-      setTimeout( () => {
-        this.togglePopUpLong()
-      }, 2000)
+      setTimeout(() => {
+        this.togglePopUpLong();
+      }, 2000);
       setTimeout(() => {
         this.toggleAndLoadScoreboard();
-      }, 4200)
+      }, 4200);
     } else {
       this.colorTiles();
       this.saveGuess();
@@ -265,9 +268,9 @@ export default class Game {
 
   // CheckGuess for Hard Mode
   checkGuessHard() {
-    let currentRow = this.currentRow;
-    let currentTile = this.currentTile;
-    let currentGuess = this.guesses[currentRow].join('').toUpperCase();
+    const currentRow = this.currentRow;
+    const currentTile = this.currentTile;
+    const currentGuess = this.guesses[currentRow].join('').toUpperCase();
 
     if (currentTile < this.l) {
       this.shake();
@@ -301,12 +304,12 @@ export default class Game {
       this.saveGuess();
       this.copyResults();
       this.storeLastWinRow();
-      setTimeout( () => {
-        this.togglePopUp()
-      }, 3500)
+      setTimeout(() => {
+        this.togglePopUp();
+      }, 3500);
       setTimeout(() => {
         this.toggleAndLoadScoreboard();
-      }, 4600)
+      }, 4600);
       return;
     }
 
@@ -318,12 +321,12 @@ export default class Game {
       this.colorTiles();
       this.saveGuess();
       this.copyResults();
-      setTimeout( () => {
-        this.togglePopUpLong()
-      }, 2000)
+      setTimeout(() => {
+        this.togglePopUpLong();
+      }, 2000);
       setTimeout(() => {
         this.toggleAndLoadScoreboard();
-      }, 4200)
+      }, 4200);
     } else {
       this.colorTiles();
       this.saveGuess();
@@ -333,33 +336,33 @@ export default class Game {
     }
   }
 
-  // Function to color tiles and run function to color keys once answer is checked and then flip the row of tiles
+  // Function to color tiles and run function to color keys once answer is checked
   colorTiles() {
-    let tiles = document.querySelector('#row' + this.currentRow).childNodes;
+    const tiles = document.querySelector('#row' + this.currentRow).childNodes;
     let checkWordle = this.wordle;
-    let guess = [];
-    let guessOuter = [];
+    const guess = [];
+    const guessOuter = [];
     this.greenLetters = [];
 
-    tiles.forEach(tile => {
-      guess.push({letter: tile.getAttribute('data'), color: 'darkgrey-color', num : 1})
-      guessOuter.push({letter: tile.getAttribute('data'), color: 'darkgrey-color', num: 1})
-    })
+    tiles.forEach((tile) => {
+      guess.push({ letter: tile.getAttribute('data'), color: 'darkgrey-color', num: 1 });
+      guessOuter.push({ letter: tile.getAttribute('data'), color: 'darkgrey-color', num: 1 });
+    });
 
     guess.forEach((guess, index) => {
-      let letter = guess.letter.toUpperCase();
+      const letter = guess.letter.toUpperCase();
       if (letter === this.wordle[index]) {
         guess.color = 'green-color';
         guess.num = 3;
         checkWordle = checkWordle.replace(letter, '');
         guessOuter[index] = ' ';
-        this.greenLetters.push({letter: guess.letter, position: index});
+        this.greenLetters.push({ letter: guess.letter, position: index });
       }
-    })
+    });
 
     guessOuter.forEach((outer, index) => {
       if (!(guess[index].color === 'green-color')) {
-        let letter = outer.letter.toUpperCase();
+        const letter = outer.letter.toUpperCase();
         if (checkWordle.includes(letter)) {
           guess[index].color = 'yellow-color';
           guess[index].num = 2;
@@ -380,17 +383,17 @@ export default class Game {
       setTimeout(() => {
         tile.classList.toggle('flip');
       }, 1000 + 400 * index);
-    })
+    });
 
     setTimeout(() => {
       this.colorEachKey(guess);
-    }, 1700)
+    }, 1700);
   }
 
   // Function to color onscreen keys
   colorEachKey(guess) {
     guess.forEach((g) => {
-      let key = document.getElementById(g.letter);
+      const key = document.getElementById(g.letter);
       if (key.className === 'green-color-key') {
         return;
       } else if (key.className === 'yellow-color-key') {
@@ -409,22 +412,22 @@ export default class Game {
 
   // Function for Hard Mode to check that yellow and green letters from previous guesses are used in ths guess and returns true or false
   hardModeColor() {
-    let tiles = document.querySelector('#row' + this.currentRow).childNodes;
+    const tiles = document.querySelector('#row' + this.currentRow).childNodes;
     let greenTotal = 0;
     let yellowTotal = 0;
-    let guess = [];
-    let yellowGuess = [];
+    const guess = [];
+    const yellowGuess = [];
     this.missingGreenLetter = [];
     this.missingYellowLetter = [];
 
     tiles.forEach((tile, i) => {
-      guess.push({letter: tile.getAttribute('data'), position: i});
+      guess.push({ letter: tile.getAttribute('data'), position: i });
       yellowGuess.push(tile.getAttribute('data'));
     })
 
     this.greenLetters.forEach((letter) => {
-      let letterPosition = letter.position;
-      let enteredLetter = guess[letterPosition].letter
+      const letterPosition = letter.position;
+      const enteredLetter = guess[letterPosition].letter
       if (this.greenLetters.length === 0) {
         return;
       } else if (letter.letter === enteredLetter) {
@@ -451,7 +454,7 @@ export default class Game {
 
   // Function to render value into a tile element
   renderTile(letter, row, tile) {
-    let tileElement = document.getElementById('row' + row + 'tile' + tile);
+    const tileElement = document.getElementById('row' + row + 'tile' + tile);
     tileElement.textContent = letter;
     tileElement.setAttribute('data', letter);
     tileElement.classList.add('on-row');
@@ -459,7 +462,7 @@ export default class Game {
 
   // Function to tile element empty
   renderEmptyTile(row, tile) {
-    let tileElement = document.getElementById('row' + row + 'tile' + tile);
+    const tileElement = document.getElementById('row' + row + 'tile' + tile);
     tileElement.textContent = '';
     tileElement.removeAttribute('data');
     tileElement.classList.remove('on-row');
@@ -467,70 +470,70 @@ export default class Game {
 
   // Function to set popup message text
   setPopUpMessage(message) {
-    let popUpMessage = document.getElementById('popup');
+    const popUpMessage = document.getElementById('popup');
     popUpMessage.innerHTML = `<p>${message}</p>`;
   }
 
   // Function to make pop up message to appear temporarily
   togglePopUp() {
-    let popUpMessage = document.getElementById('popup');
+    const popUpMessage = document.getElementById('popup');
     popUpMessage.classList.toggle('popup-hide');
     setTimeout(() => {
       popUpMessage.classList.toggle('popup-hide');
-    }, 1000 );
+    }, 1000);
   }
 
   // Function to make pop up message to appear temporarily but for longer
   togglePopUpLong() {
-    let popUpMessage = document.getElementById('popup');
+    const popUpMessage = document.getElementById('popup');
     popUpMessage.classList.toggle('popup-hide');
     setTimeout(() => {
       popUpMessage.classList.toggle('popup-hide');
-    }, 2000 );
+    }, 2000);
   }
 
   // Function to shake current row of tiles when guess is invalid
   shake() {
-    let shakeRow = document.getElementById('row' + this.currentRow);
+    const shakeRow = document.getElementById('row' + this.currentRow);
     shakeRow.classList.toggle('shake')
     setTimeout(() => {
       shakeRow.classList.toggle('shake');
-    }, 500 );
+    }, 500);
   }
 
   // Function to jump current row of tiles when guess is correct
   jump() {
 
-    let currentRow = this.currentRow;
+    const currentRow = this.currentRow;
 
     function jumpArg(tile, row) {
-      let tileElement = document.getElementById('row' + row + 'tile' + tile);
+      const tileElement = document.getElementById('row' + row + 'tile' + tile);
       tileElement.classList.toggle('jump');
     }
     if (this.l <= 0) return;
     setTimeout(() => {
       jumpArg(0, currentRow);
-    }, 2000)
+    }, 2000);
 
     if (this.l <= 1) return;
     setTimeout(() => {
       jumpArg(1, currentRow);
-    }, 2300)
+    }, 2300);
 
     if (this.l <= 2) return;
     setTimeout(() => {
       jumpArg(2, currentRow);
-    }, 2600)
+    }, 2600);
 
     if (this.l <= 3) return;
     setTimeout(() => {
       jumpArg(3, currentRow);
-    }, 2900)
+    }, 2900);
 
     if (this.l <= 4) return;
     setTimeout(() => {
       jumpArg(4, currentRow);
-    }, 3200)
+    }, 3200);
 
   }
 
@@ -557,8 +560,8 @@ export default class Game {
 
   // Function to update max streak
   updateMaxStreak() {
-    let currentStreak = Number(localStorage.getItem('CurrentStreak'));
-    let maxStreak = Number(localStorage.getItem('MaxStreak'));
+    const currentStreak = Number(localStorage.getItem('CurrentStreak'));
+    const maxStreak = Number(localStorage.getItem('MaxStreak'));
     if (currentStreak > maxStreak) localStorage.setItem('MaxStreak', currentStreak);
   }
 
@@ -569,7 +572,7 @@ export default class Game {
 
   // Code to track stats for how many guesses each win took
   trackWinRowStats() {
-    let row = 'Row' + (this.currentRow + 1) + 'Wins';
+    const row = 'Row' + (this.currentRow + 1) + 'Wins';
     let currentScore = Number(localStorage.getItem(row));
     currentScore++;
     localStorage.setItem(row, currentScore);
@@ -578,30 +581,30 @@ export default class Game {
   // Function to make the row won on green in stats bar chart. Its winRow is either passed in from localStorage upon page load or is currentRow upon win
   makeWinRowGreen(winRow = this.currentRow) {
     for (let i = 1; i < 7; i++) {
-      let bar = document.getElementById(`bar-chart-` + i);
+      const bar = document.getElementById(`bar-chart-` + i);
       bar.classList.remove('green-bar');
     }
-    let bar = document.getElementById(`bar-chart-${winRow + 1}`);
+    const bar = document.getElementById(`bar-chart-${winRow + 1}`);
     bar.classList.add('green-bar');
   }
 
   // Function to store the row that the game was won on in localStorage
   storeLastWinRow() {
-    let storedLastWinRow = {
+    const storedLastWinRow = {
       value: this.currentRow,
-      expiry: this.getNowZeroTime()
-    }
+      expiry: this.getNowZeroTime(),
+    };
     localStorage.setItem('LastWinRow', JSON.stringify(storedLastWinRow));
   }
 
   // Function to get lastWinRow stored value upon page load if it isnt expired and call makeWinRowGreen
   getStoredLastWinRow() {
-    let now = this.getNowZeroTime();
-    let storedLastWinRow = JSON.parse(localStorage.getItem('LastWinRow'));
+    const now = this.getNowZeroTime();
+    const storedLastWinRow = JSON.parse(localStorage.getItem('LastWinRow'));
     if (storedLastWinRow === null) return;
     if (storedLastWinRow.expiry !== now) return;
-    let winRow = Number(storedLastWinRow.value);
-    this.makeWinRowGreen(winRow)
+    const winRow = Number(storedLastWinRow.value);
+    this.makeWinRowGreen(winRow);
   }
 
   // Function to update stats upon win
@@ -624,80 +627,79 @@ export default class Game {
   toggleAndLoadScoreboard() {
     this.addScoreValues();
     this.barChartLength();
-    let scoreboard = document.getElementById('scoreboard');
-    let clockShareContainer = document.getElementById('clock-share-container');
+    const scoreboard = document.getElementById('scoreboard');
+    const clockShareContainer = document.getElementById('clock-share-container');
     scoreboard.classList.remove('scoreboard-hide');
     if (this.gameOver) {
-      clockShareContainer.classList.remove('hide-clock-share')
+      clockShareContainer.classList.remove('hide-clock-share');
     } else {
-      clockShareContainer.classList.add('hide-clock-share')
+      clockShareContainer.classList.add('hide-clock-share');
     }
   }
 
   // Function to add event listener to scoreboard button
   scoreboardButtonListener() {
-    let that = this;
-    let scoreboardButton = document.getElementById('scoreboard-button');
-    scoreboardButton.addEventListener('click', function() {
+    const that = this;
+    const scoreboardButton = document.getElementById('scoreboard-button');
+    scoreboardButton.addEventListener('click', () => {
       that.toggleAndLoadScoreboard();
     });
   }
 
   // Function to set listener for closing scoreboard
   scoreboardCloseListener() {
-    let scoreboard = document.getElementById('scoreboard');
-    let scoreboardContainer = document.getElementById('scoreboard-container');
-    let scoreboardCloseButton = document.getElementById('close-scoreboard-button');
-    scoreboard.addEventListener('click', function(e) {
+    const scoreboard = document.getElementById('scoreboard');
+    const scoreboardContainer = document.getElementById('scoreboard-container');
+    const scoreboardCloseButton = document.getElementById('close-scoreboard-button');
+    scoreboard.addEventListener('click', (e) => {
       if (scoreboardCloseButton.contains(e.target) || !(scoreboardContainer.contains(e.target))) {
         scoreboard.classList.add('scoreboard-hide');
       }
-    })
+    });
   }
 
   // Function to set event listener for share button allowing wordle to be copied to clipboard
   shareButtonListener() {
-    let that = this;
-    let popUpMessage = document.getElementById('popup');
-    let shareButton = document.getElementById('scoreboard-share-button');
+    const popUpMessage = document.getElementById('popup');
+    const shareButton = document.getElementById('scoreboard-share-button');
     shareButton.addEventListener('click', () => {
       navigator.clipboard.writeText(this.emojiCopyPaste);
-      popUpMessage.innerHTML = `<p>Copied results to clipboard</p>`;
+      popUpMessage.innerHTML = '<p>Copied results to clipboard</p>';
       this.togglePopUp();
       console.log(this.emojiCopyPaste);
-    })
+    });
   }
 
   // Code to toggle settings when clicked etc
   settingsButtonListener() {
-    let settingsButton = document.getElementById('settings-button');
-    let settingsClose = document.getElementById('close-settings-button');
-    let settingsContainer = document.getElementById('settings-container');
-    let settingsInnerContainer = document.getElementById('settings-inner-container');
+    const settingsButton = document.getElementById('settings-button');
+    const settingsClose = document.getElementById('close-settings-button');
+    const settingsContainer = document.getElementById('settings-container');
+    const settingsInnerContainer = document.getElementById('settings-inner-container');
 
     settingsButton.addEventListener('click', () => {
       settingsContainer.classList.remove('settings-hide');
-    })
+    });
 
-    settingsContainer.addEventListener('click', function(e) {
+    settingsContainer.addEventListener('click', (e) => {
       if (settingsClose.contains(e.target) || !(settingsInnerContainer.contains(e.target))) {
         settingsContainer.classList.add('settings-hide');
       }
-    })
+    });
   }
 
   // Code to populate scoreboard with current scores
   addScoreValues() {
-    let playedValue = document.getElementById('played-value');
-    let winPercentageValue = document.getElementById('win-percentage-value');
-    let currentStreakValue = document.getElementById('current-streak-value');
-    let maxStreakValue = document.getElementById('max-streak-value');
-    let played = Number(localStorage.getItem('TotalGames'));
-    let wins = Number(localStorage.getItem('TotalWins'));
-    let winPercentage =  Math.floor(wins / played * 100);
+    const playedValue = document.getElementById('played-value');
+    const winPercentageValue = document.getElementById('win-percentage-value');
+    const currentStreakValue = document.getElementById('current-streak-value');
+    const maxStreakValue = document.getElementById('max-streak-value');
+    const played = Number(localStorage.getItem('TotalGames'));
+    const wins = Number(localStorage.getItem('TotalWins'));
+    let winPercentage = Math.floor(wins / played * 100);
     if (isNaN(winPercentage)) winPercentage = 0;
-    let currentStreak = Number(localStorage.getItem('CurrentStreak'));
-    let maxStreak = Number(localStorage.getItem('MaxStreak'));
+    const currentStreak = Number(localStorage.getItem('CurrentStreak'));
+    const maxStreak = Number(localStorage.getItem('MaxStreak'));
     playedValue.textContent = `${played}`;
     winPercentageValue.textContent = `${winPercentage}`;
     currentStreakValue.textContent = `${currentStreak}`;
@@ -706,21 +708,21 @@ export default class Game {
 
   // Code to define and calculate bar chart bar lengths
   barChartLength() {
-    let barChartOne = Number(localStorage.getItem('Row1Wins'));
-    let barChartTwo = Number(localStorage.getItem('Row2Wins'));
-    let barChartThree = Number(localStorage.getItem('Row3Wins'));
-    let barChartFour = Number(localStorage.getItem('Row4Wins'));
-    let barChartFive = Number(localStorage.getItem('Row5Wins'));
-    let barChartSix = Number(localStorage.getItem('Row6Wins'));
+    const barChartOne = Number(localStorage.getItem('Row1Wins'));
+    const barChartTwo = Number(localStorage.getItem('Row2Wins'));
+    const barChartThree = Number(localStorage.getItem('Row3Wins'));
+    const barChartFour = Number(localStorage.getItem('Row4Wins'));
+    const barChartFive = Number(localStorage.getItem('Row5Wins'));
+    const barChartSix = Number(localStorage.getItem('Row6Wins'));
 
-    let barCharts = [barChartOne, barChartTwo, barChartThree, barChartFour, barChartFive, barChartSix];
+    const barCharts = [barChartOne, barChartTwo, barChartThree, barChartFour, barChartFive, barChartSix];
 
-    let maxBar = Math.max.apply(Math.max, barCharts);
+    const maxBar = Math.max.apply(Math.max, barCharts);
 
-    let barChartLengths = barCharts.map(bar => Math.floor(bar / maxBar * 100));
+    const barChartLengths = barCharts.map((bar) => Math.floor(bar / maxBar * 100));
 
     for (let i = 0; i < 6; i++) {
-      let bar = document.getElementById(`bar-chart-${i + 1}`);
+      const bar = document.getElementById(`bar-chart-${i + 1}`);
       bar.classList.remove('zero');
       bar.innerHTML = `<p>${barCharts[i]}</p>`;
       if (barCharts[i] === 0) {
@@ -734,33 +736,33 @@ export default class Game {
 
   // Function to create countdown clock for scoreboard
   makeCountdown() {
-    let date = new Date();
+    const date = new Date();
     date.setDate(date.getDate() + 1)
     date.setHours(0, 0, 0);
-    let total = Date.parse(date) - Date.parse(new Date());
-    let seconds = Math.floor( (total/1000) % 60 );
-    let minutes = Math.floor( (total/1000/60) % 60 );
-    let hours = Math.floor( (total/(1000*60*60)) % 24 );
+    const total = Date.parse(date) - Date.parse(new Date());
+    let seconds = Math.floor((total / 1000) % 60);
+    let minutes = Math.floor((total / 1000 / 60) % 60);
+    let hours = Math.floor((total / (1000 * 60 * 60)) % 24);
 
     hours = '0' + hours;
     minutes = '0' + minutes
     seconds = '0' + seconds;
 
     if (this.gameOver) {
-      let countdown = document.getElementById('countdown-container');
+      const countdown = document.getElementById('countdown-container');
       countdown.innerHTML = `<h5>NEXT STOCKLE</h5><span> ${hours.slice(-2)} : ${minutes.slice(-2)} : ${seconds.slice(-2)}`;
     }
   }
 
   // Function to update and display the countdown every second
   displayCountdown() {
-    let that = this;
-    setInterval(function() { that.makeCountdown() }, 1000);
+    const that = this;
+    setInterval(() => { that.makeCountdown() }, 1000);
   }
 
   // Code to populate wordle number at bottom right of settings
   populateWordleNumber() {
-    let wordleNumberParagraph = document.getElementById('wordle-number');
+    const wordleNumberParagraph = document.getElementById('wordle-number');
     wordleNumberParagraph.textContent = `#${this.wordleNumber()}`;
   }
 
@@ -789,9 +791,9 @@ export default class Game {
   copyResults() {
     if (this.gameWon === true) {
       if (this.hardMode) {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n`;
       } else {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6\n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6\n`;
       }
     } else {
       if (this.hardMode) {
@@ -802,35 +804,34 @@ export default class Game {
     }
 
     for (let i = 0; i <= this.currentRow; i++) {
-      let thisGuessRow = this.guesses[i];
+      const thisGuessRow = this.guesses[i];
       let checkWordle = this.wordle;
-      let guess = [];
-      let guessOuter = [];
-      let guessEmojiColors = [];
+      const guess = [];
+      const guessOuter = [];
 
-      thisGuessRow.forEach(guessLetter => {
-          guess.push({letter: guessLetter, color: 'darkgrey'})
-          guessOuter.push({letter: guessLetter, color: 'darkgrey'})
-      })
+      thisGuessRow.forEach((guessLetter) => {
+        guess.push({ letter: guessLetter, color: 'darkgrey' });
+        guessOuter.push({ letter: guessLetter, color: 'darkgrey' });
+      });
 
       guess.forEach((guessLetter, index) => {
-          let thisLetter = guessLetter.letter.toUpperCase();
-          if (thisLetter === this.wordle[index]) {
-              guessLetter.color = 'green';
-              checkWordle = checkWordle.replace(thisLetter, '');
-              guessOuter[index] = ' ';
-          }
-      })
+        const thisLetter = guessLetter.letter.toUpperCase();
+        if (thisLetter === this.wordle[index]) {
+          guessLetter.color = 'green';
+          checkWordle = checkWordle.replace(thisLetter, '');
+          guessOuter[index] = ' ';
+        }
+      });
 
       guessOuter.forEach((outer, index) => {
         if (!(guess[index].color === 'green')) {
-          let thisLetter = outer.letter.toUpperCase();
+          const thisLetter = outer.letter.toUpperCase();
           if (checkWordle.includes(thisLetter)) {
             guess[index].color = 'yellow';
             checkWordle = checkWordle.replace(thisLetter, '');
           }
         }
-      })
+      });
 
       for (let x = 0; x < guess.length; x++) {
         if (guess[x].color === 'green') {
@@ -872,7 +873,7 @@ export default class Game {
 
   // Function to store currentTile value in localStorage
   storeCurrentTile(currentTile) {
-    let storedCurrentTile = {
+    const storedCurrentTile = {
       value: currentTile,
       expiry: this.getNowZeroTime()
     }
@@ -899,7 +900,7 @@ export default class Game {
 
   // Function to store currentRow value in localStorage
   storeCurrentRow(currentRow) {
-    let storedCurrentRow = {
+    const storedCurrentRow = {
       value: currentRow,
       expiry: this.getNowZeroTime()
     }
@@ -908,29 +909,29 @@ export default class Game {
 
   // Code to populate previous guesses of that day upon page reload
   saveGuess() {
-    let currentRow = this.currentRow;
+    const currentRow = this.currentRow;
     for (let tile = 0; tile < this.guesses[currentRow].length; tile++) {
-      let guess = this.guesses[currentRow][tile];
-      let key = 'row' + currentRow + 'tile' + tile;
-      let color = document.getElementById(key).dataset.color;
+      const guess = this.guesses[currentRow][tile];
+      const key = 'row' + currentRow + 'tile' + tile;
+      const color = document.getElementById(key).dataset.color;
       this.setGuessWithExpiry(key, guess, color);
     }
   }
 
   // Save each letter of a entered guess alongside the time(day) and color
   setGuessWithExpiry(key, value, color) {
-  	let valueWithExpiry = {
+    const valueWithExpiry = {
   		value: value,
       color: color,
       expiry: this.getNowZeroTime()
   	}
-  	localStorage.setItem(key, JSON.stringify(valueWithExpiry))
+    localStorage.setItem(key, JSON.stringify(valueWithExpiry));
   }
 
   // Function to set gameWon along with date
   setGameWon(value) {
     this.gameWon = value;
-    let storedGameWon = {
+    const storedGameWon = {
       value: value,
       expiry: this.getNowZeroTime()
     }
@@ -940,7 +941,7 @@ export default class Game {
   // Function to set gameOver along with date
   setGameOver(value) {
     this.gameOver = value;
-    let storedGameOver = {
+    const storedGameOver = {
       value: value,
       expiry: this.getNowZeroTime()
     }
@@ -949,7 +950,7 @@ export default class Game {
 
   // Code to change to and from Hard Mode when switch is clicked
   switchHardModeListener() {
-    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
+    const hardModeCheckbox = document.getElementById('hard-mode-checkbox');
     hardModeCheckbox.addEventListener('click', () => {
       hardModeCheckbox.checked === true ? this.hardMode = true : this.hardMode = false;
       this.storeHardMode();
@@ -958,7 +959,7 @@ export default class Game {
 
   // Function to disable Hard Mode checkbox
   disableHardModeCheckbox() {
-    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
+    const hardModeCheckbox = document.getElementById('hard-mode-checkbox');
     if (this.gameOver || this.currentRow === 0) {
       hardModeCheckbox.disabled = false;
     } else {
@@ -968,15 +969,15 @@ export default class Game {
 
   // Function to set and trigger pop up message of hard mode switch is clicked while disabled (during game)
   disabledCheckboxListener() {
-    let that = this;
-    let hardModeSwitch = document.getElementById('hard-mode-switch');
-    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
-    hardModeSwitch.addEventListener('click', function(e) {
+    const that = this;
+    const hardModeSwitch = document.getElementById('hard-mode-switch');
+    const hardModeCheckbox = document.getElementById('hard-mode-checkbox');
+    hardModeSwitch.addEventListener('click', () => {
       if (hardModeCheckbox.disabled) {
         hardModeCheckbox.checked ? that.setPopUpMessage('Hard mode can only be disabled at the start of a round') : that.setPopUpMessage('Hard mode can only be enabled at the start of a round');
         that.togglePopUpLong();
       }
-    })
+    });
   }
 
   // Code to store hardMode value in localStorage
@@ -984,10 +985,9 @@ export default class Game {
     this.hardMode ? localStorage.setItem('HardMode', true) : localStorage.setItem('HardMode', false);
   }
 
-
   // Function to get stored Darktheme, apply it and set checkbox to match it
   getStoredDarkTheme() {
-    let theme = localStorage.getItem('theme');
+    const theme = localStorage.getItem('theme');
     if (theme === null) return;
     this.darkTheme = (theme === 'true');
     this.darkTheme ? this.makeDark() : this.makeLight();
@@ -996,13 +996,13 @@ export default class Game {
 
   // Function to set theme checkbox
   checkThemeCheckbox() {
-    let lightDarkThemeCheckbox = document.getElementById('dark-theme-checkbox');
+    const lightDarkThemeCheckbox = document.getElementById('dark-theme-checkbox');
     lightDarkThemeCheckbox.checked = this.darkTheme;
   }
 
   // Function to get stored contrastTheme, apply it and set checkbox to match it
   getStoredContrastTheme() {
-    let contrast = localStorage.getItem('contrast');
+    const contrast = localStorage.getItem('contrast');
     if (contrast === null) return;
     this.contrastTheme = (contrast === 'true');
     this.contrastTheme ? this.addContrast() : this.removeContrast();
@@ -1011,15 +1011,15 @@ export default class Game {
 
   // Function to set contrast checkbox
   checkContrastCheckbox() {
-    let contrastThemeCheckbox = document.getElementById('contrast-theme-checkbox');
+    const contrastThemeCheckbox = document.getElementById('contrast-theme-checkbox');
     contrastThemeCheckbox.checked = this.contrastTheme;
   }
 
   // Code to change set darkTheme and change theme when switch is clicked
   lightDarkThemeListener() {
-    let that = this;
-    let lightDarkThemeSwitch = document.getElementById('dark-theme-switch');
-    let lightDarkThemeCheckbox = document.getElementById('dark-theme-checkbox');
+    const that = this;
+    const lightDarkThemeSwitch = document.getElementById('dark-theme-switch');
+    const lightDarkThemeCheckbox = document.getElementById('dark-theme-checkbox');
     lightDarkThemeSwitch.addEventListener('click', () => {
       if (lightDarkThemeCheckbox.checked) {
         that.setDarkTheme(true);
@@ -1028,14 +1028,14 @@ export default class Game {
         that.setDarkTheme(false);
         that.makeLight();
       }
-    })
+    });
   }
 
   // Code to change set contrastTheme and change theme when switch is clicked
   contrastThemeListener() {
-    let that = this;
-    let contrastThemeSwitch = document.getElementById('contrast-switch');
-    let contrastThemeCheckbox = document.getElementById('contrast-theme-checkbox');
+    const that = this;
+    const contrastThemeSwitch = document.getElementById('contrast-switch');
+    const contrastThemeCheckbox = document.getElementById('contrast-theme-checkbox');
     contrastThemeSwitch.addEventListener('click', () => {
       if (contrastThemeCheckbox.checked) {
         that.setContrastTheme(true);
@@ -1044,24 +1044,24 @@ export default class Game {
         that.setContrastTheme(false);
         that.removeContrast();
       }
-    })
+    });
   }
 
   // Function to set and store darkTheme
   setDarkTheme(value) {
     this.darkTheme = value;
-    localStorage.setItem('theme', value)
+    localStorage.setItem('theme', value);
   }
 
   // Function to set and store contrastTheme
   setContrastTheme(value) {
     this.contrastTheme = value;
-    localStorage.setItem('contrast', value)
+    localStorage.setItem('contrast', value);
   }
 
   // Function to apply dark theme
   makeDark() {
-    let stylesheet = document.getElementById('rootStylesheet');
+    const stylesheet = document.getElementById('rootStylesheet');
     if (this.contrastTheme) {
       stylesheet.textContent = darkContrastStyle;
     } else {
@@ -1071,7 +1071,7 @@ export default class Game {
 
   // Function to apply light theme
   makeLight() {
-    let stylesheet = document.getElementById('rootStylesheet');
+    const stylesheet = document.getElementById('rootStylesheet');
     if (this.contrastTheme) {
       stylesheet.textContent = lightContrastStyle;
     } else {
@@ -1081,7 +1081,7 @@ export default class Game {
 
   // Function to apply contrast theme
   addContrast() {
-    let stylesheet = document.getElementById('rootStylesheet');
+    const stylesheet = document.getElementById('rootStylesheet');
     if (this.darkTheme) {
       stylesheet.textContent = darkContrastStyle;
     } else {
@@ -1091,7 +1091,7 @@ export default class Game {
 
   // Function to apply contrast theme
   removeContrast() {
-    let stylesheet = document.getElementById('rootStylesheet');
+    const stylesheet = document.getElementById('rootStylesheet');
     if (this.darkTheme) {
       stylesheet.textContent = darkStyle;
     } else {
@@ -1101,8 +1101,8 @@ export default class Game {
 
   // Function to get currentRow stored value upon page load if it isnt expired
   getStoredCurrentRow() {
-    let now = this.getNowZeroTime();
-    let storedCurrentRow = JSON.parse(localStorage.getItem('CurrentRow'));
+    const now = this.getNowZeroTime();
+    const storedCurrentRow = JSON.parse(localStorage.getItem('CurrentRow'));
     if (storedCurrentRow === null) return;
     if (storedCurrentRow.expiry !== now) return;
     this.currentRow = Number(storedCurrentRow.value);
@@ -1110,8 +1110,8 @@ export default class Game {
 
   // Function to get currentTile stored value upon page load if it isnt expired
   getStoredCurrentTile() {
-    let now = this.getNowZeroTime();
-    let storedCurrentTile = JSON.parse(localStorage.getItem('CurrentTile'));
+    const now = this.getNowZeroTime();
+    const storedCurrentTile = JSON.parse(localStorage.getItem('CurrentTile'));
     if (storedCurrentTile === null) return;
     if (storedCurrentTile.expiry !== now) return;
     this.currentTile = Number(storedCurrentTile.value);
@@ -1119,8 +1119,8 @@ export default class Game {
 
   // Function to get gameWon stored value upon page load if it isnt expired
   getStoredGameWon() {
-    let now = this.getNowZeroTime();
-    let storedGameWon = JSON.parse(localStorage.getItem('GameWon'));
+    const now = this.getNowZeroTime();
+    const storedGameWon = JSON.parse(localStorage.getItem('GameWon'));
     if (storedGameWon === null) return;
     if (storedGameWon.expiry !== now) return;
     this.gameWon = storedGameWon.value;
@@ -1128,8 +1128,8 @@ export default class Game {
 
   // Function to get gameOver stored value upon page load if it isnt expired
   getStoredGameOver() {
-    let now = this.getNowZeroTime();
-    let storedGameOver = JSON.parse(localStorage.getItem('GameOver'));
+    const now = this.getNowZeroTime();
+    const storedGameOver = JSON.parse(localStorage.getItem('GameOver'));
     if (storedGameOver === null) return;
     if (storedGameOver.expiry !== now) return;
     this.gameOver = storedGameOver.value;
@@ -1137,32 +1137,32 @@ export default class Game {
 
   // Function to get hardMode stored value upon page load
   getStoredHardMode() {
-    let mode = localStorage.getItem('HardMode');
+    const mode = localStorage.getItem('HardMode');
     this.hardMode = (mode === 'true');
-    this.checkHardModeCheckbox()
+    this.checkHardModeCheckbox();
   }
 
   // Function to check/uncheck hardMode checkbox upon load
   checkHardModeCheckbox() {
-    let hardModeCheckbox = document.getElementById('hard-mode-checkbox');
+    const hardModeCheckbox = document.getElementById('hard-mode-checkbox');
     hardModeCheckbox.checked = this.hardMode;
   }
 
   // Populate tiles and rows with stored guesses and color keys upon page load
   verifyStoredGuess() {
-    let now = this.getNowZeroTime();
+    const now = this.getNowZeroTime();
     for (let row = 0; row < 6; row++) {
       for (let tile = 0; tile < this.l; tile++) {
-        let thisTile = 'row' + row + 'tile' + tile;
+        const thisTile = 'row' + row + 'tile' + tile;
         if (localStorage.getItem(thisTile) === null) {
           this.setCurrentRow(row);
           this.setCurrentTile(0);
           return;
         }
 
-        let storedGuess = JSON.parse(localStorage.getItem(thisTile));
-        let tileElement = document.getElementById(thisTile);
-        let letter = storedGuess.value;
+        const storedGuess = JSON.parse(localStorage.getItem(thisTile));
+        const tileElement = document.getElementById(thisTile);
+        const letter = storedGuess.value;
 
         if (storedGuess.expiry !== now) {
           localStorage.removeItem(thisTile);
@@ -1177,10 +1177,10 @@ export default class Game {
         tileElement.setAttribute('data', letter);
         tileElement.classList.add(storedGuess.color);
 
-        let key = document.getElementById(letter);
+        const key = document.getElementById(letter);
 
         if (storedGuess.color === 'green-color') {
-          this.greenLetters.push({letter: letter, position: tile});
+          this.greenLetters.push({ letter: letter, position: tile });
           key.className = 'green-color-key';
         }
 
@@ -1205,48 +1205,47 @@ export default class Game {
     if (!this.gameOver) return;
     if (this.gameWon === true) {
       if (this.hardMode) {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n`;
       } else {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6\n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6\n`;
       }
     } else {
       if (this.hardMode) {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6*\n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6*\n`;
       } else {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6\n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6\n`;
       }
     }
 
     for (let i = 0; i < this.currentRow; i++) {
-      let thisGuessRow = this.guesses[i];
+      const thisGuessRow = this.guesses[i];
       let checkWordle = this.wordle;
-      let guess = [];
-      let guessOuter = [];
-      let guessEmojiColors = [];
+      const guess = [];
+      const guessOuter = [];
 
       thisGuessRow.forEach(guessLetter => {
-          guess.push({letter: guessLetter, color: 'darkgrey'})
-          guessOuter.push({letter: guessLetter, color: 'darkgrey'})
+        guess.push({ letter: guessLetter, color: 'darkgrey' });
+        guessOuter.push({ letter: guessLetter, color: 'darkgrey' });
       })
 
       guess.forEach((guessLetter, index) => {
-          let thisLetter = guessLetter.letter.toUpperCase();
-          if (thisLetter === this.wordle[index]) {
-              guessLetter.color = 'green';
-              checkWordle = checkWordle.replace(thisLetter, '');
-              guessOuter[index] = ' ';
-          }
-      })
+        const thisLetter = guessLetter.letter.toUpperCase();
+        if (thisLetter === this.wordle[index]) {
+          guessLetter.color = 'green';
+          checkWordle = checkWordle.replace(thisLetter, '');
+          guessOuter[index] = ' ';
+        }
+      });
 
       guessOuter.forEach((outer, index) => {
         if (!(guess[index].color === 'green')) {
-          let thisLetter = outer.letter.toUpperCase();
+          const thisLetter = outer.letter.toUpperCase();
           if (checkWordle.includes(thisLetter)) {
             guess[index].color = 'yellow';
             checkWordle = checkWordle.replace(thisLetter, '');
           }
         }
-      })
+      });
 
       for (let x = 0; x < guess.length; x++) {
         if (guess[x].color === 'green') {
@@ -1266,16 +1265,16 @@ export default class Game {
 
   // Code to define which day it is
   wordleNumber() {
-    let days = differenceInDays(
+    const days = differenceInDays(
       new Date(),
       new Date(2022, 8, 8) //Day 0
-    )
+    );
     return days;
   }
 
   // Function to return the getTime of today at 00:00:00
   getNowZeroTime() {
-    let now = new Date();
+    const now = new Date();
     now.setHours(0);
     now.setMinutes(0);
     now.setSeconds(0, 0);
@@ -1284,4 +1283,4 @@ export default class Game {
 
 }
 
-// Maybe make switches in settings bigger
+// Install linter to atom
