@@ -943,7 +943,8 @@ html {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		height: 100%;
+		min-height: 100%;
+		max-height: 100%;
 		width: 100vw;
 		z-index: 2;
 		background-color: var(--opaqueBG);
@@ -1056,7 +1057,8 @@ html {
 
 	/* Settings Styling */
 	#settings-container {
-		height: 100%;
+		min-height: 100%;
+		max-height: 100%;
 	}
 
 	#settings-inner-container {
