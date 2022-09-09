@@ -787,7 +787,6 @@ export default class Game {
 
   // Code to copy the results of the users daily wordle to the clipboard upon them clicking on the Share button in thr scoreboard
   copyResults() {
-    console.log(this.currentRow);
     if (this.gameWon === true) {
       if (this.hardMode) {
         this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n`
@@ -1195,7 +1194,6 @@ export default class Game {
         if (!(key.className === 'green-color-key') && !(key.className === 'yellow-color-key')) {
           key.className = 'darkgrey-color-key';
         }
-        console.log(this.guesses);
       }
       this.setCurrentRow(row + 1);
       this.setCurrentTile(0);
@@ -1204,7 +1202,6 @@ export default class Game {
 
   // Code to copy the results of the users daily wordle upon page reload if game is over
   copyStoredResults() {
-    console.log(this.currentRow);
     if (!this.gameOver) return;
     if (this.gameWon === true) {
       if (this.hardMode) {
@@ -1286,12 +1283,5 @@ export default class Game {
   }
 
 }
-
-// Make sure minimun width of keyboard/tiles is bigger than media query max-width
-
-// Copy paste results dont remain after reloading
-
-// Yesterdays result doesnt seem to clear on new day
-// The issue is that wordleNumber only changes at 1am. So if changes are made between midnight and 1am they are stored as being made on the same date as the new wordle. Fix: Make wordleNumber update at midnight
 
 // Fix height for mobile

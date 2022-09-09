@@ -792,7 +792,7 @@ html {
 	  align-items: center;
 	  justify-content: center;
 	  width: 100vw;
-		height: 50vh;
+		height: 40vh;
 	  border: none;
 	}
 
@@ -830,7 +830,7 @@ html {
 	/* Keyboard Styling */
 	#keyboard-container {
 		width: 100vw;
-		height: 25vh;
+		height: 15vh;
 		padding: 2%;
 	}
 
