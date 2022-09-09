@@ -844,7 +844,7 @@ html {
 	/* Keyboard Styling */
 	#keyboard-container {
 		position: fixed;
-		bottom: 10px;
+		bottom: 0;
 		width: 100vw;
 		min-height: 25%;
 		padding: 2%;
