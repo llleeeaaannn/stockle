@@ -1,9 +1,7 @@
 /* eslint-disable */
 
 import './style.css';
-import { differenceInDays } from 'date-fns'
-import Day from './day.mjs';
-import Storage from './storage.mjs';
+import { differenceInDays } from 'date-fns';
 import { keysArray, validLetters, colorKeys, darkStyle, darkContrastStyle, lightStyle, lightContrastStyle } from './variables.mjs';
 import { validAnswers, validTickers } from './tickers.mjs';
 
@@ -1261,8 +1259,6 @@ export default class Game {
     }
   }
 
-  // STAND ALONE FUNCTIONS
-
   // Code to define which day it is
   wordleNumber() {
     const days = differenceInDays(
@@ -1282,5 +1278,3 @@ export default class Game {
   }
 
 }
-
-// Install linter to atom

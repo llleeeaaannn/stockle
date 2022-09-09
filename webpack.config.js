@@ -5,9 +5,7 @@ module.exports = {
   entry: {
     script: './src/script.js',
     game: './src/game.mjs',
-    storage: './src/storage.mjs',
     tickers: './src/tickers.mjs',
-    day: './src/day.mjs',
     variables: './src/variables.mjs'
   },
   devtool: 'inline-source-map',
