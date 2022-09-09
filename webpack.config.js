@@ -15,18 +15,6 @@ module.exports = {
       template: 'src/index.html'
     }),
   ],
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        test: /\.js(\?.*)?$/i,
-        cache: true,
-        parallel: true,
-        sourceMap: true,
-        extractComments: false,
-      }),
-    ],
-  },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
