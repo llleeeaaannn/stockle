@@ -943,7 +943,7 @@ html {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		height: 100vh;
+		height: 100%;
 		width: 100vw;
 		z-index: 2;
 		background-color: var(--opaqueBG);
@@ -1055,6 +1055,10 @@ html {
 
 
 	/* Settings Styling */
+	#settings-container {
+		height: 100%;
+	}
+
 	#settings-inner-container {
 		width: 90%;
 		border-radius: 1rem;
