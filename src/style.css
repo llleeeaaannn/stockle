@@ -780,12 +780,17 @@ html {
 }
 
 @media (max-device-width:480px) {
+
 	body {
-		max-height: 100%;
+		min-height: 100%;
 	}
 
 	#container {
-		height: 100%;
+		display: flex;
+	  flex-direction: column;
+	  justify-content: space-between;
+	  align-items: center;
+		min-height: 100%;
 	}
 
 	/* Tile Stlying */
@@ -796,8 +801,10 @@ html {
 	  align-items: center;
 	  justify-content: center;
 	  width: 100vw;
-		height: 40vh;
+		height: 60%;
 	  border: none;
+		margin-top: auto;
+		margin-bottom: auto;
 	}
 
 	/* Styling for each row of tiles (mainly flexbox) */
@@ -815,8 +822,8 @@ html {
 	  display: flex;
 	  justify-content: center;
 	  align-items: center;
-	  height: 5vh;
-		width: 5vh;
+	  height: 8vh;
+		width: 8vh;
 	  margin: 0rem 0.4rem;
 		border: var(--tileBorder);
 		border-width: 0.35rem;
@@ -834,7 +841,7 @@ html {
 	/* Keyboard Styling */
 	#keyboard-container {
 		width: 100vw;
-		height: 15vh;
+		min-height: 25%;
 		padding: 2%;
 	}
 
@@ -858,19 +865,6 @@ html {
 		cursor: pointer;
 		touch-action: manipulation;
 	}
-
-	/* #keyboard-container > div > button {
-		display: grid;
-		place-items: center;
-		flex: 1;
-		height: 100%;
-	  margin: 0 1%;
-		border: none;
-		border-radius: 0.5rem;
-		cursor: pointer;
-		font-size: var(--fs-xl);
-		touch-action: manipulation;
-	} */
 
 	#keyboard-row0,
 	#keyboard-row1 {
@@ -903,7 +897,7 @@ html {
 	  flex-direction: row;
 	  justify-content: space-between;
 	  align-items: center;
-		height: 7vh;
+		height: 7%;
 	  width: 100vw;
 		border-bottom: var(--tileBorder);
 		border-width: 0.2rem;
