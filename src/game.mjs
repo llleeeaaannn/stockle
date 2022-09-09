@@ -1284,4 +1284,4 @@ export default class Game {
 
 }
 
-// Fix height for mobile
+// Maybe make switches in settings bigger

@@ -1089,23 +1089,23 @@ html {
 
 	/* Settings Switch/Checkbox */
 	.settings-switch {
-		width: 4rem;
-		height: 2.5rem;
+		width: 4.5rem;
+		height: 2.75rem;
 	}
 
 	.settings-switch .toggler-slider {
-		border-radius: 1.25rem;
+		border-radius: 1.375rem;
 	}
 
 	.settings-switch input[type="checkbox"]:checked+.toggler-slider .toggler-knob {
-		left: calc(100% - 2rem - 0.25rem);
+		left: calc(100% - 2.25rem - 0.25rem);
 	}
 
 	.settings-switch .toggler-knob {
 		top: 0.25rem;
 		left: 0.25rem;
-		width: calc(2.5rem - 0.5rem);
-		height: calc(2.5rem - 0.5rem);
+		width: calc(2.75rem - 0.5rem);
+		height: calc(2.75rem - 0.5rem);
 	}
 
 	/* Settings text styling */
