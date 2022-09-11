@@ -1280,4 +1280,14 @@ export default class Game {
 
 }
 
-// Make media queries for tablet
+window.addEventListener('orientationchange', function ()
+{
+    if (window.innerHeight > window.innerWidth)
+    {
+        document.getElementsByTagName('body')[0].style.transform = "rotate(90deg)";
+    }
+});
+
+// Deal with landscape mode
+
+// Add animation to scoreboard and settings appearing (maybe)

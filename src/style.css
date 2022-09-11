@@ -635,7 +635,9 @@ svg {
 	position: relative;
   display: block;
   width: 45px;
+	min-width: 45px;
   height: 25px;
+	min-height: 25px;
   cursor: pointer;
 }
 
@@ -1097,7 +1099,9 @@ html {
 	/* Settings Switch/Checkbox */
 	.settings-switch {
 		width: 4.5rem;
+		min-width: 4.5rem;
 		height: 2.75rem;
+		min-height: 2.75rem;
 	}
 
 	.settings-switch .toggler-slider {
@@ -1132,5 +1136,365 @@ html {
 
 	#settings-container a {
 	  font-size: var(--fs-xl);
+	}
+}
+
+/* Media Query for Tablet Devices above 480px in width and below 768px in width*/
+@media (min-device-width:481px) and (max-device-width: 820px) {
+
+	#container {
+		position: fixed;
+		top: 0;
+		display: flex;
+	  flex-direction: column;
+	  justify-content: space-between;
+	  align-items: center;
+		min-height: 100%;
+		max-height: 100%;
+	}
+
+	/* Tile Stlying */
+	#tile-container {
+	  position: relative;
+		display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  justify-content: center;
+	  width: 100vw;
+		height: 60%;
+	  border: none;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	/* Styling for each row of tiles (mainly flexbox) */
+	#tile-container > div[id^="row"] {
+	  display: flex;
+	  flex-direction: row;
+		justify-content: center;
+		width: 100%;
+		margin: 0.25rem 0rem;
+	  border: none;
+	}
+
+	/* Styling for each tile */
+	#tile-container > div > div {
+	  display: flex;
+	  justify-content: center;
+	  align-items: center;
+	  height: 6.5vh;
+		width: 6.5vh;
+	  margin: 0rem 0.25rem;
+		border: var(--tileBorder);
+		border-width: 0.2rem;
+		font-size: 2.75rem;
+	}
+
+	/* Styling to change tile border colour when selected */
+	#tile-container .on-row {
+	  border: var(--tileOnRowBorder);
+		border-width: 0.35rem;
+	}
+
+
+
+	/* Keyboard Styling */
+	#keyboard-container {
+		min-width: 70vw;
+		max-width: 70vw;
+		min-height: 22%;
+		max-height: 22%;
+		padding: 2%;
+	}
+
+	#keyboard-container > div {
+	  display: flex;
+	  flex-direction: row;
+	  justify-content: space-around;
+	  text-align: center;
+	  height: 32.33%;
+		touch-action: manipulation;
+	}
+
+	#keyboard-container > div > div {
+		display: grid;
+		place-items: center;
+		flex: 1;
+		height: 100%;
+	  margin: 0 0.75%;
+		border: none;
+		border-radius: 0.5rem;
+		cursor: pointer;
+		touch-action: manipulation;
+	}
+
+	#keyboard-row0,
+	#keyboard-row1 {
+		margin-bottom: 1.5%;
+	}
+
+	/* Forcing keys of middle row to the center */
+	#keyboard-container #keyboard-row1 {
+		justify-content: center;
+		margin-left: 4.85%;
+		margin-right: 4.85%;
+	}
+
+	/* Increasing size of 'Enter' and 'Back' keys on keyboard */
+	#keyboard-row2 :first-child,
+	#keyboard-row2 :last-child {
+	  flex: 1.6055;
+	}
+
+	#keyboard-container span {
+		font-size: var(--fs-md);
+		cursor: pointer;
+	}
+
+
+
+	/* Header Styling */
+	#header-container {
+		display: flex;
+	  flex-direction: row;
+	  justify-content: space-between;
+	  align-items: center;
+		height: 6%;
+	  width: 100vw;
+		border-bottom: var(--tileBorder);
+		border-width: 0.1rem;
+	}
+
+	/* Styling for header */
+	#header-container h1 {
+		font-size: var(--fs-xl);
+		font-family: NYTKarnak;
+		letter-spacing: 0.25rem;
+	}
+
+	#score-icon,
+	#settings-icon {
+	  width: 3rem;
+	  height: 3rem;
+	}
+
+
+
+	/* Popup Styling */
+	#popup {
+		position: absolute;
+		top: -1.5rem;
+	  display: grid;
+		place-items: center;
+	  padding: 1.25rem;
+	  border-radius: 0.5rem;
+		color: var(--oppositeFont);
+	  background-color: var(--oppositeBG);
+		opacity: 0;
+	  z-index: 100;
+	}
+
+	#popup p {
+		font-size: var(--fs-lg);
+	}
+
+
+
+	/* Scoreboard Styling */
+	/* Scoreboard Container */
+	#scoreboard {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		min-height: 100%;
+		max-height: 100%;
+		width: 100vw;
+		z-index: 2;
+		background-color: var(--opaqueBG);
+	}
+
+	#scoreboard-container {
+		width: 65%;
+		padding: 1rem;
+		padding-bottom: 2rem;
+	  border-radius: 1rem;
+	}
+
+	#close-scoreboard-button {
+		right: 1rem;
+		top: 1rem;
+		height: 2rem;
+		width: 2rem;
+	}
+
+	#scores-container > div {
+	  padding: 1rem;
+	}
+
+	#scores-container span {
+	  font-size: var(--fs-lg);
+	}
+
+	#scores-container .value {
+	  font-size: 3rem;
+	}
+
+	#scoreboard-container h3 {
+		font-size: var(--fs-xl);
+	}
+
+	#scoreboard-container h4 {
+		font-size: var(--fs-lg);
+		margin-top: 1rem;
+	}
+
+	/* Scoreboard Chart Styling */
+	#chart-score-container span {
+	  margin-right: 0.75rem;
+		font-size: var(--fs-lg);
+	}
+
+	#chart-score-container p {
+		font-size: var(--fs-lg);
+		margin-right: 0.1rem;
+	}
+
+	#chart-one,
+	#chart-two,
+	#chart-three,
+	#chart-four,
+	#chart-five,
+	#chart-six {
+	  display: flex;
+	  flex-direction: row;
+	  justify-content: flex-start;
+		align-items: center;
+	  margin: 0.5rem;
+	}
+
+	#bar-chart-1,
+	#bar-chart-2,
+	#bar-chart-3,
+	#bar-chart-4,
+	#bar-chart-5,
+	#bar-chart-6 {
+	  padding: 0.25rem 0.5rem;
+	}
+
+	/* Styling for clock & share container */
+	#clock-share-container {
+		width: 90%;
+		margin-top: 1rem;
+	}
+
+	/* Styling for countdown clock */
+	#countdown-container {
+	  width: 50%;
+		margin: 0;
+	}
+
+	#countdown-container h5 {
+		font-size: var(--fs-lg);
+		margin-bottom: 0.5rem;
+	}
+
+	#countdown-container span {
+	  font-size: 2.5rem;
+	}
+
+	/* Share Button Styling */
+	#share-container {
+		width: 50%;
+		padding: 1rem 0rem;
+	}
+
+	#share-container button {
+		font-size: var(--fs-xl);
+		width: 85%;
+		padding: 1rem 1rem;
+		margin: 0 0 0 2rem;
+	  border-radius: 0.5rem;
+	}
+
+
+
+	/* Settings Styling */
+	#settings-container {
+		min-height: 100%;
+		max-height: 100%;
+	}
+
+	#settings-inner-container {
+		width: 65%;
+		border-radius: 1rem;
+	}
+
+	#close-settings-button {
+		right: 1rem;
+		top: 1rem;
+		height: 2rem;
+		width: 2rem;
+		margin: 0rem;
+	}
+
+	#settings-header,
+	#settings-hard-mode,
+	#settings-dark-theme,
+	#settings-high-contrast,
+	#settings-feedback,
+	#settings-community,
+	#settings-questions,
+	#settings-footer {
+	  padding: 1.5rem 0rem;
+	}
+
+	#settings-header {
+		padding-top: 0;
+	}
+
+	.settings-extra-text span {
+	  margin-bottom: 0.5rem;
+	}
+
+	/* Settings Switch/Checkbox */
+	.settings-switch {
+		width: 3.5rem;
+		min-width: 3.5rem;
+		height: 2rem;
+		min-height: 2rem;
+	}
+
+	.settings-switch .toggler-slider {
+		border-radius: 1rem;
+	}
+
+	.settings-switch input[type="checkbox"]:checked+.toggler-slider .toggler-knob {
+		left: calc(100% - 1.6rem - 0.2rem);
+	}
+
+	.settings-switch .toggler-knob {
+		top: 0.2rem;
+		left: 0.2rem;
+		width: calc(2rem - 0.4rem);
+		height: calc(2rem - 0.4rem);
+	}
+
+	/* Settings text styling */
+	#settings-container h3 {
+		font-size: var(--fs-xl);
+		margin-top: 2rem;
+	}
+
+	#settings-container span {
+	  font-size: var(--fs-lg);
+	}
+
+	#settings-container p {
+	  color: var(--secondFontColor);
+	  font-size: var(--fs-md);
+	}
+
+	#settings-container a {
+	  font-size: 1.3rem;
 	}
 }
