@@ -1279,3 +1279,5 @@ export default class Game {
   }
 
 }
+
+// Make media queries for tablet
