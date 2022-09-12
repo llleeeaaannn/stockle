@@ -149,21 +149,6 @@ button {
 	font-family: 'NeueHelveticaBQ', sans-serif;
 }
 
-/* Cover Styling */
-#cover {
-  background-color: black;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1000;
-}
-
-#cover.hide {
-  display: none;
-}
-
 /* Containers styling for flexbox and sizing */
 #container {
 	position: relative;
@@ -781,6 +766,11 @@ html {
   opacity: 1;
 }
 
+/* Styling for cover */
+#cover {
+	display: none;
+}
+
 /* Media Query for Mobile Devices below 480px in width */
 @media (max-device-width:480px) {
 
@@ -1137,6 +1127,31 @@ html {
 	#settings-container a {
 	  font-size: var(--fs-xl);
 	}
+}
+
+/* Media Query for Mobile Devices below 480px in width when in landscape mode*/
+@media (max-device-width: 480px) and (orientation: landscape) {
+
+	/* Cover Styling */
+	#cover {
+		position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100vw;
+	  height: 100vh;
+		display: grid;
+		place-items: center;
+		background-color: var(--colorBG);
+		z-index: 1000;
+	}
+
+	#cover p {
+		color: var(--fontColor);
+		font-size: var(--fs-xl);
+		font-family: NYTKarnak;
+		margin: 3rem;
+	}
+
 }
 
 /* Media Query for Tablet Devices above 480px in width and below 768px in width*/
