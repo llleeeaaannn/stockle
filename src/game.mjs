@@ -1283,3 +1283,5 @@ export default class Game {
 // Deal with landscape mode
 
 // Add animation to scoreboard and settings appearing (maybe)
+
+// DOLE
