@@ -217,7 +217,7 @@ export default class Game {
 
     if (!(validTickers.includes(currentGuess)) && currentGuess !== this.wordle) {
       this.shake();
-      this.setPopUpMessage('Not a ticker ');
+      this.setPopUpMessage('Not a ticker');
       this.togglePopUp();
       return;
     }
