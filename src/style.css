@@ -761,10 +761,10 @@ svg {
 }
 
 /* Styling to reveal page once CSS is loaded */
-html {
+/* html {
   visibility: visible;
   opacity: 1;
-}
+} */
 
 /* Styling for cover */
 #cover {
