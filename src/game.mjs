@@ -1264,7 +1264,7 @@ export default class Game {
   wordleNumber() {
     const days = differenceInDays(
       new Date(),
-      new Date(2022, 8, 13) //Day 0
+      new Date(2022, 8, 12) //Day 0
     );
     return days;
   }
