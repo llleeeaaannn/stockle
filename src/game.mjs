@@ -662,12 +662,24 @@ export default class Game {
     const popUpMessage = document.getElementById('popup');
     const shareButton = document.getElementById('scoreboard-share-button');
     shareButton.addEventListener('click', () => {
-      navigator.clipboard
-      .writeText(this.emojiCopyPaste)
-      .then(() => {
-        popUpMessage.innerHTML = '<p>Copied results to clipboard</p>';
-        this.togglePopUp();
-      })
+      if ('clipboard' in navigator) {
+        navigator.clipboard
+        .writeText(this.emojiCopyPaste)
+        .then(() => {
+          popUpMessage.innerHTML = '<p>Copied results to clipboard</p>';
+          this.togglePopUp();
+        })
+      } else {
+        try {
+          const textarea = document.getElementById('hidden-textarea');
+          textarea.value = this.emojiCopyPaste;
+          textarea.select();
+          document.execCommand('copy');
+          popUpMessage.innerHTML = '<p>Copied results to clipboard</p>';
+          this.togglePopUp();
+        } catch (err) {
+        }
+      }
     });
   }
 
