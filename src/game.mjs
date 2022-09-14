@@ -669,18 +669,17 @@ export default class Game {
           popUpMessage.innerHTML = '<p>Copied results to clipboard</p>';
           this.togglePopUp();
         })
+      } else {
+        try {
+          const textarea = document.getElementById('hidden-textarea');
+          textarea.value = this.emojiCopyPaste;
+          textarea.select();
+          document.execCommand('copy');
+          popUpMessage.innerHTML = '<p>Copied results to clipboard</p>';
+          this.togglePopUp();
+        } catch (err) {
+        }
       }
-      // } else {
-      //   try {
-      //     const textarea = document.getElementById('hidden-textarea');
-      //     textarea.value = this.emojiCopyPaste;
-      //     textarea.select();
-      //     document.execCommand('copy');
-      //     popUpMessage.innerHTML = '<p>Copied results to clipboard</p>';
-      //     this.togglePopUp();
-      //   } catch (err) {
-      //   }
-      // }
     });
   }
 
