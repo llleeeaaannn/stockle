@@ -792,15 +792,15 @@ export default class Game {
   copyResults() {
     if (this.gameWon === true) {
       if (this.hardMode) {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n`;
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6*  \n`;
       } else {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6\n`;
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6  \n`;
       }
     } else {
       if (this.hardMode) {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6*\n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6*  \n`
       } else {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6\n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6  \n`
       }
     }
 
@@ -844,8 +844,9 @@ export default class Game {
         }
       }
 
-      this.emojiCopyPaste += '\n';
+      this.emojiCopyPaste += '  \n';
     }
+    this.emojiCopyPaste += 'www.stockle.org';
   }
 
   // Function to add 1 to currentTile and save it to localStorage
