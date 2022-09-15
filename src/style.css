@@ -772,7 +772,7 @@ html {
 }
 
 /* Styling for hidden copy & paste textarea */
-/* #hidden-copy-input,
+#hidden-copy-input,
 #hidden-textarea {
 	position: absolute;
 	top: -1000;
@@ -782,7 +782,7 @@ html {
 	background-color: var(--colorBG);
 	border-color: var(--colorBG);
 	z-index: -1000;
-} */
+}
 
 /* Media Query for Mobile Devices below 480px in width */
 @media (max-device-width:480px) {
