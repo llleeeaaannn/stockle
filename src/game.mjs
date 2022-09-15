@@ -669,17 +669,18 @@ export default class Game {
           popUpMessage.innerHTML = '<p>Copied results to clipboard</p>';
           this.togglePopUp();
         })
-      } else {
-        try {
-          const textarea = document.getElementById('hidden-textarea');
-          textarea.value = this.emojiCopyPaste;
-          textarea.select();
-          document.execCommand('copy');
-          popUpMessage.innerHTML = '<p>Copied results to clipboard</p>';
-          this.togglePopUp();
-        } catch (err) {
-        }
       }
+      // } else {
+      //   try {
+      //     const textarea = document.getElementById('hidden-textarea');
+      //     textarea.value = this.emojiCopyPaste;
+      //     textarea.select();
+      //     document.execCommand('copy');
+      //     popUpMessage.innerHTML = '<p>Copied results to clipboard</p>';
+      //     this.togglePopUp();
+      //   } catch (err) {
+      //   }
+      // }
     });
   }
 
@@ -1296,6 +1297,10 @@ export default class Game {
 
 }
 
-// Fix cop to clipboard on RIF embedded browser
+// Fix copy to clipboard on RIF embedded browser
+
+// Make shake animation go further left and right on mobile
+
+//
 
 // DOLE
