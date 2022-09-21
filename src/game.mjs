@@ -1,6 +1,4 @@
 /* eslint-disable */
-
-
 import './style.css';
 import { differenceInDays } from 'date-fns';
 import { keysArray, validLetters, colorKeys, darkStyle, darkContrastStyle, lightStyle, lightContrastStyle } from './variables.mjs';
@@ -805,15 +803,15 @@ export default class Game {
   copyResults() {
     if (this.gameWon === true) {
       if (this.hardMode) {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6*  \n`;
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6*\n\n`;
       } else {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6  \n`;
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow + 1}/6\n\n`;
       }
     } else {
       if (this.hardMode) {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6*  \n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6*\n\n`
       } else {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6  \n`
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6\n\n`
       }
     }
 
@@ -857,7 +855,7 @@ export default class Game {
         }
       }
 
-      this.emojiCopyPaste += '  \n';
+      this.emojiCopyPaste += '\n\n';
     }
     this.emojiCopyPaste += 'www.stockle.org';
   }
@@ -1220,15 +1218,15 @@ export default class Game {
     if (!this.gameOver) return;
     if (this.gameWon === true) {
       if (this.hardMode) {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow}/6*  \n`;
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow}/6*\n\n`;
       } else {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow}/6  \n`;
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} ${this.currentRow}/6\n\n`;
       }
     } else {
       if (this.hardMode) {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6*  \n`;
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6*\n\n`;
       } else {
-        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6  \n`;
+        this.emojiCopyPaste += `Stockle ${this.wordleNumber()} X/6\n\n`;
       }
     }
 
@@ -1272,7 +1270,7 @@ export default class Game {
         }
       }
 
-      this.emojiCopyPaste += '  \n';
+      this.emojiCopyPaste += '\n\n';
     }
     this.emojiCopyPaste += 'www.stockle.org';
   }
