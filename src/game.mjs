@@ -1297,8 +1297,4 @@ export default class Game {
 
 // Fix copy to clipboard on RIF embedded browser
 
-// Make shake animation go further left and right on mobile
-
-//
-
 // DOLE
