@@ -36,7 +36,7 @@ Stockle provides the following features:
 - Statistic tracking stored in the brower's local storage allowing tracking of their scores without necessitating a cumbersome login which could negatively influence user adoption.
 
 
-## Screenshots
+## User Interface
 <img src="./img/stockle1.png" width="250"> <img src="./img/stockle2.png" width="250"> <img src="./img/stockle3.png" width="250"> 
 
 
