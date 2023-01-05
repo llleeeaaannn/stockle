@@ -37,12 +37,12 @@ Stockle provides the following features:
 
 
 ## Screenshots
-<img src="./img/Medicle1.png" width="200"> <img src="./img/Medicle2.png" width="200"> <img src="./img/Medicle4.png" width="200"> <img src="./img/Medicle5.png" width="200">
+<img src="./img/Stockle1.png" width="250"> <img src="./img/Stockle2.png" width="250"> <img src="./img/Stockle3.png" width="250"> 
 
 
 
 ## Usage
-The application is available at [Medicle.net](https://www.medicle.net).
+The application is available at [Stockle.org](https://www.stockle.org).
 
 
 ## Room for Improvement
