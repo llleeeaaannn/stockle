@@ -37,7 +37,7 @@ Stockle provides the following features:
 
 
 ## Screenshots
-<img src="./img/Stockle1.png" width="250"> <img src="./img/Stockle2.png" width="250"> <img src="./img/Stockle3.png" width="250"> 
+<img src="./img/stockle1.png" width="250"> <img src="./img/stockle2.png" width="250"> <img src="./img/stockle3.png" width="250"> 
 
 
 
