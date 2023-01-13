@@ -1,6 +1,6 @@
 # Stockle
 > A Wordle-like game with over 500 weekly users which uses stock tickers instead of words.
-> You can find the it at [Stockle.org](https://www.stockle.org)
+> You can find it at [Stockle.org](https://www.stockle.org)
 
 ## Table of Contents
 * [General Info](#general-information)
