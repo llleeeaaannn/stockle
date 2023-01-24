@@ -40,6 +40,9 @@ Stockle provides the following features:
 <img src="./img/stockle1.png" width="250"> <img src="./img/stockle2.png" width="250"> <img src="./img/stockle3.png" width="250"> 
 
 
+## User Statistics
+<img src="./img/usage.png" width="750"> 
+
 
 ## Usage
 The application is available at [Stockle.org](https://www.stockle.org).
