@@ -6,7 +6,7 @@
 * [General Info](#general-information)
 * [Technologies Used](#technologies-used)
 * [Features](#features)
-* [Screenshots](#screenshots)
+* [User Interface](#user-interface)
 * [Usage](#usage)
 * [Room for Improvement](#room-for-improvement)
 * [Acknowledgements](#acknowledgements)
