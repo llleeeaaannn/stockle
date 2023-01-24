@@ -7,6 +7,7 @@
 * [Technologies Used](#technologies-used)
 * [Features](#features)
 * [User Interface](#user-interface)
+* [User Statistics](#user-statistics)
 * [Usage](#usage)
 * [Room for Improvement](#room-for-improvement)
 * [Acknowledgements](#acknowledgements)
