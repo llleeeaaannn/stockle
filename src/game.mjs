@@ -1,5 +1,5 @@
 /* eslint-disable */
-import './style.css';
+import './style.scss';
 import { differenceInDays } from 'date-fns';
 import { keysArray, validLetters, colorKeys, darkStyle, darkContrastStyle, lightStyle, lightContrastStyle } from './variables.mjs';
 import { validAnswers, validTickers } from './tickers.mjs';
