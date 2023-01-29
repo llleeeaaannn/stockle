@@ -4,10 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    script: './src/script.js',
-    game: './src/game.mjs',
-    tickers: './src/tickers.mjs',
-    variables: './src/variables.mjs'
+    script: './src/script.ts',
+    game: './src/game.ts',
+    tickers: './src/tickers.js',
+    variables: './src/variables.js'
   },
   devtool: 'inline-source-map',
   plugins: [
@@ -24,8 +24,16 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
+  resolve: {
+    extensions: ['.ts', '.js', '.tsx'],
+  },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
       {
         test: /\.(css|scss)$/i,
         use: ['style-loader', 'css-loader', 'sass-loader'],
