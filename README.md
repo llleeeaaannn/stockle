@@ -15,7 +15,7 @@
 
 
 ## General Information
-- Stockle is a static, client-side only web application built on vanilla Javascript, HTML and CSS.
+- Stockle is a static, client-side only web application built on Typescript, Javascript, HTML and CSS.
 - Stockle was built to function almost identically to the popular game Wordle.
 - Wordle is a web-based word game. Players have six attempts to guess a five-letter word, with feedback given for each guess in the form of colored tiles indicating when letters match or occupy the correct position. Wordle has a single daily solution, with all players attempting to guess the same word.
 - Stockle relies on the same concept but rather than using any five-letter word the potential answers are stock tickers of various lengths and the UI and game logic dynamically adjusts to the ticker length of the day.
@@ -23,6 +23,7 @@
 
 
 ## Technologies Used
+- Typescript
 - Javascript
 - HTML
 - CSS
