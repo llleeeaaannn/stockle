@@ -1301,7 +1301,7 @@ class Game {
   wordleNumber() {
     const days = differenceInDays(
       new Date(),
-      new Date(2023, 10, 1) //Day 0
+      new Date(2023, 9, 0) //Day 0
     );
     return days;
   }
